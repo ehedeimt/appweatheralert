@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 const dotenv = require('dotenv');
 const userRoutes = require('./routes/userRoutes');
 const { Sequelize } = require('sequelize');
@@ -7,6 +8,12 @@ dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 3000;
+
+app.use(express.static(path.join(__dirname, 'frontend')));
+
+app.get('*', (_, res) => {
+  res.sendFile(path.join(__dirname, 'frontend/index.html'));
+});
 
 // Middleware
 app.use(express.json());
