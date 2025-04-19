@@ -1,4 +1,4 @@
-  document.getElementById('registroForm').addEventListener('submit', async function(event) {
+  document.getElementById('registerForm').addEventListener('submit', async function(event) {
     event.preventDefault();
   
     const name = document.getElementById('name').value;
