@@ -21,7 +21,7 @@ app.use(express.json());
 
 // Rutas
 app.use('/api/users', userRoutes);
-//app.use('/api/users', authRoutes);
+app.use('/api/users', require('./routes/authRoutes'));
 
 // Inicialización de la base de datos
 const sequelize = new Sequelize(process.env.DB_URI);
