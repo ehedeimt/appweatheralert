@@ -11,4 +11,4 @@
       "pg": "^8.0.0", // Para PostgreSQL
       "dotenv": "^10.0.0"
     }
-  }
+  } 
