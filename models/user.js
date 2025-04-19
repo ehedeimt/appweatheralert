@@ -1,6 +1,6 @@
-const { Sequelize } = require('sequelize');
+const { Sequelize, DataTypes } = require('sequelize');
 const sequelize = new Sequelize(process.env.DB_URI, {
-  dialect: 'postgres', // <-- Asegúrate de especificar esto
+  dialect: 'postgres',
 });
 
 const User = sequelize.define('User', {
@@ -10,12 +10,10 @@ const User = sequelize.define('User', {
   },
   email: {
     type: DataTypes.STRING,
-    allowNull: false,
     unique: true,
   },
   password: {
     type: DataTypes.STRING,
-    allowNull: false,
   }
 });
 
