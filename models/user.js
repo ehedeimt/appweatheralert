@@ -1,5 +1,7 @@
-const { Sequelize, DataTypes } = require('sequelize');
-const sequelize = new Sequelize(process.env.DB_URI);
+const { Sequelize } = require('sequelize');
+const sequelize = new Sequelize(process.env.DB_URI, {
+  dialect: 'postgres', // <-- Asegúrate de especificar esto
+});
 
 const User = sequelize.define('User', {
   name: {
