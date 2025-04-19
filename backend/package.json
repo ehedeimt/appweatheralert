@@ -1,0 +1,14 @@
+{
+    "name": "backend",
+    "version": "1.0.0",
+    "main": "index.js",
+    "scripts": {
+      "start": "node index.js"
+    },
+    "dependencies": {
+      "express": "^4.17.1",
+      "sequelize": "^6.0.0",
+      "pg": "^8.0.0", // Para PostgreSQL
+      "dotenv": "^10.0.0"
+    }
+  }  
