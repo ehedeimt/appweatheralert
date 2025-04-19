@@ -50,7 +50,7 @@ nav ul li a {
 
 /*CONFIGURACIÓN DEL BANNER DEBAJO DEL MENÚ*/
 .banner {
-    background: url('../20250401_Intento_Frontend/imagenes/banner.jpg') no-repeat center/cover; /*Cuando lo subas al servidor cambia la ruta a: url('imagenes/banner.jpg')*/
+    background: url('imagenes/banner.jpg') no-repeat center/cover; /*Cuando lo subas al servidor cambia la ruta a: url('imagenes/banner.jpg')*/
     height: 300px;
     display: flex;
     align-items: center;
