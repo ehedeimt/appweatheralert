@@ -2,7 +2,7 @@ const express = require('express');
 const path = require('path');
 const dotenv = require('dotenv');
 const userRoutes = require('./routes/userRoutes');//Para los registros de los usuarios.
-const authRoutes = require('./routes/authRoutes');//Para la autorización de los usuario.
+//const authRoutes = require('./routes/authRoutes');//Para la autorización de los usuario.
 const { Sequelize } = require('sequelize');
 
 dotenv.config();
