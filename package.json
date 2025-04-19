@@ -8,7 +8,7 @@
     "dependencies": {
       "express": "^4.17.1",
       "sequelize": "^6.0.0",
-      "pg": "^8.0.0", // Para PostgreSQL
+      "pg": "^8.0.0",
       "dotenv": "^10.0.0"
     }
   }
