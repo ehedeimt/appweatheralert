@@ -1,3 +1,22 @@
+/*CÓDIGO PARA CONTROLAR QUE COINCIDAN LAS CONTRASEÑAS*/
+document.addEventListener('DOMContentLoaded', () => {
+    const formularioRegistro = document.querySelector('form[action="/procesar-registro"]');
+
+    if (formularioRegistro) {
+        formularioRegistro.addEventListener('submit', (e) => {
+            const password = document.getElementById('password').value;
+            const confirmar = document.getElementById('confirmar').value;
+
+            if (password !== confirmar) {
+                e.preventDefault();
+                alert('Las contraseñas no coinciden. Por favor, revisa los campos.');
+            }
+        });
+    }
+});
+  
+  
+  
   document.getElementById('registerForm').addEventListener('submit', async function(event) {
     event.preventDefault();
   
