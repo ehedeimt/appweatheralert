@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
         event.preventDefault();
   
         // Obtener valores
-        const name = document.getElementById('nombre').value;
+        const name = document.getElementById('name').value;
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
         const confirmar = document.getElementById('confirmar').value;
