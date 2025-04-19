@@ -11,7 +11,7 @@ router.post('/register', async (req, res) => {
     const newUser = await User.create({ name, email, password });
     res.status(201).json({ message: 'Usuario registrado correctamente', user: newUser });
   } catch (error) {
-    res.status(500).json({ error: 'Error al registrar usuario', details: error });
+    res.status(500).json({ error: 'Error al registrar usuario prueba si entra por aqui', details: error });
   }
 });
 
