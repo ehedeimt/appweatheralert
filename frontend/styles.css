@@ -1,0 +1,179 @@
+/*CONFIGURACIÓN PARA EL FORMATO DEL BODY*/
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/*CONFIGURACIÓN PARA EL HEADER*/
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    background: #ffffff;
+    color: rgb(0, 0, 0);
+}
+
+/*CONFIGURACIÓN PARA EL LOGO*/
+.logoweather {
+    font-size: 3rem;
+    font-weight: bold;
+    font-family: 'Bebas Neue', sans-serif;
+    color: rgb(0, 0, 0);
+}
+
+.logoalert {
+    font-size: 3rem;
+    font-weight: bold;
+    font-family: 'Bebas Neue', sans-serif;
+    color: #F26E22;
+}
+
+
+/*FORMATO PARA EL LISTADO QUE SERÁ EL MENÚ DE NAVEGACIÓN*/
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+/*FORMATO PARA DISTINTOS ELEMENTOS DE LA WEB*/
+nav ul li a {
+    text-decoration: none;
+    color: rgb(0, 0, 0);
+    font-weight: bold;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.5rem;
+}
+
+/*CONFIGURACIÓN DEL BANNER DEBAJO DEL MENÚ*/
+.banner {
+    background: url('../20250401_Intento_Frontend/imagenes/banner.jpg') no-repeat center/cover; /*Cuando lo subas al servidor cambia la ruta a: url('imagenes/banner.jpg')*/
+    height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: right;
+    padding-right: 2%;
+    color: #666;
+    font-size: 2rem;
+}
+
+
+.banner h1 {
+    font-size: 4rem;
+    font-weight: bold;
+    font-family: 'Bebas Neue', sans-serif;
+}
+
+.banner h1 span:first-child {
+    color: rgb(0, 0, 0); /* Color para la primera palabra */
+}
+
+.banner h1 span:last-child {
+    color: #F26E22;/* Color para la segunda palabra */
+}
+
+
+
+/*CONFIGURACIÓN PARA EL CONTENIDO DE LA PÁGINA PRINCIPAL*/
+.contenido {
+    padding: 20px;
+}
+
+/*CONFIGURACIÓN DE ESTILOS PARA EL PIE DE PAGINA*/
+footer {
+    background: rgb(217, 217, 217);
+    color: rgb(0, 0, 0);
+    text-align: center;
+    padding: 10px;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
+
+
+/*CONFIGURACIÓN DE ESTILOS PARA FORMULARIO DE LOGIN */
+
+.formulario-login {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+}
+
+.formulario-login form {
+    background: #f2f2f2;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 400px;
+}
+
+.formulario-login h2 {
+    text-align: center;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+.formulario-login label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.formulario-login input[type="email"],
+.formulario-login input[type="password"],
+.formulario-login input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.formulario-login button {
+    width: 100%;
+    padding: 12px;
+    background-color: #F26E22;
+    color: white;
+    font-size: 1.1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Bebas Neue', sans-serif;
+}
+
+.formulario-login button:hover {
+    background-color: #d55e1e;
+}
+
+.registro-link {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.registro-link a {
+    color: #F26E22;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+
+
+/*OTRAS*/
+
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        text-align: center;
+    }
+    nav ul {
+        flex-direction: column;
+    }
+}
+
