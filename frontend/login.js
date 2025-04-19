@@ -25,8 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
         alert('✅ Inicio de sesión exitoso. Bienvenido ' + data.user.name + '!');
         console.log('Usuario logueado:', data);
   
-        // Redireccionar si querés
-        // window.location.href = '/dashboard.html';
+
       } catch (error) {
         alert('❌ Error al iniciar sesión: ' + error.message);
       }

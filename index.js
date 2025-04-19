@@ -2,7 +2,7 @@ const express = require('express');
 const path = require('path');
 const dotenv = require('dotenv');
 const userRoutes = require('./routes/userRoutes');//Para los registros de los usuarios.
-//const authRoutes = require('./routes/authRoutes');//Para la autorización de los usuario.
+const authRoutes = require('./routes/authRoutes');//Para la autorización de los usuario.
 const { Sequelize } = require('sequelize');
 
 dotenv.config();
@@ -21,7 +21,7 @@ app.use(express.json());
 
 // Rutas
 app.use('/api/users', userRoutes);
-//app.use('/api/users', require('./routes/authRoutes'));
+app.use('/api/users', require('./routes/authRoutes'));
 
 // Inicialización de la base de datos
 const sequelize = new Sequelize(process.env.DB_URI);
