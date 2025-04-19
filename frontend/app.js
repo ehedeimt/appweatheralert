@@ -88,7 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
           form.reset();
         } catch (error) {
           console.error('Error al registrar usuario:', error);
-          alert(`❌ Error al registrar el email facilitado ya exite en nuestra base de datos`);
+          alert(`❌ El email facilitado ya exite en nuestra base de datos`);
         }
       });
     }
