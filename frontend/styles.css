@@ -177,7 +177,23 @@ footer {
     }
 }
 
-button#btnNuevaAlerta {
+/*INTENTO DE CSS PARA LA GESTIÓN DE LAS ALERTAS*/
+main {
+    flex: 1;
+    padding: 2rem;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  
+  main h2 {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    color: #001f3f;
+    text-align: center;
+  }
+
+
+button#nuevaAlertaBtn {
     background-color: #f47c2c;
     color: white;
     border: none;
