@@ -205,19 +205,46 @@ footer {
 
   
   /* Contenido principal */
-  main {
+main {
     flex: 1;
     padding: 2rem;
     max-width: 1000px;
     margin: 0 auto;
   }
   
-  main h2 {
+main h2 {
     font-size: 2rem;
     margin-bottom: 1.5rem;
     color: #001f3f;
     text-align: center;
   }
+  /* Botones */
+button.editar {
+    background-color: #F26E22;
+    color: white;
+    border: none;
+    padding: 0.4rem 0.8rem;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+button.editar:hover {
+    background-color: #d55e1e;
+  }
+  
+button.eliminar {
+    background-color: #F26E22;
+    color: white;
+    border: none;
+    padding: 0.4rem 0.8rem;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+button.eliminar:hover {
+    background-color: #d55e1e;
+  }
+  
   
 
   
@@ -244,34 +271,9 @@ footer {
     background-color: #f0f8ff;
   }
   
-  /* Botones */
-  button.editar {
-    background-color: #d55e1e;
-    color: white;
-    border: none;
-    padding: 0.4rem 0.8rem;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  button.editar:hover {
-    background-color: #d55e1e;
-  }
-  
-  button.eliminar {
-    background-color: #d55e1e;
-    color: white;
-    border: none;
-    padding: 0.4rem 0.8rem;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  button.eliminar:hover {
-    background-color: #d55e1e;
-  }
 
-  
+
+
   
   /* Formulario */
   form {
