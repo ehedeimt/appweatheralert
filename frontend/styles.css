@@ -221,15 +221,6 @@ button.eliminar {
 button.eliminar:hover {
     background-color: #d55e1e;
   }
-
-
-
-
-
-
-
-
-
   
   /* Contenido principal */
 main {
@@ -246,37 +237,32 @@ main h2 {
     text-align: center;
   }
 
-  
-  
-
-  
-  /* Tabla de alertas */
-  table {
+/* Tabla de alertas */
+table {
     width: 100%;
     border-collapse: collapse;
     background-color: white;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   }
   
-  th, td {
+th, td {
     text-align: left;
     padding: 1rem;
     border-bottom: 1px solid #ddd;
   }
   
-  th {
+th {
     background-color: #F26E22;
     color: white;
   }
   
-  tr:hover {
+tr:hover {
     background-color: #fbe8d5;
   }
   
 
 
-
-  
+/*PENDIENTE DE PROBAR PARA EL FORM DE ALERTAS*/  
   /* Formulario */
   form {
     background-color: white;
