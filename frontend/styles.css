@@ -218,7 +218,7 @@ main {
   }
   
   .nueva-alerta {
-    background-color: #0074D9;
+    background-color: #F26E22;
     color: white;
     padding: 0.6rem 1.2rem;
     border: none;
@@ -230,7 +230,7 @@ main {
   }
   
   .nueva-alerta:hover {
-    background-color: #005fa3;
+    background-color: #d55e1e;
   }
   
   /* Tabla de alertas */
