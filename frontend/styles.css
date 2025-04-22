@@ -197,23 +197,6 @@ footer {
 
 
 
-main {
-    flex: 1;
-    padding: 2rem;
-    max-width: 1000px;
-    margin: 0 auto;
-  }
-  
-  main h2 {
-    font-size: 2rem;
-    margin-bottom: 1.5rem;
-    color: #001f3f;
-    text-align: center;
-  }
-
-  
-
-
 
 
 
@@ -263,7 +246,7 @@ main {
   
   /* Botones */
   button.editar {
-    background-color: #2ECC40;
+    background-color: #d55e1e;
     color: white;
     border: none;
     padding: 0.4rem 0.8rem;
@@ -272,11 +255,11 @@ main {
   }
   
   button.editar:hover {
-    background-color: #28a737;
+    background-color: #d55e1e;
   }
   
   button.eliminar {
-    background-color: #FF4136;
+    background-color: #d55e1e;
     color: white;
     border: none;
     padding: 0.4rem 0.8rem;
@@ -285,7 +268,7 @@ main {
   }
   
   button.eliminar:hover {
-    background-color: #d9332e;
+    background-color: #d55e1e;
   }
   
   /* Formulario */
