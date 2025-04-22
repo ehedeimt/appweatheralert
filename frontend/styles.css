@@ -178,6 +178,25 @@ footer {
 }
 
 /*INTENTO DE CSS PARA LA GESTIÓN DE LAS ALERTAS*/
+/*Formato botones nueva alerta*/
+.nueva-alerta {
+    background-color: #F26E22;
+    color: white;
+    padding: 0.6rem 1.2rem;
+    border: none;
+    border-radius: 5px;
+    margin-bottom: 1.5rem;
+    cursor: pointer;
+    font-weight: bold;
+    float: right;
+  }
+  
+  .nueva-alerta:hover {
+    background-color: #d55e1e;
+  }
+
+
+
 main {
     flex: 1;
     padding: 2rem;
@@ -217,21 +236,7 @@ main {
     text-align: center;
   }
   
-  .nueva-alerta {
-    background-color: #F26E22;
-    color: white;
-    padding: 0.6rem 1.2rem;
-    border: none;
-    border-radius: 5px;
-    margin-bottom: 1.5rem;
-    cursor: pointer;
-    font-weight: bold;
-    float: right;
-  }
-  
-  .nueva-alerta:hover {
-    background-color: #d55e1e;
-  }
+
   
   /* Tabla de alertas */
   table {
