@@ -7,6 +7,7 @@ body {
 }
 
 /*CONFIGURACIÓN PARA EL HEADER*/
+/*
 header {
     display: flex;
     position: relative;
@@ -15,6 +16,15 @@ header {
     padding: 15px;
     background: #ffffff;
     color: rgb(0, 0, 0);
+}
+*/
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
+  flex-wrap: wrap;
 }
 
 /*CONFIGURACIÓN PARA EL LOGO*/
@@ -261,15 +271,13 @@ tr:hover {
     background-color: #fbe8d5;
   }
 
-  .mensaje-usuario {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    display: none;
+.mensaje-usuario {
+    display: none; /*inicialmente oculto porque no hay inicio de sesión activa*/
     align-items: center;
     gap: 10px;
     font-weight: bold;
   }
+  
   
   
 
