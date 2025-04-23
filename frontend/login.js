@@ -15,20 +15,25 @@ document.addEventListener('DOMContentLoaded', () => {
           },
           body: JSON.stringify({ email, password }),
         });
-  
+      
+        console.log('Respuesta del servidor:', response);
+      
         if (!response.ok) {
           const error = await response.json();
-          throw new Error(error.message);
+          console.error('Error del servidor:', error);
+          throw new Error(error.msg || error.message || 'Error desconocido');
         }
-  
+      
         const data = await response.json();
         alert('✅ Inicio de sesión exitoso. Bienvenido ' + data.user.name + '!');
-        console.log('Usuario logueado:', data);
-  
-
+        localStorage.setItem('token', data.token);
+        window.location.href = 'index.html';
+      
       } catch (error) {
         alert('❌ Error al iniciar sesión: ' + error.message);
+        console.error('Catch:', error);
       }
+      
     });
   });
   
