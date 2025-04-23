@@ -10,6 +10,7 @@
       "sequelize": "^6.0.0",
       "pg": "^8.0.0",
       "bcrypt": "^5.1.0",
+      "jsonwebtoken": "^9.0.2",
       "dotenv": "^10.0.0"
     }
   }
