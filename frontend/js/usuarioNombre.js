@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (token && nombreUsuario && contenedorUsuario && mensajeUsuario) {
     mensajeUsuario.textContent = `Bienvenido, ${nombreUsuario}`;
-    contenedorUsuario.style.display = "flex";
+    contenedorUsuario.style.visibility = "visible";
   }
 
   if (cerrarSesionBtn) {
