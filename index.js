@@ -2,9 +2,9 @@ const express = require('express');
 const path = require('path');
 const dotenv = require('dotenv');
 const { Sequelize } = require('sequelize');
-
 const userRoutes = require('./routes/userRoutes');
 const authRoutes = require('./routes/authRoutes');
+const alertasRoutes = require('./routes/alertasRoutes');
 
 dotenv.config();
 
@@ -18,6 +18,7 @@ app.use(express.static(path.join(__dirname, 'frontend')));
 // Rutas API
 app.use('/api/users', userRoutes);
 app.use('/api/auth', authRoutes);
+app.use('/api/alertas', alertasRoutes);
 
 // Enrutamiento frontend (SPA)
 app.get('*', (_, res) => {
