@@ -21,7 +21,6 @@ app.use(express.json());
 
 // Rutas
 app.use('/api/users', userRoutes);
-app.use('/api/users', require('./routes/authRoutes'));
 app.use('/api/auth', authRoutes);
 
 // Inicialización de la base de datos
