@@ -24,18 +24,24 @@ const login = async (req, res) => {
   try {
     const user = await User.findOne({ where: { email } });
 
-    if (!user) return res.status(401).json({ msg: 'Usuario no encontrado' });
+    if (!user) {
+      return res.status(401).json({ msg: 'Usuario no encontrado' });
+    }
 
     const isValid = await bcrypt.compare(password, user.password);
-    if (!isValid) return res.status(401).json({ msg: 'Contraseña incorrecta' });
+    if (!isValid) {
+      return res.status(401).json({ msg: 'Contraseña incorrecta' });
+    }
 
-    const token = jwt.sign({ userId: user.id }, SECRET_KEY, { expiresIn: '1h' });
+    const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
     res.json({ token, user: { id: user.id, name: user.name, email: user.email } });
   } catch (error) {
-    res.status(500).json({ error: 'Error en el login', details: error });
+    console.error('🔥 Error interno en login:', error);
+    res.status(500).json({ msg: 'Error interno en el servidor', error: error.message });
   }
 };
+
 
 module.exports = { register, login };
 
