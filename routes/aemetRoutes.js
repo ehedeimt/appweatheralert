@@ -1,5 +1,5 @@
 const express = require('express');
-const router = express.Router(); // 💡 ESTO ES LO QUE FALTABA
+const router = express.Router();
 const axios = require('axios');
 const { obtenerAlertas } = require('../services/aemetService');
 
@@ -20,7 +20,7 @@ router.get('/alertas-actuales', async (req, res) => {
 router.get('/prediccion', async (req, res) => {
   try {
     const AEMET_API_KEY = process.env.AEMET_API_KEY;
-    const municipioId = '28079'; // Madrid (puedes hacerlo dinámico después)
+    const municipioId = '08019'; // Madrid (puedes hacerlo dinámico después)
 
     const response = await axios.get(`https://opendata.aemet.es/opendata/api/prediccion/especifica/municipio/diaria/${municipioId}/`, {
       params: { api_key: AEMET_API_KEY }
