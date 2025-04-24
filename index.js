@@ -21,6 +21,8 @@ app.use('/api/users', userRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/alertas', alertasRoutes);
 app.use('/api/aemet', aemetRoutes);
+app.use('/api/aemet', require('./routes/aemetRoutes'));
+
 
 // Enrutamiento frontend (SPA)
 app.get('*', (_, res) => {
