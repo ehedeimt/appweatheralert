@@ -50,4 +50,4 @@ document.addEventListener('DOMContentLoaded', () => {
         alert('Error al cargar alertas desde AEMET.');
       });
   });
-  
+
