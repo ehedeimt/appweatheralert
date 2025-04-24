@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Configurar nueva alerta</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <header>
+    <div>
+      <span class="logoweather">Weather</span>
+      <span class="logoalert">Alert</span>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="index.html">HOME</a></li>
+        <li><a href="#">SERVICIOS</a></li>
+        <li><a href="misalertas.html">MIS ALERTAS</a></li>
+        <li><a href="#">CONTACTO</a></li>
+        <li><a href="login.html">LOGIN</a></li>
+      </ul>
+    </nav>
+    <div class="mensaje-usuario" id="contenedorUsuario" style="display: none;">
+      <span id="mensajeUsuario"></span>
+      <button id="cerrarSesionBtn" class="btn-cerrar-sesion">Cerrar sesión</button>
+    </div>
+  </header>
+
+  <main>
+    <h2 class="titulo-alertas">Selecciona una alerta oficial de AEMET para añadir a tus alertas</h2>
+    <div class="alertas-container" id="listaAlertas">
+      <!--Aquí se insertan las alertas dinámicamente-->
+    </div>
+    <div class="contenedor-guardar-btn">
+      <button id="guardarAlertaBtn" class="guardar-btn">Guardar alerta seleccionada</button>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 WM | TODOS LOS DERECHOS RESERVADOS.</p>
+  </footer>
+
+  <script src="js/usuarioNombre.js"></script>
+  <script src="js/nuevaalerta.js"></script>
+</body>
+</html>
