@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   btnNueva.addEventListener("click", () => {
-    window.location.href = "formulario.html";
+    window.location.href = "nuevaalerta.html";
   });
 
   function cargarAlertas() {
