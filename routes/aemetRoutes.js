@@ -36,5 +36,29 @@ router.get('/prediccion/:municipioId', async (req, res) => {
   }
 });
 
+/*Avisos Tormentas*/
+router.get('/avisos/:provinciaId', async (req, res) => {
+  const { provinciaId } = req.params;
+  const apiKey = process.env.AEMET_API_KEY;
+
+  try {
+    const respuesta = await axios.get('https://opendata.aemet.es/opendata/api/avisos_cap/provincias/', {
+      params: { api_key: apiKey }
+    });
+
+    const urlDatos = respuesta.data.datos;
+    const datos = await axios.get(urlDatos);
+
+    const alertasProvincia = datos.data.filter(alerta =>
+      alerta.idProvincia === provinciaId &&
+      alerta.fenomeno.toLowerCase().includes('tormenta')
+    );
+
+    res.json(alertasProvincia);
+  } catch (error) {
+    console.error('❌ Error al obtener alertas de tormenta:', error.message);
+    res.status(500).json({ msg: 'Error al consultar alertas por provincia' });
+  }
+});
 
 module.exports = router;
