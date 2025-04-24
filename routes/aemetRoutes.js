@@ -26,15 +26,27 @@ router.get('/prediccion/:municipioId', async (req, res) => {
       params: { api_key: AEMET_API_KEY }
     });
 
-    const datosURL = response.data.datos;
+    const datosURL = response.data?.datos;
+
+    if (!datosURL) {
+      console.warn("⚠️ No se recibió URL válida en predicción");
+      return res.status(204).json([]);
+    }
+
     const datos = await axios.get(datosURL);
+
+    if (!Array.isArray(datos.data)) {
+      console.warn("⚠️ La predicción no es un array");
+      return res.status(204).json([]);
+    }
 
     res.json(datos.data);
   } catch (err) {
-    console.error("❌ Error al obtener predicción:", err.message);
-    res.status(500).json({ msg: 'No se pudo obtener la predicción de AEMET' });
+    console.error("❌ Error en predicción:", err.message);
+    res.status(500).json({ msg: 'Error al obtener predicción', error: err.message });
   }
 });
+
 
 /*Avisos Tormentas*/
 router.get('/avisos/:provinciaId', async (req, res) => {
@@ -47,17 +59,18 @@ router.get('/avisos/:provinciaId', async (req, res) => {
     });
 
     const urlDatos = respuesta.data?.datos;
+
     if (!urlDatos) {
-      console.warn("⚠️ No se recibió URL de datos de AEMET");
-      return res.json([]);
+      console.warn("⚠️ No se recibió URL de datos en avisos");
+      return res.status(204).json([]);
     }
 
     const datos = await axios.get(urlDatos);
     const lista = datos.data;
 
     if (!Array.isArray(lista)) {
-      console.warn("⚠️ La respuesta de datos no es un array");
-      return res.json([]);
+      console.warn("⚠️ Los datos de avisos no son un array");
+      return res.status(204).json([]);
     }
 
     const alertasProvincia = lista.filter(alerta =>
@@ -68,9 +81,10 @@ router.get('/avisos/:provinciaId', async (req, res) => {
     res.json(alertasProvincia);
   } catch (error) {
     console.error('❌ Error al obtener alertas de tormenta:', error.message);
-    res.json([]); 
+    res.status(500).json({ msg: 'Error al consultar alertas', error: error.message });
   }
 });
+
 
 
 module.exports = router;
