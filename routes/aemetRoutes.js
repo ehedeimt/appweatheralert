@@ -46,19 +46,31 @@ router.get('/avisos/:provinciaId', async (req, res) => {
       params: { api_key: apiKey }
     });
 
-    const urlDatos = respuesta.data.datos;
-    const datos = await axios.get(urlDatos);
+    const urlDatos = respuesta.data?.datos;
+    if (!urlDatos) {
+      console.warn("⚠️ No se recibió URL de datos de AEMET");
+      return res.json([]);
+    }
 
-    const alertasProvincia = datos.data.filter(alerta =>
+    const datos = await axios.get(urlDatos);
+    const lista = datos.data;
+
+    if (!Array.isArray(lista)) {
+      console.warn("⚠️ La respuesta de datos no es un array");
+      return res.json([]);
+    }
+
+    const alertasProvincia = lista.filter(alerta =>
       alerta.idProvincia === provinciaId &&
-      alerta.fenomeno.toLowerCase().includes('tormenta')
+      alerta.fenomeno?.toLowerCase().includes('tormenta')
     );
 
     res.json(alertasProvincia);
   } catch (error) {
     console.error('❌ Error al obtener alertas de tormenta:', error.message);
-    res.status(500).json({ msg: 'Error al consultar alertas por provincia' });
+    res.json([]); 
   }
 });
+
 
 module.exports = router;
