@@ -17,10 +17,10 @@ router.get('/alertas-actuales', async (req, res) => {
 });
 
 // Predicción por municipio
-router.get('/prediccion', async (req, res) => {
+router.get('/prediccion/:municipioId', async (req, res) => {
   try {
     const AEMET_API_KEY = process.env.AEMET_API_KEY;
-    const municipioId = '08019'; // Madrid (puedes hacerlo dinámico después)
+    const municipioId = req.params.municipioId;
 
     const response = await axios.get(`https://opendata.aemet.es/opendata/api/prediccion/especifica/municipio/diaria/${municipioId}/`, {
       params: { api_key: AEMET_API_KEY }
@@ -35,5 +35,6 @@ router.get('/prediccion', async (req, res) => {
     res.status(500).json({ msg: 'No se pudo obtener la predicción de AEMET' });
   }
 });
+
 
 module.exports = router;

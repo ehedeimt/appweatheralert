@@ -30,9 +30,23 @@
 
   <main>
     <div id="prediccionAemet" class="contenedor-prediccion">
-      <h3>🌤️ Predicción para hoy (AEMET)</h3>
+      <h3>🌧️ Predicción meteorológica por municipio</h3>
+      <label for="municipioSelect">Selecciona un municipio:</label>
+      <select id="municipioSelect">
+        <option value="28079">Madrid</option>
+        <option value="08019">Barcelona</option>
+        <option value="46250">Valencia</option>
+        <option value="41091">Sevilla</option>
+        <option value="29067">Málaga</option>
+        <option value="50297">Zaragoza</option>
+        <option value="30030">Murcia</option>
+        <option value="20069">San Sebastián</option>
+        <option value="07040">Palma</option>
+        <option value="11012">Cádiz</option>
+      </select>
       <p id="prediccionTexto">Cargando predicción...</p>
     </div>
+    
     
     <h2 class="titulo-alertas">Selecciona una alerta oficial de AEMET para añadir a tus alertas</h2>
     <div class="alertas-container" id="listaAlertas">
