@@ -33,4 +33,31 @@ router.post('/', verifyToken, async (req, res) => {
   }
 });
 
+//Ruta para eliminar una alerta
+router.delete('/:id', verifyToken, async (req, res) => {
+  const alertaId = req.params.id;
+  const userId = req.userId;
+
+  try {
+    // Verifica que la alerta existe y pertenece al usuario
+    const alerta = await Alerta.findOne({
+      where: {
+        id: alertaId,
+        usuario_id: userId
+      }
+    });
+
+    if (!alerta) {
+      return res.status(404).json({ msg: 'Alerta no encontrada o no autorizada' });
+    }
+
+    await alerta.destroy();
+
+    res.json({ msg: 'Alerta eliminada correctamente' });
+  } catch (error) {
+    console.error('❌ Error al eliminar alerta:', error.message);
+    res.status(500).json({ msg: 'Error interno al eliminar', error: error.message });
+  }
+});
+
 module.exports = router;
