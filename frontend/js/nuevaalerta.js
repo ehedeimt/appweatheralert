@@ -29,19 +29,31 @@ document.addEventListener('DOMContentLoaded', () => {
     fetch(`/api/aemet/avisos/${provinciaId}`)
       .then(res => res.json())
       .then(alertas => {
+        const mensajeTormenta = document.getElementById('mensajeTormenta');
+  
+        if (!Array.isArray(alertas)) {
+          console.warn("❌ La respuesta no es un array:", alertas);
+          mensajeTormenta.textContent = "❌ Error al procesar la respuesta del servidor.";
+          return;
+        }
+  
         if (alertas.length === 0) {
           mensajeTormenta.textContent = "✅ No hay alertas de tormentas activas en esta zona.";
         } else {
           mensajeTormenta.innerHTML = `
-            ⚠️ Hay ${alertas.length} alerta(s) de tormenta activa(s):<br>
-            ${alertas.map(a => `• <strong>${a.nivel}</strong>: ${a.texto}`).join('<br>')}
+            ⚠️ Se encontraron ${alertas.length} alerta(s) de tormenta:<br>
+            ${alertas.map(a => `
+              • <strong>${a.nivel || 'Nivel desconocido'}</strong>: ${a.texto || 'Sin descripción'}
+            `).join('<br>')}
           `;
         }
       })
-      .catch(() => {
-        mensajeTormenta.textContent = "❌ No se pudo cargar la información de alertas.";
+      .catch(err => {
+        console.error('❌ Error al obtener alertas:', err);
+        document.getElementById('mensajeTormenta').textContent = "❌ Error al conectar con el servidor.";
       });
   }
+  
 
   // 🔁 Eventos de selección
   municipioSelect.addEventListener('change', () => {
