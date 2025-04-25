@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
         alert('¡Ya estás logueado! Bienvenido de nuevo.');
         
         //Redirijo a la sección mis alertas
-        window.location.href = 'misalertas.html';
+        //window.location.href = 'misalertas.html';
       }
     });
   }
