@@ -6,9 +6,9 @@ const Alerta = require('../models/alerta');
 const User = require('../models/user');
 
 // Programa cada 5 minutos
-cron.schedule('*/5 * * * *', async () => {
-  console.log('⏰ Ejecutando envío de alertas para todos los usuarios...');
-
+//cron.schedule('*/5 * * * *', async () => {
+//  console.log('⏰ Ejecutando envío de alertas para todos los usuarios...');
+/*
   try {
     const alertas = await Alerta.findAll();
 
@@ -51,3 +51,4 @@ cron.schedule('*/5 * * * *', async () => {
     console.error('❌ Error general en job de envío de alertas:', error.message);
   }
 });
+*/
