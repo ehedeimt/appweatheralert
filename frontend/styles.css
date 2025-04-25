@@ -220,7 +220,7 @@ button.btn-cerrar-sesion {
   
 button.editar:hover,
 button.eliminar:hover,
-button.btn-cerrar-sesion {
+button.btn-cerrar-sesion:hover {
     background-color: #d55e1e;
   }
   
