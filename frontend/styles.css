@@ -208,7 +208,7 @@ footer {
 
 /*Configuración botones editar y eliminar*/
 button.editar,
-button.cerrarSesionBtn {
+button.btn-cerrar-sesion {
     background-color: #F26E22;
     color: white;
     border: none;
