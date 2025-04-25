@@ -26,6 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 🔁 Consultar alertas de tormentas (por provincia/zona)
   function cargarAlertaTormenta(provinciaId) {
+    console.log("🔍 Consultando alertas para provincia:", provinciaId);
     fetch(`/api/aemet/avisos/${provinciaId}`)
       .then(async res => {
         if (!res.ok) {
