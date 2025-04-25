@@ -37,3 +37,34 @@ document.addEventListener('DOMContentLoaded', () => {
     cargarPrediccion(municipioSelect.value);
   }
 });
+
+document.getElementById('guardarMiAlertaBtn').addEventListener('click', () => {
+  const municipioId = municipioSelect.value;
+  const municipioNombre = municipioSelect.options[municipioSelect.selectedIndex].text;
+
+  fetch('/api/alertas', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + localStorage.getItem('token')
+    },
+    body: JSON.stringify({
+      titulo: municipioNombre,
+      descripcion: 'Riesgo de lluvia o viento fuerte' // Puedes personalizar la descripción
+    })
+  })
+  .then(res => {
+    if (!res.ok) throw new Error('No se pudo guardar la alerta');
+    return res.json();
+  })
+  .then(data => {
+    alert('✅ Alerta guardada correctamente');
+    console.log('Alerta guardada:', data.alerta);
+    window.location.href = 'misalertas.html'; // 🔁 Redirigir al listado
+  })
+  .catch(err => {
+    console.error('❌ Error al guardar alerta:', err.message);
+    alert('❌ No se pudo guardar la alerta');
+  });
+});
+
