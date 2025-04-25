@@ -1,62 +1,71 @@
+const express = require('express');
+const router = express.Router();
 const axios = require('axios');
-require('dotenv').config();
 
-const AEMET_API_KEY = process.env.AEMET_API_KEY;
+// ✅ Predicción meteorológica por municipio
+router.get('/prediccion/:municipioId', async (req, res) => {
+  const apiKey = process.env.AEMET_API_KEY;
+  const municipioId = req.params.municipioId;
 
-const obtenerAlertas = async () => {
   try {
-    const res = await axios.get('https://opendata.aemet.es/opendata/api/avisos_cap/ccaa/', {
-      params: { api_key: AEMET_API_KEY }
+    const respuesta = await axios.get(`https://opendata.aemet.es/opendata/api/prediccion/especifica/municipio/diaria/${municipioId}`, {
+      params: { api_key: apiKey }
     });
 
-    if (!res.data.datos) throw new Error("No se recibió la URL de datos");
+    const urlDatos = respuesta.data?.datos;
+    if (!urlDatos) {
+      console.warn("⚠️ URL de predicción no disponible");
+      return res.status(500).json({ msg: 'No se pudo obtener predicción meteorológica' });
+    }
 
-    const datosAlertas = await axios.get(res.data.datos);
-    return datosAlertas.data;
+    const datos = await axios.get(urlDatos);
+    res.json(datos.data);
   } catch (error) {
-    console.warn("⚠️ No se pudo conectar con AEMET. Cargando datos simulados.");
-    return [
-      {
-        titulo: "Alerta de Viento Fuerte",
-        descripcion: "Ráfagas de viento superiores a 70 km/h en zonas costeras."
-      },
-      {
-        titulo: "Alerta por Lluvias Intensas",
-        descripcion: "Se esperan acumulaciones de más de 50 mm en 12 horas."
-      },
-      {
-        titulo: "Alerta por Tormenta Eléctrica",
-        descripcion: "Alta probabilidad de tormentas con rayos en la zona centro."
-      }
-    ];
+    console.error("❌ Predicción ERROR:", error.message);
+    res.status(500).json({ msg: 'Error al consultar predicción', error: error.message });
   }
-};
+});
 
-module.exports = { obtenerAlertas };
+// ✅ Alertas de tormenta por provincia
+router.get('/avisos/:provinciaId', async (req, res) => {
+  const apiKey = process.env.AEMET_API_KEY;
+  const provinciaId = req.params.provinciaId;
 
-
-
-
-/*const axios = require('axios');
-require('dotenv').config();
-
-const AEMET_API_KEY = process.env.AEMET_API_KEY;
-
-const obtenerAlertas = async () => {
   try {
-    const res = await axios.get('https://opendata.aemet.es/opendata/api/prediccion/ccaa/hoy/coo', {
-      params: { api_key: AEMET_API_KEY }
+    const respuesta = await axios.get('https://opendata.aemet.es/opendata/api/avisos_cap/provincias/', {
+      params: { api_key: apiKey }
     });
 
-    const urlDatos = res.data.datos;
-    const datosAlertas = await axios.get(urlDatos);
+    const urlDatos = respuesta.data?.datos;
+    if (!urlDatos) {
+      console.warn("⚠️ URL de avisos no disponible");
+      return res.status(500).json({ msg: 'No se pudo obtener alertas' });
+    }
 
-    return datosAlertas.data;
+    const datos = await axios.get(urlDatos);
+    const alertas = datos.data;
+
+    if (!Array.isArray(alertas)) {
+      return res.status(500).json({ msg: 'Formato inesperado en alertas' });
+    }
+
+    const alertasFiltradas = alertas.filter(a =>
+      a.idProvincia === provinciaId &&
+      a.fenomeno?.toLowerCase().includes('tormenta')
+    );
+
+    res.json(alertasFiltradas);
   } catch (error) {
-    console.error('❌ Error al obtener alertas de AEMET:', error.message);
-    throw error;
-  }
-};
+    console.error("❌ Avisos ERROR:", {
+      mensaje: error.message,
+      codigo: error.code,
+      url: error.config?.url,
+      responseStatus: error.response?.status,
+      responseData: error.response?.data
+    });
 
-module.exports = { obtenerAlertas };
-*/
+    res.status(500).json({ msg: 'Error al consultar alertas', error: error.message });
+  }
+});
+
+module.exports = router;
