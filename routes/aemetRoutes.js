@@ -59,29 +59,44 @@ router.get('/avisos/:provinciaId', async (req, res) => {
     });
 
     const urlDatos = respuesta.data?.datos;
+
     if (!urlDatos) {
-      console.warn("⚠️ No se recibió URL de datos");
-      return res.status(500).json({ msg: 'No se pudo obtener los datos de AEMET' });
+      console.warn("⚠️ No se recibió URL de datos de AEMET");
+      return res.status(500).json({ msg: 'No se pudo obtener la URL de datos de alertas' });
     }
 
     const datos = await axios.get(urlDatos);
-    const lista = datos.data;
+    const alertas = datos.data;
 
-    if (!Array.isArray(lista)) {
-      return res.status(500).json({ msg: 'Los datos no son un array' });
+    console.log(`🔎 Recibidas ${alertas.length} alertas en total.`);
+
+    if (!Array.isArray(alertas)) {
+      return res.status(500).json({ msg: 'Los datos de AEMET no son un array' });
     }
 
-    const alertasProvincia = lista.filter(alerta =>
-      alerta.idProvincia === provinciaId &&
-      alerta.fenomeno?.toLowerCase().includes('tormenta')
+    const alertasFiltradas = alertas.filter(a =>
+      String(a.idProvincia) === String(provinciaId) &&
+      a.fenomeno?.toLowerCase().includes('tormenta')
     );
 
-    res.json(alertasProvincia);
+    console.log(`⚡ Alertas filtradas para provincia ${provinciaId}:`, alertasFiltradas.length);
+
+    res.json(alertasFiltradas);
   } catch (error) {
-    console.error("❌ Error al consultar AEMET:", error.message);
-    res.status(500).json({ msg: 'Error al consultar alertas', error: error.message });
+    console.error("❌ ERROR AL CONSULTAR AEMET:", {
+      mensaje: error.message,
+      status: error.response?.status,
+      respuesta: error.response?.data,
+      url: error.config?.url,
+    });
+
+    res.status(500).json({
+      msg: 'Error al consultar alertas',
+      error: error.message
+    });
   }
 });
+
 
 
 
