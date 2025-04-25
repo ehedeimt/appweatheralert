@@ -207,7 +207,8 @@ footer {
   }
 
 /*Configuración botones editar y eliminar*/
-button.editar {
+button.editar,
+button.cerrarSesionBtn {
     background-color: #F26E22;
     color: white;
     border: none;
@@ -232,6 +233,8 @@ button.eliminar {
 button.eliminar:hover {
     background-color: #d55e1e;
   }
+
+
   
   /* Contenido principal */
 main {
