@@ -48,57 +48,44 @@ router.get('/prediccion/:municipioId', async (req, res) => {
 });
 
 
-/*Avisos Tormentas*/
-router.get('/avisos/:provinciaId', async (req, res) => {
-  const { provinciaId } = req.params;
-  const apiKey = process.env.AEMET_API_KEY;
-
-  try {
-    const respuesta = await axios.get('https://opendata.aemet.es/opendata/api/avisos_cap/provincias/', {
-      params: { api_key: apiKey }
-    });
-
-    const urlDatos = respuesta.data?.datos;
-
-    if (!urlDatos) {
-      console.warn("⚠️ No se recibió URL de datos de AEMET");
-      return res.status(500).json({ msg: 'No se pudo obtener la URL de datos de alertas' });
-    }
-
-    const datos = await axios.get(urlDatos);
-    const alertas = datos.data;
-
-    console.log(`🔎 Recibidas ${alertas.length} alertas en total.`);
-
-    if (!Array.isArray(alertas)) {
-      return res.status(500).json({ msg: 'Los datos de AEMET no son un array' });
-    }
-
-    const alertasFiltradas = alertas.filter(a =>
-      String(a.idProvincia) === String(provinciaId) &&
-      a.fenomeno?.toLowerCase().includes('tormenta')
-    );
-
-    console.log(`⚡ Alertas filtradas para provincia ${provinciaId}:`, alertasFiltradas.length);
-
-    res.json(alertasFiltradas);
-  } catch (error) {
-    console.error("❌ ERROR AL CONSULTAR AEMET:", {
-      mensaje: error.message,
-      status: error.response?.status,
-      respuesta: error.response?.data,
-      url: error.config?.url,
-    });
-
-    res.status(500).json({
-      msg: 'Error al consultar alertas',
-      error: error.message
-    });
-  }
-});
-
 
 
 
 
 module.exports = router;
+
+
+
+
+/*
+const express = require('express');
+const router = express.Router();
+const axios = require('axios');
+
+// ✅ Predicción meteorológica por municipio
+router.get('/prediccion/:municipioId', async (req, res) => {
+  const apiKey = process.env.AEMET_API_KEY;
+  const municipioId = req.params.municipioId;
+
+  try {
+    const respuesta = await axios.get(`https://opendata.aemet.es/opendata/api/prediccion/especifica/municipio/diaria/${municipioId}`, {
+      params: { api_key: apiKey }
+    });
+
+    const urlDatos = respuesta.data?.datos;
+    if (!urlDatos) {
+      return res.status(500).json({ msg: 'No se pudo obtener la URL de datos' });
+    }
+
+    const datos = await axios.get(urlDatos);
+    res.json(datos.data);
+  } catch (error) {
+    console.error("❌ Error al obtener predicción de AEMET:", error.message);
+    res.status(500).json({ msg: 'Error al consultar predicción', error: error.message });
+  }
+});
+
+module.exports = router;
+
+
+*/ 
