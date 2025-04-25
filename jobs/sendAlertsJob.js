@@ -1,4 +1,3 @@
-// jobs/sendAlertsJob.js
 const cron = require('node-cron');
 const axios = require('axios');
 const { enviarCorreo } = require('../utils/emailSender');
