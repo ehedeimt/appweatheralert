@@ -34,6 +34,9 @@ sequelize.authenticate()
   .then(() => console.log('✅ Conectado a la base de datos'))
   .catch(error => console.error('❌ Error al conectar a la BBDD:', error));
 
+require('./jobs/sendAlertsJob'); //Carga y ejecuta el cron
+
+
 // Arrancar servidor
 app.listen(port, () => {
   console.log(`🚀 Servidor corriendo en el puerto ${port}`);
