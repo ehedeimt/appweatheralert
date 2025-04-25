@@ -1,3 +1,5 @@
+/*No Eliminar los comentarios*/
+
 const cron = require('node-cron');
 const axios = require('axios');
 const { enviarCorreo } = require('../utils/emailSender');

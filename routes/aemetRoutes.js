@@ -47,45 +47,4 @@ router.get('/prediccion/:municipioId', async (req, res) => {
   }
 });
 
-
-
-
-
-
 module.exports = router;
-
-
-
-
-/*
-const express = require('express');
-const router = express.Router();
-const axios = require('axios');
-
-// ✅ Predicción meteorológica por municipio
-router.get('/prediccion/:municipioId', async (req, res) => {
-  const apiKey = process.env.AEMET_API_KEY;
-  const municipioId = req.params.municipioId;
-
-  try {
-    const respuesta = await axios.get(`https://opendata.aemet.es/opendata/api/prediccion/especifica/municipio/diaria/${municipioId}`, {
-      params: { api_key: apiKey }
-    });
-
-    const urlDatos = respuesta.data?.datos;
-    if (!urlDatos) {
-      return res.status(500).json({ msg: 'No se pudo obtener la URL de datos' });
-    }
-
-    const datos = await axios.get(urlDatos);
-    res.json(datos.data);
-  } catch (error) {
-    console.error("❌ Error al obtener predicción de AEMET:", error.message);
-    res.status(500).json({ msg: 'Error al consultar predicción', error: error.message });
-  }
-});
-
-module.exports = router;
-
-
-*/ 
