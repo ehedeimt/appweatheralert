@@ -35,35 +35,50 @@
 </section>
   <main>
     <h2 class="titulo-alertas">Selecciona una alerta oficial de AEMET para añadir a tus alertas</h2>
-    <div id="prediccionAemet" class="contenedor-prediccion">
-      <h3>🌧️ Predicción meteorológica por municipio</h3>
-      <label for="municipioSelect">Selecciona un municipio:</label>
-      <select id="municipioSelect">
-        <option value="28079">Madrid</option>
-        <option value="08019">Barcelona</option>
-        <option value="41091">Sevilla</option>
-        <option value="46250">Valencia</option>
-        <option value="48020">Bilbao</option>
-        <option value="50001">Zaragoza</option>
-        <option value="07040">Palma</option>
-        <option value="35016">Las Palmas de Gran Canaria</option>
-        <option value="38038">Santa Cruz de Tenerife</option>
-        <option value="11012">Cádiz</option>
-        <option value="30030">Murcia</option>
-        <option value="20069">San Sebastián</option>
-        <option value="15030">A Coruña</option>
-        <option value="39075">Santander</option>
-        <option value="32054">Ourense</option>
-        <option value="33044">Gijón</option>
-        <option value="45081">Toledo</option>
-        <option value="14021">Córdoba</option>
-        <option value="29067">Málaga</option>
-        <option value="23050">Jaén</option>
-        <option value="37085">Salamanca</option>
-        <option value="44013">Teruel</option>
-        <option value="22125">Huesca</option>
-        
-      </select>
+    <div id="bloqueAlertaTemperatura" class="bloque-alerta">
+      <h3>🌡️ Alerta por temperaturas</h3>
+      <div class="fila-alerta">
+        <div class="columna">
+          <label for="municipioSelect">Municipio:</label>
+          <select id="municipioSelect">
+            <option value="28079">Madrid</option>
+            <option value="08019">Barcelona</option>
+            <option value="41091">Sevilla</option>
+            <option value="46250">Valencia</option>
+            <option value="48020">Bilbao</option>
+            <option value="50001">Zaragoza</option>
+            <option value="07040">Palma</option>
+            <option value="35016">Las Palmas de Gran Canaria</option>
+            <option value="38038">Santa Cruz de Tenerife</option>
+            <option value="11012">Cádiz</option>
+            <option value="30030">Murcia</option>
+            <option value="20069">San Sebastián</option>
+            <option value="15030">A Coruña</option>
+            <option value="39075">Santander</option>
+            <option value="32054">Ourense</option>
+            <option value="33044">Gijón</option>
+            <option value="45081">Toledo</option>
+            <option value="14021">Córdoba</option>
+            <option value="29067">Málaga</option>
+            <option value="23050">Jaén</option>
+            <option value="37085">Salamanca</option>
+            <option value="44013">Teruel</option>
+            <option value="22125">Huesca</option>
+          </select>
+        </div>
+ 
+        <div class="columna resultados" id="resultadoAemet">
+          <p><strong>Temp. Máxima:</strong> <span id="tdTempMax">-</span> ºC</p>
+          <p><strong>Temp. Mínima:</strong> <span id="tdTempMin">-</span> ºC</p>
+          <p><strong>Lluvia:</strong> <span id="tdLluvia">-</span>%</p>
+          <p><strong>Viento:</strong> <span id="tdViento">-</span> km/h</p>
+        </div>
+    
+        <div class="columna">
+          <button id="guardarMiAlertaBtn" class="nueva-alerta">Guardar esta alerta</button>
+        </div>
+      </div>
+    </div>   
       <p id="prediccionTexto">Cargando predicción...</p>
       <button id="guardarMiAlertaBtn" class="nueva-alerta">Guardar esta alerta</button>
     </div>
