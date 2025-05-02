@@ -3,7 +3,7 @@ const router = express.Router();
 const verifyToken = require('../middlewares/verifyToken');
 const Alerta = require('../models/alerta'); 
 
-//Obtener todas las alertas del usuario autenticado
+// Obtener todas las alertas del usuario autenticado
 router.get('/', verifyToken, async (req, res) => {
   try {
     const alertas = await Alerta.findAll({
@@ -16,30 +16,35 @@ router.get('/', verifyToken, async (req, res) => {
   }
 });
 
-//Crear una nueva alerta
+// Crear una nueva alerta
 router.post('/', verifyToken, async (req, res) => {
-  const { titulo, descripcion } = req.body;
+  const { titulo, municipio_id, descripcion } = req.body;
+
+  if (!titulo || !municipio_id || !descripcion) {
+    return res.status(400).json({ msg: 'Faltan datos obligatorios' });
+  }
 
   try {
     const nuevaAlerta = await Alerta.create({
       titulo,
+      municipio_id,
       descripcion,
       usuario_id: req.userId
     });
 
     res.status(201).json({ msg: 'Alerta creada', alerta: nuevaAlerta });
   } catch (error) {
+    console.error('Error al crear alerta:', error.message);
     res.status(500).json({ msg: 'Error al crear alerta', error: error.message });
   }
 });
 
-//Ruta para eliminar una alerta
+// Ruta para eliminar una alerta
 router.delete('/:id', verifyToken, async (req, res) => {
   const alertaId = req.params.id;
   const userId = req.userId;
 
   try {
-    // Verifica que la alerta existe y pertenece al usuario
     const alerta = await Alerta.findOne({
       where: {
         id: alertaId,
@@ -55,7 +60,7 @@ router.delete('/:id', verifyToken, async (req, res) => {
 
     res.json({ msg: 'Alerta eliminada correctamente' });
   } catch (error) {
-    console.error('❌ Error al eliminar alerta:', error.message);
+    console.error('Error al eliminar alerta:', error.message);
     res.status(500).json({ msg: 'Error interno al eliminar', error: error.message });
   }
 });
