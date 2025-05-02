@@ -76,7 +76,38 @@
           <button id="guardarMiAlertaBtn" class="nueva-alerta">Guardar alerta</button>
         </div>
       </div>
-    </div>  
+    </div> 
+    
+    <div id="bloqueAlertaCostas" class="bloque-alerta">
+      <h3>🌊 Alerta por estado marítimo</h3>
+    
+      <div class="fila-alerta">
+        <div class="columna">
+          <label for="zonaCosteraSelect">Zona costera:</label>
+          <select id="zonaCosteraSelect">
+            <option value="41">Costa Cantábrica Occidental</option>
+            <option value="42">Costa Cantábrica Oriental</option>
+            <option value="43">Galicia</option>
+            <option value="44">Estrecho y Alborán</option>
+            <option value="45">Cataluña</option>
+            <option value="46">Baleares</option>
+            <option value="47">Canarias</option>
+          </select>
+        </div>
+    
+        <div class="columna resultados" id="resultadoCostas">
+          <p><strong>Oleaje:</strong> <span id="tdOleaje">-</span></p>
+          <p><strong>Viento:</strong> <span id="tdVientoMar">-</span></p>
+          <p><strong>Fenómenos:</strong> <span id="tdFenomenos">-</span></p>
+        </div>
+    
+        <div class="columna">
+          <button id="guardarMiAlertaBtn" class="nueva-alerta">Guardar alerta</button>
+        </div>
+      </div>
+    </div>
+    
+    
   </main>
 
   <footer>
