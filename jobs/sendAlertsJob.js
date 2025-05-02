@@ -1,13 +1,11 @@
-/*No Eliminar los comentarios*/
-
 const cron = require('node-cron');
 const axios = require('axios');
 const { enviarCorreo } = require('../utils/emailSender');
 const Alerta = require('../models/alerta');
 const User = require('../models/user');
 
-// Programa cada 5 minutos
-cron.schedule('*/25 * * * *', async () => {
+// Programa cada 25 minutos
+cron.schedule('*/5 * * * *', async () => {
   console.log('Ejecutando envío de alertas para todos los usuarios...');
 
   try {
@@ -15,35 +13,61 @@ cron.schedule('*/25 * * * *', async () => {
 
     for (const alerta of alertas) {
       try {
-        // Consultar la predicción meteorológica (puedes mantener esto si quieres mostrar datos)
+        // Obtener predicción meteorológica desde tu API
         const respuesta = await axios.get(`https://appweatheralert-production.up.railway.app/api/aemet/prediccion/${alerta.titulo}`);
-        const prediccion = respuesta.data[0]?.prediccion?.dia[0];
 
-        let lluvia = '-';
-        let viento = '-';
+        let prediccion = null;
+        let tempMax = '-';
+        let tempMin = '-';
 
-        if (prediccion) {
-          lluvia = prediccion.probPrecipitacion[0]?.value || '-';
-          viento = prediccion.viento[0]?.velocidad || '-';
+        if (Array.isArray(respuesta.data) && respuesta.data[0]?.prediccion?.dia?.[0]) {
+          prediccion = respuesta.data[0].prediccion.dia[0];
+
+          if (prediccion.temperatura) {
+            tempMax = prediccion.temperatura.maxima || '-';
+            tempMin = prediccion.temperatura.minima || '-';
+          }
+        } else {
+          console.warn(`No se pudo obtener predicción válida para ${alerta.titulo}`);
         }
 
+        // Buscar usuario
         const usuario = await User.findByPk(alerta.usuario_id);
 
         if (usuario && usuario.email) {
           await enviarCorreo(
             usuario.email,
-            '🌦️ Actualización Meteorológica de Weather Alert',
-            `<p>¡Hola ${usuario.name}!</p>
-             <p>Esta es una actualización para tu alerta configurada en <b>${alerta.titulo}</b>.</p>
-             <p><strong>Predicción actual:</strong><br>
-             - Lluvia: ${lluvia}%<br>
-             - Viento: ${viento} km/h</p>
-             <p>¡Gracias por confiar en Weather Alert! 🌈</p>`
+            'Predicción Meteorológica de Weather Alert',
+            `
+            <p>¡Hola ${usuario.name}!</p>
+            <p>Esta es la predicción actual para tu alerta configurada en <b>${alerta.titulo}</b>:</p>
+
+            <table style="border-collapse: collapse; width: 100%; max-width: 400px; margin-top: 10px;">
+              <thead>
+                <tr style="background-color: #F26E22; color: white;">
+                  <th style="padding: 8px; border: 1px solid #ddd;">Ciudad</th>
+                  <th style="padding: 8px; border: 1px solid #ddd;">Temp. Máxima</th>
+                  <th style="padding: 8px; border: 1px solid #ddd;">Temp. Mínima</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="padding: 8px; border: 1px solid #ddd;">${alerta.titulo}</td>
+                  <td style="padding: 8px; border: 1px solid #ddd;">${tempMax} ºC</td>
+                  <td style="padding: 8px; border: 1px solid #ddd;">${tempMin} ºC</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <p style="margin-top: 20px;">¡Que tengas un buen día! ☀️<br>— Equipo de Weather Alert</p>
+            `
           );
+
           console.log(`Correo enviado a ${usuario.email} para la alerta "${alerta.titulo}".`);
         } else {
           console.warn(`No se encontró email para el usuario ID ${alerta.usuario_id}`);
         }
+
       } catch (errorInterno) {
         console.error('⚡ Error interno procesando alerta:', errorInterno.message);
       }
