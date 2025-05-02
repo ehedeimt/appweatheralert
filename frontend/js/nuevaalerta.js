@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const municipio_id = municipioSelect.value;
   const prediccionTexto = document.getElementById('prediccionTexto');
 
-  function cargarPrediccion(municipioId) {
+function cargarPrediccion(municipioId) {
     fetch(`/api/aemet/prediccion/${municipioId}`)
       .then(res => {
         if (!res.ok) throw new Error('No se pudo obtener la predicción');
@@ -11,22 +11,17 @@ document.addEventListener('DOMContentLoaded', () => {
       })
       .then(data => {
         const hoy = data[0].prediccion.dia[0];
-
-        const texto = `
-          Prob. de precipitación: ${hoy.probPrecipitacion[0].value || 0}% |
-          Vel. del viento: ${hoy.viento[0].velocidad || 0} km/h |
-          Estado del cielo: ${hoy.estadoCielo[0].descripcion || 'Desconocido'} |
-          Temp. Máx: ${hoy.temperatura.maxima}ºC |
-          Temp. Mín: ${hoy.temperatura.minima}ºC
-        `;
-
-        prediccionTexto.textContent = texto;
+  
+        document.getElementById('tdTempMax').textContent = hoy.temperatura?.maxima || '-';
+        document.getElementById('tdTempMin').textContent = hoy.temperatura?.minima || '-';
+        document.getElementById('tdLluvia').textContent = hoy.probPrecipitacion?.[0]?.value || '-';
+        document.getElementById('tdViento').textContent = hoy.viento?.[0]?.velocidad || '-';
       })
       .catch(err => {
         console.error('Error al cargar la predicción:', err.message);
-        prediccionTexto.textContent = "No se pudo cargar la predicción.";
       });
   }
+  
 
   // Cuando cambie el municipio
   municipioSelect.addEventListener('change', () => {
