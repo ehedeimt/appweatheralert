@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       const data = await response.json();
-      console.log('✅ Usuario autenticado:', data);
+      console.log('Usuario autenticado:', data);
 
       // Guardo token y nombre del usuario
       localStorage.setItem('token', data.token);
