@@ -65,11 +65,24 @@ document.addEventListener('DOMContentLoaded', () => {
         return res.json();
       })
       .then(data => {
-        const pred = data[0];
+        const tbody = document.getElementById('tbodyCostas');
+        tbody.innerHTML = ''; // Limpiar contenido anterior
 
-        document.getElementById('tdOleaje').textContent = pred.oleaje || '-';
-        document.getElementById('tdVientoMar').textContent = pred.viento || '-';
-        document.getElementById('tdFenomenos').textContent = pred.fenomenos || '-';
+        if (!Array.isArray(data) || data.length === 0) {
+          const row = document.createElement('tr');
+          row.innerHTML = `<td colspan="2">Sin información disponible para esta zona.</td>`;
+          tbody.appendChild(row);
+          return;
+        }
+
+        data.forEach(subzona => {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td>${subzona.nombre}</td>
+            <td>${subzona.estado}</td>
+          `;
+          tbody.appendChild(row);
+        });
       })
       .catch(err => {
         console.error('Error al cargar predicción marítima:', err.message);
