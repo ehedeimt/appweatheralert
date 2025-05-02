@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const axios = require('axios');
 
-// ✅ Predicción meteorológica por municipio
+//Predicción meteorológica por municipio
 router.get('/prediccion/:municipioId', async (req, res) => {
   const apiKey = process.env.AEMET_API_KEY;
   const municipioId = req.params.municipioId;
@@ -14,19 +14,19 @@ router.get('/prediccion/:municipioId', async (req, res) => {
 
     const urlDatos = respuesta.data?.datos;
     if (!urlDatos) {
-      console.warn("⚠️ URL de predicción no disponible");
+      console.warn("URL de predicción no disponible");
       return res.status(500).json({ msg: 'No se pudo obtener predicción meteorológica' });
     }
 
     const datos = await axios.get(urlDatos);
     res.json(datos.data);
   } catch (error) {
-    console.error("❌ Predicción ERROR:", error.message);
+    console.error("Predicción ERROR:", error.message);
     res.status(500).json({ msg: 'Error al consultar predicción', error: error.message });
   }
 });
 
-// ✅ Alertas de tormenta por provincia
+// Alertas de tormenta por provincia
 router.get('/avisos/:provinciaId', async (req, res) => {
   const apiKey = process.env.AEMET_API_KEY;
   const provinciaId = req.params.provinciaId;
@@ -38,7 +38,7 @@ router.get('/avisos/:provinciaId', async (req, res) => {
 
     const urlDatos = respuesta.data?.datos;
     if (!urlDatos) {
-      console.warn("⚠️ URL de avisos no disponible");
+      console.warn("URL de avisos no disponible");
       return res.status(500).json({ msg: 'No se pudo obtener alertas' });
     }
 
@@ -56,7 +56,7 @@ router.get('/avisos/:provinciaId', async (req, res) => {
 
     res.json(alertasFiltradas);
   } catch (error) {
-    console.error("❌ Avisos ERROR:", {
+    console.error("Avisos ERROR:", {
       mensaje: error.message,
       codigo: error.code,
       url: error.config?.url,

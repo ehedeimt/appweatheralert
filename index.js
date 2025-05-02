@@ -31,8 +31,8 @@ app.get('*', (_, res) => {
 // Conexión BBDD
 const sequelize = new Sequelize(process.env.DB_URI);
 sequelize.authenticate()
-  .then(() => console.log('✅ Conectado a la base de datos'))
-  .catch(error => console.error('❌ Error al conectar a la BBDD:', error));
+  .then(() => console.log('Conectado a la base de datos'))
+  .catch(error => console.error('Error al conectar a la BBDD:', error));
 
 require('./jobs/sendAlertsJob'); //Carga y ejecuta el cron
 

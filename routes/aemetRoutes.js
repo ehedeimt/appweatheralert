@@ -53,7 +53,7 @@ router.get('/costas/:zonaId', async (req, res) => {
 
   try {
     // Supongamos que haces una llamada a la API de AEMET aquí:
-    const respuesta = await axios.get(`https://opendata.aemet.es/api/prediccion/maritima/costa/${zonaId}`, {
+    const respuesta = await axios.get(`https://opendata.aemet.es/opendata/api/prediccion/maritima/costera/${zonaId}`, {
       headers: { api_key: process.env.AEMET_API_KEY }
     });
 
