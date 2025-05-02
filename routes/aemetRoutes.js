@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const axios = require('axios');
 const { obtenerAlertas } = require('../services/aemetService');
+const iconv = require('iconv-lite');
 
 // Rutas de alertas AEMET
 router.get('/alertas-actuales', async (req, res) => {
