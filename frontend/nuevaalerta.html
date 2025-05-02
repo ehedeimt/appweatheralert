@@ -95,11 +95,20 @@
           </select>
         </div>
     
-        <div class="columna resultados" id="resultadoCostas">
-          <p><strong>Oleaje:</strong> <span id="tdOleaje">-</span></p>
-          <p><strong>Viento:</strong> <span id="tdVientoMar">-</span></p>
-          <p><strong>Fenómenos:</strong> <span id="tdFenomenos">-</span></p>
+        <div class="columna resultados">
+          <table id="tablaCostas" class="tabla-costas">
+            <thead>
+              <tr>
+                <th>Subzona</th>
+                <th>Estado</th>
+              </tr>
+            </thead>
+            <tbody id="tbodyCostas">
+      
+            </tbody>
+          </table>
         </div>
+        
     
         <div class="columna">
           <button id="guardarAlertaCostasBtn" class="nueva-alerta">Guardar alerta</button>
