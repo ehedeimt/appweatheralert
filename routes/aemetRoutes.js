@@ -52,18 +52,36 @@ router.get('/costas/:zonaId', async (req, res) => {
   const zonaId = req.params.zonaId;
 
   try {
-    // Supongamos que haces una llamada a la API de AEMET aquí:
-    const respuesta = await axios.get(`https://opendata.aemet.es/opendata/api/prediccion/maritima/costera/${zonaId}`, {
+    const respuesta = await axios.get(`https://opendata.aemet.es/opendata/api/prediccion/maritima/costera/costa/${zonaId}`, {
       headers: { api_key: process.env.AEMET_API_KEY }
     });
 
-    // AEMET devuelve un JSON con una URL, necesitas hacer un segundo fetch
-    const urlDatos = respuesta.data.datos;
-    const datosCostas = await axios.get(urlDatos);
+    const urlDatos = respuesta.data?.datos;
+    if (!urlDatos) {
+      throw new Error('No se recibió URL válida de datos marítimos');
+    }
 
-    res.json(datosCostas.data); // lo envías al frontend
+    const datosCostas = await axios.get(urlDatos);
+    const zonas = datosCostas.data[0]?.prediccion?.zona;
+
+    if (!Array.isArray(zonas)) {
+      throw new Error('Estructura inesperada en zonas marítimas');
+    }
+
+    const resultado = [];
+
+    zonas.forEach(zona => {
+      zona.subzona?.forEach(subzona => {
+        resultado.push({
+          nombre: subzona.nombre,
+          estado: subzona.texto
+        });
+      });
+    });
+
+    res.json(resultado);
   } catch (error) {
-    console.error('Error obteniendo predicción de costas:', error.message);
+    console.error('Error al obtener predicción de costas:', error.message);
     res.status(500).json({ error: 'No se pudo obtener la predicción de costas' });
   }
 });
