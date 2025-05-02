@@ -19,6 +19,10 @@ const Alerta = sequelize.define('Alerta', {
   fecha_creacion: {
     type: DataTypes.DATE,
     defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+  },
+  municipio_id: {
+    type: DataTypes.STRING,
+    allowNull: false
   }
 }, {
   tableName: 'alertas',

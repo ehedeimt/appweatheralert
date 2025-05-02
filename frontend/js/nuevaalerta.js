@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
   const municipioSelect = document.getElementById('municipioSelect');
+  const municipio_id = municipioSelect.value;
   const prediccionTexto = document.getElementById('prediccionTexto');
 
   function cargarPrediccion(municipioId) {
@@ -22,8 +23,8 @@ document.addEventListener('DOMContentLoaded', () => {
         prediccionTexto.textContent = texto;
       })
       .catch(err => {
-        console.error('❌ Error al cargar la predicción:', err.message);
-        prediccionTexto.textContent = "❌ No se pudo cargar la predicción.";
+        console.error('Error al cargar la predicción:', err.message);
+        prediccionTexto.textContent = "No se pudo cargar la predicción.";
       });
   }
 
@@ -50,7 +51,8 @@ document.getElementById('guardarMiAlertaBtn').addEventListener('click', () => {
     },
     body: JSON.stringify({
       titulo: municipioNombre,
-      descripcion: 'Riesgo de lluvia o viento fuerte' // Puedes personalizar la descripción
+      municipio_id: municipioId,
+      descripcion: 'Temperaturas máximas y mínimas'    
     })
   })
   .then(res => {
@@ -58,13 +60,13 @@ document.getElementById('guardarMiAlertaBtn').addEventListener('click', () => {
     return res.json();
   })
   .then(data => {
-    alert('✅ Alerta guardada correctamente');
+    alert('Alerta guardada correctamente');
     console.log('Alerta guardada:', data.alerta);
-    window.location.href = 'misalertas.html'; // 🔁 Redirigir al listado
+    window.location.href = 'misalertas.html'; //Redirijo al listado de alertas.
   })
   .catch(err => {
-    console.error('❌ Error al guardar alerta:', err.message);
-    alert('❌ No se pudo guardar la alerta');
+    console.error('Error al guardar alerta:', err.message);
+    alert('No se pudo guardar la alerta');
   });
 });
 

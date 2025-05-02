@@ -13,8 +13,9 @@ cron.schedule('*/5 * * * *', async () => {
 
     for (const alerta of alertas) {
       try {
-        // Obtener predicción meteorológica desde tu API
-        const respuesta = await axios.get(`https://appweatheralert-production.up.railway.app/api/aemet/prediccion/${alerta.titulo}`);
+        // Obtener predicción meteorológica desde la API de la AEMET
+        const respuesta = await axios.get(`https://appweatheralert-production.up.railway.app/api/aemet/prediccion/${alerta.municipio_id}`);
+
 
         //Veo en Railway si se está obteniendo información de la AEMET
         console.log(`Predicción recibida para ${alerta.titulo}:`);
