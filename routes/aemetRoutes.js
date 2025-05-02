@@ -49,6 +49,7 @@ router.get('/prediccion/:municipioId', async (req, res) => {
 });
 
 // GET /api/aemet/costas/:zonaId
+// GET /api/aemet/costas/:zonaId
 router.get('/costas/:zonaId', async (req, res) => {
   const zonaId = req.params.zonaId;
 
@@ -62,9 +63,11 @@ router.get('/costas/:zonaId', async (req, res) => {
       throw new Error('No se recibió URL válida de datos marítimos');
     }
 
-    const datosCostas = await axios.get(urlDatos);
-    const zonas = datosCostas.data[0]?.prediccion?.zona;
+    const respuestaDatos = await axios.get(urlDatos, { responseType: 'arraybuffer' });
+    const decoded = require('iconv-lite').decode(Buffer.from(respuestaDatos.data), 'ISO-8859-1'); //Corregir las tildes.
+    const datosCostas = JSON.parse(decoded);
 
+    const zonas = datosCostas[0]?.prediccion?.zona;
     if (!Array.isArray(zonas)) {
       throw new Error('Estructura inesperada en zonas marítimas');
     }
@@ -86,6 +89,7 @@ router.get('/costas/:zonaId', async (req, res) => {
     res.status(500).json({ error: 'No se pudo obtener la predicción de costas' });
   }
 });
+
 
 
 module.exports = router;
