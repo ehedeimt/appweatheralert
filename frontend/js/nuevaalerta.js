@@ -14,8 +14,6 @@ function cargarPrediccion(municipioId) {
   
         document.getElementById('tdTempMax').textContent = hoy.temperatura?.maxima || '-';
         document.getElementById('tdTempMin').textContent = hoy.temperatura?.minima || '-';
-        document.getElementById('tdLluvia').textContent = hoy.probPrecipitacion?.[0]?.value || '-';
-        document.getElementById('tdViento').textContent = hoy.viento?.[0]?.velocidad || '-';
       })
       .catch(err => {
         console.error('Error al cargar la predicción:', err.message);
