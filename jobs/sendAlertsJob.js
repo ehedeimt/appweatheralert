@@ -8,6 +8,7 @@ const User = require('../models/user');
 //cron.schedule('*/5 * * * *', async () => {
 //  console.log('Ejecutando envío de alertas para todos los usuarios...');
 
+/*
   try {
     const alertas = await Alerta.findAll();
 
@@ -82,3 +83,5 @@ const User = require('../models/user');
     console.error('Error general en job de envío de alertas:', error.message);
   }
 });
+
+*/
