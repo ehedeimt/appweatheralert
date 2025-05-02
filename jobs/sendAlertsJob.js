@@ -7,9 +7,9 @@ const Alerta = require('../models/alerta');
 const User = require('../models/user');
 
 // Programa cada 5 minutos
-//cron.schedule('*/5 * * * *', async () => {
-//  console.log('⏰ Ejecutando envío de alertas para todos los usuarios...');
-/*
+cron.schedule('*/5 * * * *', async () => {
+  console.log('Ejecutando envío de alertas para todos los usuarios...');
+
   try {
     const alertas = await Alerta.findAll();
 
@@ -40,16 +40,15 @@ const User = require('../models/user');
              - Viento: ${viento} km/h</p>
              <p>¡Gracias por confiar en Weather Alert! 🌈</p>`
           );
-          console.log(`✅ Correo enviado a ${usuario.email} para la alerta "${alerta.titulo}".`);
+          console.log(`Correo enviado a ${usuario.email} para la alerta "${alerta.titulo}".`);
         } else {
-          console.warn(`⚠️ No se encontró email para el usuario ID ${alerta.usuario_id}`);
+          console.warn(`No se encontró email para el usuario ID ${alerta.usuario_id}`);
         }
       } catch (errorInterno) {
         console.error('⚡ Error interno procesando alerta:', errorInterno.message);
       }
     }
   } catch (error) {
-    console.error('❌ Error general en job de envío de alertas:', error.message);
+    console.error('Error general en job de envío de alertas:', error.message);
   }
 });
-*/
