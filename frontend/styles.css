@@ -316,6 +316,39 @@ tr:hover {
   }
   
 
+  /*ESTILOS TABLA PARA ALERTAS*/
+  .bloque-alerta {
+    border: 1px solid #f26e22;
+    background-color: #fff8f2;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+  }
+  
+  .fila-alerta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .columna {
+    flex: 1;
+    min-width: 200px;
+  }
+  
+  .columna label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 0.4rem;
+  }
+  
+  .resultados p {
+    margin: 0.3rem 0;
+  }
+  
+
   
 
 
