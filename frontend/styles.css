@@ -349,6 +349,7 @@ tr:hover {
   }
 
 /*ESTILOS PARA EL MAPA PAGINA INICIO*/
+/*
 .mapa-container {
   text-align: center;
   padding: 1rem;
@@ -372,7 +373,36 @@ tr:hover {
   max-height: 100vw;
 }
 
+*/
 
+
+.mapa-container {
+  text-align: center;
+  padding: 1rem;
+}
+
+.imagen-rotada {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  position: relative;
+}
+
+#mapaAemet {
+  transform: rotate(90deg);
+  transform-origin: center center;
+  width: auto;
+  height: auto;
+  max-width: 100vh;
+  max-height: 100vw;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) rotate(90deg);
+}
 
   
 
