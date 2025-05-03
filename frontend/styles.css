@@ -360,13 +360,12 @@ tr:hover {
   width: auto;
   height: auto;
   margin: 2rem auto;
-  margin-top: -120px;
+  /*margin-top: -120px;*/
 }
 
 .mapa-container h2,
-.mapa-container img,
-.mapa-incendios h2,
-.mapa-incendios img {
+.mapa-container img
+ {
   display: flex;
   flex-direction: column;
   align-items: center;
