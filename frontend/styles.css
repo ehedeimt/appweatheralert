@@ -349,19 +349,21 @@ tr:hover {
   }
 
 /*ESTILOS PARA EL MAPA PAGINA INICIO*/
-#mapaAemet {
-    display: block;
-    max-width: 100%;
-    height: auto;
-    /*margin: 1rem auto;*/
-    object-fit: contain;
-    transform: rotate(90deg);
-  }
+.imagen-rotada {
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-.mapa-container {
-    /*padding: 1rem;*/
-    text-align: center;
-  }
+#mapaAemet {
+  transform: rotate(90deg);
+  transform-origin: center;
+  height: auto;
+  max-height: 90vh;
+  width: auto;
+}
   
 
   
