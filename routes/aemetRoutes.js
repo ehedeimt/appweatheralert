@@ -90,6 +90,28 @@ router.get('/costas/:zonaId', async (req, res) => {
   }
 });
 
+// GET /api/aemet/mapa-analisis
+router.get('/mapa-analisis', async (req, res) => {
+  try {
+    const AEMET_API_KEY = process.env.AEMET_API_KEY;
+
+    const response = await axios.get('https://opendata.aemet.es/opendata/api/mapasygraficos/analisis', {
+      params: { api_key: AEMET_API_KEY }
+    });
+
+    const datosURL = response.data?.datos;
+    if (!datosURL) {
+      return res.status(204).json({ msg: 'No se encontró enlace al mapa' });
+    }
+
+    const mapaResponse = await axios.get(datosURL, { responseType: 'arraybuffer' });
+    res.setHeader('Content-Type', 'image/png');
+    res.send(mapaResponse.data);
+  } catch (error) {
+    console.error("Error al obtener el mapa de análisis:", error.message);
+    res.status(500).json({ msg: 'Error al obtener el mapa de análisis', error: error.message });
+  }
+});
 
 
 module.exports = router;
