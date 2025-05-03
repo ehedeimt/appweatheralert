@@ -351,19 +351,22 @@ tr:hover {
 /*ESTILOS PARA EL MAPA PAGINA INICIO*/
 .imagen-rotada {
   width: 100%;
-  overflow: hidden;
+  overflow-x: auto;
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 1rem 0;
 }
 
 #mapaAemet {
   transform: rotate(90deg);
   transform-origin: center;
-  height: auto;
-  max-height: 90vh;
   width: auto;
+  height: auto;
+  max-width: 90vh; 
+  max-height: 100vw;
 }
+
 
   
 
