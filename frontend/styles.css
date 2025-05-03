@@ -405,7 +405,7 @@ tr:hover {
 }
 */  
 
-
+/*
 .mapa-container {
   width: 100vw;
   height: 100vh;
@@ -423,6 +423,31 @@ tr:hover {
   max-width: 100vh;
   max-height: 100vw;
 }
+*/
+
+.mapa-container {
+  padding: 2rem 1rem;
+  text-align: center;
+}
+
+.imagen-rotada {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  margin-top: 2rem;
+}
+
+#mapaAemet {
+  transform: rotate(90deg);
+  transform-origin: center center;
+  width: auto;
+  height: auto;
+  max-width: 90vh;
+  max-height: 100vw;
+}
+
 
 
   
