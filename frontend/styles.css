@@ -365,8 +365,8 @@ tr:hover {
 
 .mapa-container h2,
 .mapa-container img,
-.incendios h2,
-.incendios img {
+.mapa-incendios h2,
+.mapa-incendios img {
   display: flex;
   flex-direction: column;
   align-items: center;
