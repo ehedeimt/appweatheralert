@@ -349,13 +349,18 @@ tr:hover {
   }
 
 /*ESTILOS PARA EL MAPA PAGINA INICIO*/
+.mapa-container {
+  text-align: center;
+  padding: 1rem;
+}
+
 .imagen-rotada {
-  width: 100%;
-  overflow-x: auto;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 1rem 0;
 }
 
 #mapaAemet {
@@ -363,9 +368,10 @@ tr:hover {
   transform-origin: center;
   width: auto;
   height: auto;
-  max-width: 90vh; 
+  max-width: 100vh;
   max-height: 100vw;
 }
+
 
 
   
