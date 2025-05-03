@@ -355,19 +355,15 @@ tr:hover {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 1rem;
 }
 
 #mapaAemet {
   transform: rotate(90deg);
   transform-origin: center;
-  width: auto;
   height: auto;
-  max-width: 90vh;  
-  max-height: 100vw;
+  max-height: 90vh;
+  width: auto;
 }
-
-
   
 
   
