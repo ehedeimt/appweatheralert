@@ -376,8 +376,8 @@ tr:hover {
 
 /*PARA EL MAPA DE LOS INCENDIOS*/
 .contenedor-mapa {
-  width: 100vw;
-  height: 100vh;
+  /*width: 100vw;
+  height: 100vh;*/
   overflow: hidden;
   display: flex;
   justify-content: center;
@@ -385,7 +385,6 @@ tr:hover {
 }
 
 #mapaIncendios {
-  /*transform: rotate(90deg);*/
   transform-origin: center;
   width: auto;
   height: auto;
