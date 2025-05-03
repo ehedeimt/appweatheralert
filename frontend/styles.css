@@ -385,7 +385,7 @@ tr:hover {
 }
 
 #mapaIncendios {
-  transform: rotate(90deg);
+  /*transform: rotate(90deg);*/
   transform-origin: center;
   width: auto;
   height: auto;
