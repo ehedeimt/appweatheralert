@@ -362,7 +362,7 @@ tr:hover {
   margin-top: -100px;
 }
 
-.mapa-container {
+.mapa-container h2{
   display: flex;
   flex-direction: column;
   align-items: center;
