@@ -350,8 +350,7 @@ tr:hover {
 
 
 /*ESTILOS PARA EL MAPA PAGINA INICIO*/
-#mapaAemet,
-#mapaIncendios {
+#mapaAemet {
   display: block;
   transform: rotate(90deg);
   transform-origin: center;
@@ -373,13 +372,27 @@ tr:hover {
   text-align: center;
 }
 
-.incendios {
+
+/*PARA EL MAPA DE LOS INCENDIOS*/
+.contenedor-mapa {
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   align-items: center;
-  padding: 2rem 1rem;
-  gap: 1rem;
+  overflow: hidden;
+  width: 100%;
+  margin-top: 2rem;
 }
+
+#mapaIncendios {
+  transform: rotate(90deg);
+  transform-origin: center center;
+  max-width: 90vh;  
+  max-height: 100vw;
+  width: auto;
+  height: auto;
+  display: block;
+}
+
 
 
 
