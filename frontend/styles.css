@@ -384,13 +384,14 @@ tr:hover {
 }
 
 #mapaIncendios {
+  display: block;
   transform: rotate(90deg);
-  transform-origin: center center;
-  max-width: 90vh;  
+  transform-origin: center;
+  max-width: 90vh;
   max-height: 100vw;
   width: auto;
   height: auto;
-  display: block;
+  margin: 2rem auto;
 }
 
 
