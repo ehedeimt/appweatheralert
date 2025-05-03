@@ -48,7 +48,7 @@ router.get('/prediccion/:municipioId', async (req, res) => {
   }
 });
 
-// GET /api/aemet/costas/:zonaId
+
 // GET /api/aemet/costas/:zonaId
 router.get('/costas/:zonaId', async (req, res) => {
   const zonaId = req.params.zonaId;
@@ -112,6 +112,28 @@ router.get('/mapa-analisis', async (req, res) => {
     res.status(500).json({ msg: 'Error al obtener el mapa de análisis', error: error.message });
   }
 });
+
+// GET /api/aemet/mapa-incendios?area=c&dia=1
+router.get('/mapa-incendios', async (req, res) => {
+  try {
+    const AEMET_API_KEY = process.env.AEMET_API_KEY;
+    const { area = 'c', dia = '1' } = req.query;
+
+    const url = `https://opendata.aemet.es/opendata/api/incendios/mapasriesgo/previsto/dia/${dia}/area/${area}?api_key=${AEMET_API_KEY}`;
+    const response = await axios.get(url);
+
+    const datosURL = response.data?.datos;
+    if (!datosURL) return res.status(204).json({ msg: 'No se encontró el enlace al mapa de incendios' });
+
+    const mapaResponse = await axios.get(datosURL, { responseType: 'arraybuffer' });
+    res.setHeader('Content-Type', 'image/png');
+    res.send(mapaResponse.data);
+  } catch (error) {
+    console.error("Error al obtener el mapa de incendios:", error.message);
+    res.status(500).json({ msg: 'Error al cargar mapa de incendios', error: error.message });
+  }
+});
+
 
 
 module.exports = router;
