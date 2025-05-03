@@ -56,24 +56,36 @@
             <img id="mapaAemet" alt="Mapa de análisis AEMET"/>
           </section> 
           
-          <section class="mapa-container-incendios">
+          <section class="incendios">
             <h2>Consulta el mapa de riesgo de incendios</h2>
-            <p>
-                Weather Alert es el resultado final de la práctica para la asignatura Proyecto 3 - Aplicación Interactiva del grado de Interacción Digital y Multimedia de la UOC.
-              </p>
-              <p>
-                En esta fase inicial, se han conseguido implemntar algunas funcionalidades como la del registro e inicio de sesión de los usuarios, 
-                así como la creación de algunos ejemplos de alertas personalizadas y el envío por correo electrónico de las mismas, actualmente programado un envío diario.
-              </p>
-              <p>
-                La información que se muestra en este sitio web se consulta en tiempo real a la AEMET, por lo tanto se trata de información oficial para todo el territorio Español.
-                Como ejemplo, en el siguiente mapa, se puede consultar un mapa generado por este mismo organismo, con las predicciónes para el día de hoy.
-              </p>
-              <p>
-                Te invito a que te registres, configures algúnas alertas para tu usuario y compruebes el funcionamiento. Muchas gracias por tu participación.
-              </p>
-            <img id="mapaAemet" alt="Mapa de análisis AEMET"/>
-          </section>  
+            <form id="formIncendios">
+              <label for="area">Área:</label>
+              <select id="area">
+                <option value="elige" selected>Elige el area...</option>
+                <option value="p">Península y Baleares</option>
+                <option value="c">Canarias</option>
+              </select>
+          
+              <label for="dia">Día:</label>
+              <select id="dia">
+                <option value="elige" selected>Elige el día</option>
+                <option value="1" selected>Mañana</option>
+                <option value="2" selected>Pasado Mañana</option>
+                <option value="3" selected>Dentro de 3 días</option>
+                <option value="4" selected>Dentro de 4 días</option>
+                <option value="5" selected>Dentro de 5 días</option>
+                <option value="6" selected>Dentro de 6 días</option>
+                <option value="7" selected>Dentro de 7 días</option>
+              </select>
+          
+              <button type="submit">Mostrar mapa</button>
+            </form>
+          
+            <div class="mapa-incendios">
+              <img id="mapaIncendios" alt="Mapa de riesgo de incendios AEMET" />
+            </div>
+          </section>
+          
     </main>
     
     <footer>
