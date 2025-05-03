@@ -373,6 +373,15 @@ tr:hover {
   text-align: center;
 }
 
+.incendios {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem 1rem;
+  gap: 1rem;
+}
+
+
 
 /*Segundo acercamiento,aceptable
 #mapaAemet {
