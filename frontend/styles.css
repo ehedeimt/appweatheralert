@@ -375,7 +375,7 @@ tr:hover {
 
 */
 
-
+/*
 .mapa-container {
   text-align: center;
   padding: 1rem;
@@ -403,10 +403,27 @@ tr:hover {
   top: 50%;
   transform: translate(-50%, -50%) rotate(90deg);
 }
+*/  
 
-  
 
-  
+.mapa-container {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#mapaAemet {
+  transform: rotate(90deg);
+  transform-origin: center center;
+  width: auto;
+  height: auto;
+  max-width: 100vh;
+  max-height: 100vw;
+}
+
 
   
 
