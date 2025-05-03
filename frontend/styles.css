@@ -355,7 +355,7 @@ tr:hover {
     height: auto;
     margin: 2rem auto;
     object-fit: contain;
-    transform: rotate(90);
+    transform: rotate(90deg);
   }
 
 .mapa-container {
