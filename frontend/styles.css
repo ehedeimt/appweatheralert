@@ -350,6 +350,7 @@ tr:hover {
 
 
 /*ESTILOS PARA EL MAPA PAGINA INICIO*/
+/*Segundo acercamiento,aceptable
 #mapaAemet {
   display: block;
   transform: rotate(90deg);
@@ -370,7 +371,7 @@ tr:hover {
   padding: 1rem;
   text-align: center;
 }
-
+*/
 
 /*Primer acercamiento, imagen vertical
 #mapaAemet {
