@@ -350,7 +350,8 @@ tr:hover {
 
 /*ESTILOS PARA EL MAPA PAGINA INICIO*/
 .imagen-rotada {
-  width: 100%;
+  width: 100vw;
+  height: 100vh;
   overflow: hidden;
   display: flex;
   justify-content: center;
@@ -361,9 +362,11 @@ tr:hover {
   transform: rotate(90deg);
   transform-origin: center;
   height: auto;
-  max-height: 90vh;
   width: auto;
+  max-height: 100vw; 
+  max-width: 100vh;
 }
+
   
 
   
