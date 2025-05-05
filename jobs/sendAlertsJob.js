@@ -53,7 +53,7 @@ cron.schedule('*/5 * * * *', async () => {
               </tbody>
             </table>
 
-            <p style="margin-top: 20px;">Información oficial facilidada por la AEMET.<br>¡Un saludo!<br>— El Equipo de Weather Alert</p>
+            <p style="margin-top: 20px;">Información oficial facilidada por la AEMET.<br>¡Un saludo!<br>El Equipo de Weather Alert</p>
           `;
         } else {
           //ALERTA DE TEMPERATURAS
@@ -88,7 +88,7 @@ cron.schedule('*/5 * * * *', async () => {
               </tbody>
             </table>
 
-            <p style="margin-top: 20px;">Información oficial facilidada por la AEMET.<br>¡Un saludo!<br>— El Equipo de Weather Alert</p>
+            <p style="margin-top: 20px;">Información oficial facilidada por la AEMET.<br>¡Un saludo!<br>El Equipo de Weather Alert</p>
           `;
         }
 
