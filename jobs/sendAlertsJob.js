@@ -10,7 +10,7 @@ function delay(ms) {
 }
 
 // Programa cada 5 minutos para pruebas (cambia a '0 8 * * *' en producción)
-cron.schedule('*/4 * * * *', async () => {
+cron.schedule('*/3 * * * *', async () => {
   console.log('⏰ Ejecutando envío de alertas para todos los usuarios...');
 
   try {
@@ -99,7 +99,7 @@ cron.schedule('*/4 * * * *', async () => {
         } catch (errorInterno) {
           console.warn(`⚠️ Intento ${intento} fallido para ${alerta.titulo}:`, errorInterno.message);
 
-          if (intento < 3) {
+          if (intento < 5) {
             await delay(1000); // espera antes de reintentar
           }
         }
