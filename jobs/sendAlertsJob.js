@@ -6,7 +6,7 @@ const User = require('../models/user');
 
 // Programa cada 10 minutos
 //cron.schedule('0 8 * * *', async () => { configuración final de todos los días a las 8 de la mañana.
-cron.schedule('*/2 * * * *', async () => {
+cron.schedule('*/5 * * * *', async () => {
   console.log('Ejecutando envío de alertas para todos los usuarios...');
 
   try {
@@ -36,7 +36,7 @@ cron.schedule('*/2 * * * *', async () => {
             </tr>`
           ).join('');
 
-          asunto = '🌊 Estado marítimo y fenómenos costeros - Weather Alert';
+          asunto = '🌊 Estado marítimo y fenómenos costeros';
           contenidoHTML = `
             <p>¡Hola ${usuario.name}!</p>
             <p>Esta es la situación marítima para tu zona seleccionada: <b>${alerta.titulo}</b></p>
@@ -66,7 +66,7 @@ cron.schedule('*/2 * * * *', async () => {
           const tempMax = prediccion?.temperatura?.maxima || '-';
           const tempMin = prediccion?.temperatura?.minima || '-';
 
-          asunto = '🌤️ Temperaturas máximas y mínimas - Weather Alert';
+          asunto = '🌤️ Temperaturas máximas y mínimas';
           contenidoHTML = `
             <p>¡Hola ${usuario.name}!</p>
             <p>Esta es la predicción actual para <b>${alerta.titulo}</b>:</p>
