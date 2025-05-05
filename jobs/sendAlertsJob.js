@@ -53,7 +53,7 @@ cron.schedule('*/2 * * * *', async () => {
               </tbody>
             </table>
 
-            <p style="margin-top: 20px;">Información oficial facilidada por la AEMET.<br>¡Un saludo!<br>El Equipo de Weather Alert</p>
+            <p style="margin-top: 20px;">¡Un saludo!<br>El Equipo de Weather Alert.<br><i>La información enviada en este correo se ha obtenido directamente desde los servicios ofrecidos por la Agencia Estatal de Meteorología (AEMET).</i></p>
           `;
         } else {
           //ALERTA DE TEMPERATURAS
@@ -88,7 +88,7 @@ cron.schedule('*/2 * * * *', async () => {
               </tbody>
             </table>
 
-            <p style="margin-top: 20px;">Información oficial facilidada por la AEMET.<br>¡Un saludo!<br>El Equipo de Weather Alert</p>
+            <p style="margin-top: 20px;">¡Un saludo!<br>El Equipo de Weather Alert.<br><i>La información enviada en este correo se ha obtenido directamente desde los servicios ofrecidos por la Agencia Estatal de Meteorología (AEMET).</i></p>
           `;
         }
 
