@@ -6,7 +6,7 @@ const User = require('../models/user');
 
 // Programa cada 10 minutos
 //cron.schedule('0 8 * * *', async () => { configuración final de todos los días a las 8 de la mañana.
-cron.schedule('*/10 * * * *', async () => {
+cron.schedule('*/5 * * * *', async () => {
   console.log('⏰ Ejecutando envío de alertas para todos los usuarios...');
 
   try {
