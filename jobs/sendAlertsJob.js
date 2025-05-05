@@ -9,8 +9,10 @@ function delay(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-// Programa cada 5 minutos para pruebas (cambia a '0 8 * * *' en producción)
-cron.schedule('*/3 * * * *', async () => {
+const MAX_INTENTOS = 5; // Número máximo de intentos por alerta
+
+// Programa cada 5 minutos (en producción cambia a: '0 8 * * *')
+cron.schedule('*/5 * * * *', async () => {
   console.log('⏰ Ejecutando envío de alertas para todos los usuarios...');
 
   try {
@@ -27,7 +29,7 @@ cron.schedule('*/3 * * * *', async () => {
       let intento = 0;
       let exito = false;
 
-      while (intento < 3 && !exito) {
+      while (intento < MAX_INTENTOS && !exito) {
         intento++;
 
         try {
@@ -99,8 +101,8 @@ cron.schedule('*/3 * * * *', async () => {
         } catch (errorInterno) {
           console.warn(`⚠️ Intento ${intento} fallido para ${alerta.titulo}:`, errorInterno.message);
 
-          if (intento < 5) {
-            await delay(1000); // espera antes de reintentar
+          if (intento < MAX_INTENTOS) {
+            await delay(2000); // pausa entre reintentos
           }
         }
       }
@@ -112,8 +114,8 @@ cron.schedule('*/3 * * * *', async () => {
             `⚠️ No se pudo procesar tu alerta "${alerta.titulo}"`,
             `
             <p>Hola ${usuario.name},</p>
-            <p>No hemos podido obtener la información meteorológica para tu alerta en <b>${alerta.titulo}</b> después de varios intentos.</p>
-            <p>Se volverá a intentar en el siguiente envío programado.</p>
+            <p>No hemos podido obtener la información meteorológica para tu alerta en <b>${alerta.titulo}</b> después de ${MAX_INTENTOS} intentos.</p>
+            <p>Se volverá a intentar en el próximo envío programado.</p>
             <p>Gracias por tu comprensión,<br>— El equipo de Weather Alert</p>
             `
           );
