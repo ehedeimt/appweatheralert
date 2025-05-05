@@ -1,3 +1,8 @@
+/*
+authControler.js --> Autenticación del backend en Node.js permite el registro de usuarios, 
+login con el token generado y hasheaar la contraseña para permitir el login.
+*/
+
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
