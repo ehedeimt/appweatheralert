@@ -7,7 +7,7 @@ const User = require('../models/user');
 // Programa cada 10 minutos
 //cron.schedule('0 8 * * *', async () => { configuración final de todos los días a las 8 de la mañana.
 cron.schedule('*/5 * * * *', async () => {
-  console.log('⏰ Ejecutando envío de alertas para todos los usuarios...');
+  console.log('Ejecutando envío de alertas para todos los usuarios...');
 
   try {
     const alertas = await Alerta.findAll();
@@ -17,7 +17,7 @@ cron.schedule('*/5 * * * *', async () => {
         const usuario = await User.findByPk(alerta.usuario_id);
 
         if (!usuario || !usuario.email) {
-          console.warn(`⚠️ No se encontró email para el usuario ID ${alerta.usuario_id}`);
+          console.warn(`No se encontró email para el usuario ID ${alerta.usuario_id}`);
           continue;
         }
 
@@ -25,7 +25,7 @@ cron.schedule('*/5 * * * *', async () => {
         let contenidoHTML = '';
 
         if (alerta.descripcion?.toLowerCase().includes('marítimo')) {
-          // 🌊 ALERTA DE COSTAS
+          //ALERTA DE COSTAS
           const respuestaCostas = await axios.get(`https://appweatheralert-production.up.railway.app/api/aemet/costas/${alerta.municipio_id}`);
           const zonas = respuestaCostas.data;
 
@@ -36,7 +36,7 @@ cron.schedule('*/5 * * * *', async () => {
             </tr>`
           ).join('');
 
-          asunto = '🌊 Estado marítimo - Weather Alert';
+          asunto = '🌊 Estado marítimo y fenómenos costeros - Weather Alert';
           contenidoHTML = `
             <p>¡Hola ${usuario.name}!</p>
             <p>Esta es la situación marítima para tu zona seleccionada: <b>${alerta.titulo}</b></p>
@@ -53,20 +53,20 @@ cron.schedule('*/5 * * * *', async () => {
               </tbody>
             </table>
 
-            <p style="margin-top: 20px;">⚓ Información oficial de AEMET.<br>¡Cuídate!<br>— Equipo de Weather Alert</p>
+            <p style="margin-top: 20px;">Información oficial facilidada por la AEMET.<br>¡Un saludo!<br>— El Equipo de Weather Alert</p>
           `;
         } else {
-          // 🌡️ ALERTA DE TEMPERATURAS
+          //ALERTA DE TEMPERATURAS
           const respuesta = await axios.get(`https://appweatheralert-production.up.railway.app/api/aemet/prediccion/${alerta.municipio_id}`);
 
-          console.log(`📩 Predicción recibida para ${alerta.titulo}:`);
+          console.log(`Predicción recibida para ${alerta.titulo}:`);
           console.log(JSON.stringify(respuesta.data, null, 2));
 
           const prediccion = respuesta.data[0]?.prediccion?.dia?.[0];
           const tempMax = prediccion?.temperatura?.maxima || '-';
           const tempMin = prediccion?.temperatura?.minima || '-';
 
-          asunto = '🌤️ Predicción meteorológica - Weather Alert';
+          asunto = '🌤️ Temperaturas máximas y mínimas - Weather Alert';
           contenidoHTML = `
             <p>¡Hola ${usuario.name}!</p>
             <p>Esta es la predicción actual para <b>${alerta.titulo}</b>:</p>
@@ -88,18 +88,18 @@ cron.schedule('*/5 * * * *', async () => {
               </tbody>
             </table>
 
-            <p style="margin-top: 20px;">☀️ ¡Que tengas un buen día!<br>— Equipo de Weather Alert</p>
+            <p style="margin-top: 20px;">Información oficial facilidada por la AEMET.<br>¡Un saludo!<br>— El Equipo de Weather Alert</p>
           `;
         }
 
         await enviarCorreo(usuario.email, asunto, contenidoHTML);
-        console.log(`✅ Correo enviado a ${usuario.email} para la alerta "${alerta.titulo}".`);
+        console.log(`Correo enviado a ${usuario.email} para la alerta "${alerta.titulo}".`);
 
       } catch (errorInterno) {
-        console.error('⚡ Error interno procesando alerta:', errorInterno.message);
+        console.error('Error interno procesando alerta:', errorInterno.message);
       }
     }
   } catch (error) {
-    console.error('❌ Error general en job de envío de alertas:', error.message);
+    console.error('Error general en job de envío de alertas:', error.message);
   }
 });
