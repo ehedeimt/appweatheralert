@@ -4,7 +4,12 @@ const { enviarCorreo } = require('../utils/emailSender');
 const Alerta = require('../models/alerta');
 const User = require('../models/user');
 
-// Programa cada 5 minutos para pruebas (cambiar a '0 8 * * *' en producción)
+// 🕐 Función para pausar entre alertas
+function delay(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+// Programa cada 5 minutos (en producción usar: '0 8 * * *')
 cron.schedule('*/5 * * * *', async () => {
   console.log('⏰ Ejecutando envío de alertas para todos los usuarios...');
 
@@ -96,7 +101,7 @@ cron.schedule('*/5 * * * *', async () => {
       } catch (errorInterno) {
         console.error(`❌ Error interno procesando alerta "${alerta.titulo}" (${alerta.municipio_id}):`, errorInterno.message);
 
-        // 📨 Enviar correo informando del fallo
+        // Notificar al usuario el error
         try {
           await enviarCorreo(
             usuario.email,
@@ -113,6 +118,9 @@ cron.schedule('*/5 * * * *', async () => {
           console.error(`❌ También falló el envío del correo de error:`, correoError.message);
         }
       }
+
+      // 🕐 Espera 1 segundo antes de la siguiente alerta
+      await delay(1000);
     }
   } catch (error) {
     console.error('❌ Error general en job de envío de alertas:', error.message);
