@@ -12,7 +12,7 @@ function delay(ms) {
 const MAX_INTENTOS = 5; // Número máximo de intentos por alerta
 
 // Programa cada 5 minutos (en producción cambia a: '0 8 * * *')
-cron.schedule('*/5 * * * *', async () => {
+cron.schedule('*/2 * * * *', async () => {
   console.log('⏰ Ejecutando envío de alertas para todos los usuarios...');
 
   try {
