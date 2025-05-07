@@ -134,6 +134,28 @@ router.get('/mapa-incendios', async (req, res) => {
   }
 });
 
+//CONSULTA ALERTAS POR PLAYA
+router.get('/playa/:codigo', async (req, res) => {
+  const codigo = req.params.codigo;
+
+  try {
+    const respuesta = await axios.get(`https://opendata.aemet.es/opendata/api/prediccion/especifica/playa/${codigo}`, {
+      params: { api_key: process.env.AEMET_API_KEY }
+    });
+
+    const urlDatos = respuesta.data?.datos;
+    if (!urlDatos) {
+      return res.status(500).json({ error: 'No se recibió URL de datos de playa' });
+    }
+
+    const datosPlaya = await axios.get(urlDatos);
+    res.json(datosPlaya.data);
+  } catch (error) {
+    console.error('❌ Error al obtener predicción de playa:', error.message);
+    res.status(500).json({ error: 'No se pudo obtener la predicción de playa' });
+  }
+});
+
 
 
 module.exports = router;
