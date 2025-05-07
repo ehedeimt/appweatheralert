@@ -133,7 +133,40 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // === ALERTA POR PLAYAS ===
+
+  const provinciaSelect = document.getElementById('provinciaSelect');
   const playaSelect = document.getElementById('playaSelect');
+
+  // Cargar provincias
+  const provincias = Object.keys(playasPorProvincia).sort();
+  provincias.forEach(prov => {
+    const opt = document.createElement('option');
+    opt.value = prov;
+    opt.textContent = prov;
+    provinciaSelect.appendChild(opt);
+  });
+
+  provinciaSelect.addEventListener('change', () => {
+    const provincia = provinciaSelect.value;
+    playaSelect.innerHTML = '';
+
+    if (!provincia || !playasPorProvincia[provincia]) {
+      playaSelect.innerHTML = '<option value="">-- Primero elige provincia --</option>';
+      return;
+    }
+
+    playasPorProvincia[provincia].forEach(([nombre, id]) => {
+      const option = document.createElement('option');
+      option.value = id;
+      option.textContent = nombre;
+      playaSelect.appendChild(option);
+    });
+  });
+
+  // Cargar predicción playa
+  playaSelect.addEventListener('change', () => {
+    cargarPrediccionPlaya(playaSelect.value);
+  });
 
   function cargarPrediccionPlaya(codigoPlaya) {
     fetch(`/api/aemet/playa/${codigoPlaya}`)
@@ -143,18 +176,13 @@ document.addEventListener('DOMContentLoaded', () => {
       })
       .then(data => {
         const hoy = data[0]?.prediccion?.dia?.[0];
-  
-        if (!hoy) {
-          console.warn("No se encontró predicción para hoy");
-          return;
-        }
-  
-        // Formatear la fecha de YYYYMMDD a DD/MM/YYYY
+        if (!hoy) return;
+
         const rawFecha = hoy.fecha?.toString() || '';
         const fechaFormateada = rawFecha.length === 8
           ? `${rawFecha.slice(6, 8)}/${rawFecha.slice(4, 6)}/${rawFecha.slice(0, 4)}`
           : '-';
-  
+
         document.getElementById('tdFechaPlaya').textContent = fechaFormateada;
         document.getElementById('tdCieloPlaya').textContent = hoy.estadoCielo?.descripcion1 || '-';
         document.getElementById('tdUV').textContent = hoy.uvMax?.valor1 || '-';
@@ -167,17 +195,10 @@ document.addEventListener('DOMContentLoaded', () => {
         console.error('Error al cargar predicción de playa:', err.message);
       });
   }
-  
-
-  playaSelect.addEventListener('change', () => {
-    cargarPrediccionPlaya(playaSelect.value);
-  });
-
-  cargarPrediccionPlaya(playaSelect.value);
 
   document.getElementById('guardarAlertaPlayaBtn').addEventListener('click', () => {
     const playaId = playaSelect.value;
-    const playaNombre = playaSelect.options[playaSelect.selectedIndex].text;
+    const playaNombre = playaSelect.options[playaSelect.selectedIndex]?.text;
 
     fetch('/api/alertas', {
       method: 'POST',
