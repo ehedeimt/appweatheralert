@@ -68,4 +68,44 @@ router.get('/avisos/:provinciaId', async (req, res) => {
   }
 });
 
+// Predicción marítima por zona costera
+router.get('/costas/:zonaId', async (req, res) => {
+  const zonaId = req.params.zonaId;
+  const apiKey = process.env.AEMET_API_KEY;
+
+  try {
+    const respuesta = await axios.get(`https://opendata.aemet.es/opendata/api/prediccion/maritima/costera/costa/${zonaId}`, {
+      params: { api_key: apiKey }
+    });
+
+    const urlDatos = respuesta.data?.datos;
+    if (!urlDatos) {
+      return res.status(500).json({ error: 'No se recibió URL válida de datos marítimos' });
+    }
+
+    const datosCostas = await axios.get(urlDatos);
+    const zonas = datosCostas.data[0]?.prediccion?.zona;
+
+    if (!Array.isArray(zonas)) {
+      return res.status(500).json({ error: 'Estructura inesperada en la respuesta de zonas marítimas' });
+    }
+
+    const resultado = [];
+
+    zonas.forEach(zona => {
+      zona.subzona?.forEach(subzona => {
+        resultado.push({
+          nombre: subzona.nombre,
+          estado: subzona.texto
+        });
+      });
+    });
+
+    res.json(resultado);
+  } catch (error) {
+    console.error('❌ Error al obtener predicción de costas:', error.message);
+    res.status(500).json({ error: 'No se pudo obtener la predicción de costas' });
+  }
+});
+
 module.exports = router;
