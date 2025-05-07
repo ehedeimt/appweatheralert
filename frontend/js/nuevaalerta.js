@@ -137,20 +137,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function cargarPrediccionPlaya(codigoPlaya) {
     fetch(`/api/aemet/playa/${codigoPlaya}`)
-      .then(async res => {
-        if (!res.ok) {
-          const html = await res.text();
-          console.error('Respuesta de playa inválida:', html);
-          throw new Error('No se pudo obtener la predicción de playa');
-        }
+      .then(res => {
+        if (!res.ok) throw new Error('No se pudo obtener la predicción de playa');
         return res.json();
       })
       .then(data => {
-        const hoy = data[0]?.prediccion?.[0];
-
-        document.getElementById('tdCieloPlaya').textContent = hoy?.estadoCielo || '-';
-        document.getElementById('tdUV').textContent = hoy?.indiceUV || '-';
-        document.getElementById('tdTempAgua').textContent = hoy?.temperaturaAgua || '-';
+        const hoy = data[0]?.prediccion?.dia?.[0];
+  
+        if (!hoy) {
+          console.warn("No se encontró predicción para hoy");
+          return;
+        }
+  
+        document.getElementById('tdCieloPlaya').textContent = hoy.estadoCielo?.descripcion1 || '-';
+        document.getElementById('tdUV').textContent = hoy.uvMax?.valor1 || '-';
+        document.getElementById('tdTempAgua').textContent = hoy.tAgua?.valor1 || '-';
       })
       .catch(err => {
         console.error('Error al cargar predicción de playa:', err.message);
