@@ -4,14 +4,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function cargarPrediccion(municipioId) {
     fetch(`/api/aemet/prediccion/${municipioId}`)
-      .then(res => {
-        if (!res.ok) throw new Error('No se pudo obtener la predicción');
+      .then(async res => {
+        if (!res.ok) {
+          const errorText = await res.text();
+          console.error('Respuesta inválida:', errorText);
+          throw new Error('No se pudo obtener la predicción');
+        }
         return res.json();
       })
       .then(data => {
-        const hoy = data[0].prediccion.dia[0];
-        document.getElementById('tdTempMax').textContent = hoy.temperatura?.maxima || '-';
-        document.getElementById('tdTempMin').textContent = hoy.temperatura?.minima || '-';
+        const hoy = data[0]?.prediccion?.dia?.[0];
+        document.getElementById('tdTempMax').textContent = hoy?.temperatura?.maxima || '-';
+        document.getElementById('tdTempMin').textContent = hoy?.temperatura?.minima || '-';
       })
       .catch(err => {
         console.error('Error al cargar la predicción:', err.message);
@@ -59,8 +63,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function cargarPrediccionCostas(zonaId) {
     fetch(`/api/aemet/costas/${zonaId}`)
-      .then(res => {
-        if (!res.ok) throw new Error('No se pudo obtener la predicción marítima');
+      .then(async res => {
+        if (!res.ok) {
+          const errorText = await res.text();
+          console.error('Respuesta costas inválida:', errorText);
+          throw new Error('No se pudo obtener la predicción marítima');
+        }
         return res.json();
       })
       .then(data => {
@@ -129,8 +137,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function cargarPrediccionPlaya(codigoPlaya) {
     fetch(`/api/aemet/playa/${codigoPlaya}`)
-      .then(res => {
-        if (!res.ok) throw new Error('No se pudo obtener la predicción de playa');
+      .then(async res => {
+        if (!res.ok) {
+          const html = await res.text();
+          console.error('Respuesta de playa inválida:', html);
+          throw new Error('No se pudo obtener la predicción de playa');
+        }
         return res.json();
       })
       .then(data => {
