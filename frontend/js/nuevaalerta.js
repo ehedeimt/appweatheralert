@@ -10,7 +10,6 @@ document.addEventListener('DOMContentLoaded', () => {
       })
       .then(data => {
         const hoy = data[0].prediccion.dia[0];
-
         document.getElementById('tdTempMax').textContent = hoy.temperatura?.maxima || '-';
         document.getElementById('tdTempMin').textContent = hoy.temperatura?.minima || '-';
       })
@@ -45,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!res.ok) throw new Error('No se pudo guardar la alerta');
         return res.json();
       })
-      .then(data => {
+      .then(() => {
         alert('Alerta de temperatura guardada correctamente');
         window.location.href = 'misalertas.html';
       })
@@ -66,7 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
       })
       .then(data => {
         const tbody = document.getElementById('tbodyCostas');
-        tbody.innerHTML = ''; // Limpiar contenido anterior
+        tbody.innerHTML = '';
 
         if (!Array.isArray(data) || data.length === 0) {
           const row = document.createElement('tr');
@@ -121,6 +120,63 @@ document.addEventListener('DOMContentLoaded', () => {
       })
       .catch(err => {
         console.error('Error al guardar alerta marítima:', err.message);
+        alert('No se pudo guardar la alerta');
+      });
+  });
+
+  // === ALERTA POR PLAYAS ===
+  const playaSelect = document.getElementById('playaSelect');
+
+  function cargarPrediccionPlaya(codigoPlaya) {
+    fetch(`/api/aemet/playa/${codigoPlaya}`)
+      .then(res => {
+        if (!res.ok) throw new Error('No se pudo obtener la predicción de playa');
+        return res.json();
+      })
+      .then(data => {
+        const hoy = data[0]?.prediccion?.[0];
+
+        document.getElementById('tdCieloPlaya').textContent = hoy?.estadoCielo || '-';
+        document.getElementById('tdUV').textContent = hoy?.indiceUV || '-';
+        document.getElementById('tdTempAgua').textContent = hoy?.temperaturaAgua || '-';
+      })
+      .catch(err => {
+        console.error('Error al cargar predicción de playa:', err.message);
+      });
+  }
+
+  playaSelect.addEventListener('change', () => {
+    cargarPrediccionPlaya(playaSelect.value);
+  });
+
+  cargarPrediccionPlaya(playaSelect.value);
+
+  document.getElementById('guardarAlertaPlayaBtn').addEventListener('click', () => {
+    const playaId = playaSelect.value;
+    const playaNombre = playaSelect.options[playaSelect.selectedIndex].text;
+
+    fetch('/api/alertas', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('token')
+      },
+      body: JSON.stringify({
+        titulo: playaNombre,
+        municipio_id: playaId,
+        descripcion: 'Predicción para playa'
+      })
+    })
+      .then(res => {
+        if (!res.ok) throw new Error('No se pudo guardar la alerta');
+        return res.json();
+      })
+      .then(() => {
+        alert('Alerta de playa guardada correctamente');
+        window.location.href = 'misalertas.html';
+      })
+      .catch(err => {
+        console.error('Error al guardar alerta de playa:', err.message);
         alert('No se pudo guardar la alerta');
       });
   });
