@@ -149,14 +149,25 @@ document.addEventListener('DOMContentLoaded', () => {
           return;
         }
   
+        // Formatear la fecha de YYYYMMDD a DD/MM/YYYY
+        const rawFecha = hoy.fecha?.toString() || '';
+        const fechaFormateada = rawFecha.length === 8
+          ? `${rawFecha.slice(6, 8)}/${rawFecha.slice(4, 6)}/${rawFecha.slice(0, 4)}`
+          : '-';
+  
+        document.getElementById('tdFechaPlaya').textContent = fechaFormateada;
         document.getElementById('tdCieloPlaya').textContent = hoy.estadoCielo?.descripcion1 || '-';
         document.getElementById('tdUV').textContent = hoy.uvMax?.valor1 || '-';
         document.getElementById('tdTempAgua').textContent = hoy.tAgua?.valor1 || '-';
+        document.getElementById('tdOleaje').textContent = hoy.oleaje?.descripcion1 || '-';
+        document.getElementById('tdViento').textContent = hoy.viento?.descripcion1 || '-';
+        document.getElementById('tdSTermica').textContent = hoy.sTermica?.descripcion1 || hoy.stermica?.descripcion1 || '-';
       })
       .catch(err => {
         console.error('Error al cargar predicción de playa:', err.message);
       });
   }
+  
 
   playaSelect.addEventListener('change', () => {
     cargarPrediccionPlaya(playaSelect.value);
