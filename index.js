@@ -17,6 +17,12 @@ const port = process.env.PORT || 3000;
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'frontend')));
 
+// 🔧 Middleware para forzar codificación UTF-8 en respuestas JSON
+app.use((req, res, next) => {
+  res.setHeader('Content-Type', 'application/json; charset=utf-8');
+  next();
+});
+
 // Rutas API
 app.use('/api/users', userRoutes);
 app.use('/api/auth', authRoutes);
@@ -34,8 +40,8 @@ sequelize.authenticate()
   .then(() => console.log('Conectado a la base de datos'))
   .catch(error => console.error('Error al conectar a la BBDD:', error));
 
-require('./jobs/sendAlertsJob'); //Carga y ejecuta el cron
-
+// Carga y ejecuta el cron de envío de alertas
+require('./jobs/sendAlertsJob');
 
 // Arrancar servidor
 app.listen(port, () => {

@@ -127,7 +127,7 @@ router.get('/playa/:codigo', async (req, res) => {
 
     // 🧩 Paso importante: usar arraybuffer y decodificar ISO-8859-1
     const respuestaDatos = await axios.get(urlDatos, { responseType: 'arraybuffer' });
-    const decoded = iconv.decode(Buffer.from(respuestaDatos.data), 'ISO-8859-1'); // También puedes probar 'latin1'
+    const decoded = iconv.decode(Buffer.from(respuestaDatos.data), 'ISO-8859-1');
 
     const datosPlaya = JSON.parse(decoded);
 
