@@ -4,14 +4,12 @@ const { enviarCorreo } = require('../utils/emailSender');
 const Alerta = require('../models/alerta');
 const User = require('../models/user');
 
-// 🕐 Pausa entre envíos
 function delay(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-const MAX_INTENTOS = 5; // Número máximo de intentos por alerta
+const MAX_INTENTOS = 5;
 
-// Programa cada 5 minutos (en producción cambia a: '0 8 * * *')
 cron.schedule('*/5 * * * *', async () => {
   console.log('⏰ Ejecutando envío de alertas para todos los usuarios...');
 
@@ -20,7 +18,6 @@ cron.schedule('*/5 * * * *', async () => {
 
     for (const alerta of alertas) {
       const usuario = await User.findByPk(alerta.usuario_id);
-
       if (!usuario || !usuario.email) {
         console.warn(`⚠️ No se encontró email para el usuario ID ${alerta.usuario_id}`);
         continue;
@@ -31,40 +28,77 @@ cron.schedule('*/5 * * * *', async () => {
 
       while (intento < MAX_INTENTOS && !exito) {
         intento++;
-
         try {
           let asunto = '';
           let contenidoHTML = '';
 
           if (alerta.descripcion?.toLowerCase().includes('marítimo')) {
-            // 🌊 ALERTA DE COSTAS
-            const respuestaCostas = await axios.get(`https://appweatheralert-production.up.railway.app/api/aemet/costas/${alerta.municipio_id}`);
-            const zonas = respuestaCostas.data;
+            // 🌊 COSTAS
+            const respuesta = await axios.get(`https://appweatheralert-production.up.railway.app/api/aemet/costas/${alerta.municipio_id}`);
+            const zonas = respuesta.data;
 
             const filas = zonas.map(z =>
-              `<tr>
-                <td style="padding: 8px; border: 1px solid #ddd;">${z.nombre}</td>
-                <td style="padding: 8px; border: 1px solid #ddd;">${z.estado}</td>
-              </tr>`
+              `<tr><td style="padding:8px;border:1px solid #ddd;">${z.nombre}</td><td style="padding:8px;border:1px solid #ddd;">${z.estado}</td></tr>`
             ).join('');
 
             asunto = '🌊 Estado marítimo y fenómenos costeros';
             contenidoHTML = `
               <p>¡Hola ${usuario.name}!</p>
-              <p>Esta es la situación marítima para tu zona seleccionada: <b>${alerta.titulo}</b></p>
-              <table style="border-collapse: collapse; width: 100%; max-width: 600px; margin-top: 10px;">
-                <thead>
-                  <tr style="background-color: #F26E22; color: white;">
-                    <th style="padding: 8px; border: 1px solid #ddd;">Subzona</th>
-                    <th style="padding: 8px; border: 1px solid #ddd;">Estado</th>
-                  </tr>
-                </thead>
+              <p>Situación marítima para <b>${alerta.titulo}</b>:</p>
+              <table style="border-collapse: collapse; width:100%; max-width:600px;">
+                <thead><tr style="background:#F26E22;color:white;">
+                  <th style="padding:8px;border:1px solid #ddd;">Subzona</th>
+                  <th style="padding:8px;border:1px solid #ddd;">Estado</th>
+                </tr></thead>
                 <tbody>${filas}</tbody>
               </table>
-              <p style="margin-top: 20px;">¡Un saludo!<br>El Equipo de Weather Alert.<br><i>La información enviada se ha obtenido directamente desde la AEMET.</i></p>
-            `;
+              <p style="margin-top:20px;">— Equipo de Weather Alert</p>`;
+          
+          } else if (alerta.descripcion?.toLowerCase().includes('playa')) {
+            // 🏖️ PLAYAS
+            const respuesta = await axios.get(`https://appweatheralert-production.up.railway.app/api/aemet/playa/${alerta.municipio_id}`);
+            const dia = respuesta.data?.[0]?.prediccion?.dia?.[0];
+
+            const fecha = dia?.fecha?.toString();
+            const formateada = fecha?.length === 8 ? `${fecha.slice(6,8)}/${fecha.slice(4,6)}/${fecha.slice(0,4)}` : '-';
+
+            const cielo = dia?.estadoCielo?.descripcion1 || '-';
+            const viento = dia?.viento?.descripcion1 || '-';
+            const oleaje = dia?.oleaje?.descripcion1 || '-';
+            const termica = dia?.sTermica?.descripcion1 || dia?.stermica?.descripcion1 || '-';
+            const tAgua = dia?.tAgua?.valor1 || '-';
+            const uv = dia?.uvMax?.valor1 || '-';
+
+            asunto = '🏖️ Condiciones en playa';
+            contenidoHTML = `
+              <p>Hola ${usuario.name},</p>
+              <p>Predicción para la playa <b>${alerta.titulo}</b> el día <b>${formateada}</b>:</p>
+              <table style="border-collapse: collapse; width:100%; max-width:500px;">
+                <thead>
+                  <tr style="background:#F26E22; color:white;">
+                    <th style="padding:8px;border:1px solid #ddd;">Cielo</th>
+                    <th style="padding:8px;border:1px solid #ddd;">Viento</th>
+                    <th style="padding:8px;border:1px solid #ddd;">Oleaje</th>
+                    <th style="padding:8px;border:1px solid #ddd;">Sensación</th>
+                    <th style="padding:8px;border:1px solid #ddd;">Temp. agua</th>
+                    <th style="padding:8px;border:1px solid #ddd;">Índice UV</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td style="padding:8px;border:1px solid #ddd;">${cielo}</td>
+                    <td style="padding:8px;border:1px solid #ddd;">${viento}</td>
+                    <td style="padding:8px;border:1px solid #ddd;">${oleaje}</td>
+                    <td style="padding:8px;border:1px solid #ddd;">${termica}</td>
+                    <td style="padding:8px;border:1px solid #ddd;">${tAgua} ºC</td>
+                    <td style="padding:8px;border:1px solid #ddd;">${uv}</td>
+                  </tr>
+                </tbody>
+              </table>
+              <p style="margin-top:20px;">Disfruta del día ☀️<br>— Equipo de Weather Alert</p>`;
+          
           } else {
-            // 🌡️ ALERTA DE TEMPERATURAS
+            // 🌡️ TEMPERATURAS
             const respuesta = await axios.get(`https://appweatheralert-production.up.railway.app/api/aemet/prediccion/${alerta.municipio_id}`);
             const prediccion = respuesta.data[0]?.prediccion?.dia?.[0];
             const tempMax = prediccion?.temperatura?.maxima || '-';
@@ -72,38 +106,34 @@ cron.schedule('*/5 * * * *', async () => {
 
             asunto = '🌤️ Temperaturas máximas y mínimas';
             contenidoHTML = `
-              <p>¡Hola ${usuario.name}!</p>
-              <p>Esta es la predicción actual para <b>${alerta.titulo}</b>:</p>
-              <table style="border-collapse: collapse; width: 100%; max-width: 400px; margin-top: 10px;">
+              <p>Hola ${usuario.name},</p>
+              <p>Predicción para <b>${alerta.titulo}</b>:</p>
+              <table style="border-collapse: collapse; width:100%; max-width:400px;">
                 <thead>
-                  <tr style="background-color: #F26E22; color: white;">
-                    <th style="padding: 8px; border: 1px solid #ddd;">Ciudad</th>
-                    <th style="padding: 8px; border: 1px solid #ddd;">Temp. Máxima</th>
-                    <th style="padding: 8px; border: 1px solid #ddd;">Temp. Mínima</th>
+                  <tr style="background:#F26E22; color:white;">
+                    <th style="padding:8px;border:1px solid #ddd;">Ciudad</th>
+                    <th style="padding:8px;border:1px solid #ddd;">Máxima</th>
+                    <th style="padding:8px;border:1px solid #ddd;">Mínima</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td style="padding: 8px; border: 1px solid #ddd;">${alerta.titulo}</td>
-                    <td style="padding: 8px; border: 1px solid #ddd;">${tempMax} ºC</td>
-                    <td style="padding: 8px; border: 1px solid #ddd;">${tempMin} ºC</td>
+                    <td style="padding:8px;border:1px solid #ddd;">${alerta.titulo}</td>
+                    <td style="padding:8px;border:1px solid #ddd;">${tempMax} ºC</td>
+                    <td style="padding:8px;border:1px solid #ddd;">${tempMin} ºC</td>
                   </tr>
                 </tbody>
               </table>
-              <p style="margin-top: 20px;">¡Un saludo!<br>El Equipo de Weather Alert.<br><i>La información enviada se ha obtenido directamente desde la AEMET.</i></p>
-            `;
+              <p style="margin-top:20px;">Saludos,<br>Equipo Weather Alert</p>`;
           }
 
           await enviarCorreo(usuario.email, asunto, contenidoHTML);
-          console.log(`✅ Correo enviado a ${usuario.email} para la alerta "${alerta.titulo}".`);
+          console.log(`✅ Correo enviado a ${usuario.email} para "${alerta.titulo}"`);
           exito = true;
 
         } catch (errorInterno) {
-          console.warn(`⚠️ Intento ${intento} fallido para ${alerta.titulo}:`, errorInterno.message);
-
-          if (intento < MAX_INTENTOS) {
-            await delay(2000); // pausa entre reintentos
-          }
+          console.warn(`⚠️ Intento ${intento} fallido para ${alerta.titulo}: ${errorInterno.message}`);
+          if (intento < MAX_INTENTOS) await delay(2000);
         }
       }
 
@@ -111,23 +141,18 @@ cron.schedule('*/5 * * * *', async () => {
         try {
           await enviarCorreo(
             usuario.email,
-            `⚠️ No se pudo procesar tu alerta "${alerta.titulo}"`,
-            `
-            <p>Hola ${usuario.name},</p>
-            <p>No hemos podido obtener la información meteorológica para tu alerta en <b>${alerta.titulo}</b> después de ${MAX_INTENTOS} intentos.</p>
-            <p>Se volverá a intentar en el próximo envío programado.</p>
-            <p>Gracias por tu comprensión,<br>— El equipo de Weather Alert</p>
-            `
+            `⚠️ Error al procesar tu alerta "${alerta.titulo}"`,
+            `<p>No se pudo obtener información tras ${MAX_INTENTOS} intentos.<br>Volveremos a intentarlo en el próximo envío.</p>`
           );
-          console.log(`📬 Correo de error enviado a ${usuario.email} por la alerta "${alerta.titulo}".`);
+          console.log(`📩 Correo de error enviado a ${usuario.email}`);
         } catch (correoError) {
-          console.error(`❌ También falló el correo de error para ${usuario.email}:`, correoError.message);
+          console.error(`❌ Falló el correo de error para ${usuario.email}: ${correoError.message}`);
         }
       }
 
-      await delay(1000); // pausa entre alertas
+      await delay(1000);
     }
   } catch (error) {
-    console.error('❌ Error general en job de envío de alertas:', error.message);
+    console.error('❌ Error general en job de envío:', error.message);
   }
 });
