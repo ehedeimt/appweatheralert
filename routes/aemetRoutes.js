@@ -193,7 +193,7 @@ router.get('/montana/:area/:dia', async (req, res) => {
 
   try {
     const respuesta = await axios.get(
-      `https://opendata.aemet.es/opendata/api/prediccion/especifica/montana/area/${area}/dia/${dia}`,
+      `https://opendata.aemet.es/opendata/api/prediccion/especifica/montaña/pasada/area/${area}/dia/${dia}`,
       {
         params: { api_key: apiKey }
       }
