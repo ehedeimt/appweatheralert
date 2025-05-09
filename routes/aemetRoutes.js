@@ -187,27 +187,37 @@ router.get('/playa/:codigo', async (req, res) => {
 });
 
 //Predicción de montaña
-router.get('/montana/:areaId/:dia', async (req, res) => {
-  const areaId = req.params.areaId;
-  const dia = req.params.dia; // 0 para hoy, 1 para mañana, etc.
+const iconv = require('iconv-lite');
+
+router.get('/montana/:area/:dia', async (req, res) => {
+  const { area, dia } = req.params;
   const apiKey = process.env.AEMET_API_KEY;
 
   try {
-    const url = `https://opendata.aemet.es/opendata/api/prediccion/especifica/montaña/pasada/area/${areaId}/dia/${dia}`;
-    const respuesta = await axios.get(url, { params: { api_key: apiKey } });
+    const respuesta = await axios.get(
+      `https://opendata.aemet.es/opendata/api/prediccion/especifica/montana/pasada/area/${area}/dia/${dia}`,
+      {
+        params: { api_key: apiKey }
+      }
+    );
 
-    const datosURL = respuesta.data?.datos;
-    if (!datosURL) {
+    const urlDatos = respuesta.data?.datos;
+    if (!urlDatos) {
       return res.status(500).json({ error: 'No se recibió URL de datos de montaña' });
     }
 
-    const respuestaDatos = await axios.get(datosURL);
-    res.json(respuestaDatos.data);
+    // 👇 Decode manualmente como ISO-8859-1
+    const respuestaDatos = await axios.get(urlDatos, { responseType: 'arraybuffer' });
+    const decoded = iconv.decode(Buffer.from(respuestaDatos.data), 'ISO-8859-1');
+    const datosMontana = JSON.parse(decoded);
+
+    res.json(datosMontana);
   } catch (error) {
     console.error('❌ Error al obtener predicción de montaña:', error.message);
     res.status(500).json({ error: 'No se pudo obtener la predicción de montaña' });
   }
 });
+
 
 
 
