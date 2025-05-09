@@ -218,8 +218,4 @@ router.get('/montana/:area/:dia', async (req, res) => {
   }
 });
 
-
-
-
-
 module.exports = router;
