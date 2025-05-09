@@ -225,4 +225,76 @@ document.addEventListener('DOMContentLoaded', () => {
         alert('No se pudo guardar la alerta');
       });
   });
+// === ALERTA DE MONTAÑA ===
+const areaMontanaSelect = document.getElementById('areaMontanaSelect');
+const diaMontanaSelect = document.getElementById('diaMontanaSelect');
+
+function cargarPrediccionMontana(areaId, dia) {
+  if (!areaId || dia === '') return;
+
+  fetch(`/api/aemet/montana/${areaId}/${dia}`)
+    .then(res => {
+      if (!res.ok) throw new Error('No se pudo obtener la predicción de montaña');
+      return res.json();
+    })
+    .then(data => {
+      const secciones = data[0]?.seccion || [];
+      const prediccion = secciones.find(s => s.nombre === 'prediccion');
+      const atmosferalibre = secciones.find(s => s.nombre === 'atmosferalibre');
+      const sensacion = secciones.find(s => s.nombre === 'sensacion_termica');
+
+      const predHTML = prediccion?.apartado.map(ap => `<p><strong>${ap.cabecera}:</strong> ${ap.texto}</p>`).join('') || '';
+      const atmoHTML = atmosferalibre?.apartado.map(ap => `<p><strong>${ap.cabecera}:</strong> ${ap.texto}</p>`).join('') || '';
+      const sensHTML = sensacion?.lugar.map(l =>
+        `<p><strong>${l.nombre} (${l.altitud}):</strong> Mín: ${l.minima} ºC, Máx: ${l.maxima} ºC</p>`
+      ).join('') || '';
+
+      document.getElementById('resultadoMontana').innerHTML = predHTML + atmoHTML + sensHTML;
+    })
+    .catch(err => {
+      console.error('Error al cargar predicción de montaña:', err.message);
+      document.getElementById('resultadoMontana').innerHTML = '<p>Error al cargar la predicción</p>';
+    });
+}
+
+areaMontanaSelect.addEventListener('change', () => {
+  cargarPrediccionMontana(areaMontanaSelect.value, diaMontanaSelect.value);
+});
+
+diaMontanaSelect.addEventListener('change', () => {
+  cargarPrediccionMontana(areaMontanaSelect.value, diaMontanaSelect.value);
+});
+
+document.getElementById('guardarAlertaMontanaBtn').addEventListener('click', () => {
+  const area = areaMontanaSelect.value;
+  const dia = diaMontanaSelect.value;
+  const titulo = `${area} - Día ${dia}`;
+
+  if (!area || dia === '') return alert('Selecciona área y día');
+
+  fetch('/api/alertas', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + localStorage.getItem('token')
+    },
+    body: JSON.stringify({
+      titulo,
+      municipio_id: `${area}_${dia}`,
+      descripcion: 'Predicción de montaña'
+    })
+  })
+    .then(res => {
+      if (!res.ok) throw new Error('No se pudo guardar la alerta');
+      return res.json();
+    })
+    .then(() => {
+      alert('Alerta de montaña guardada correctamente');
+      window.location.href = 'misalertas.html';
+    })
+    .catch(err => {
+      console.error('Error al guardar alerta de montaña:', err.message);
+      alert('No se pudo guardar la alerta');
+    });
+});
 });
