@@ -44,7 +44,7 @@ cron.schedule('*/5 * * * *', async () => {
             asunto = '🌊 Estado marítimo y fenómenos costeros';
             contenidoHTML = `
               <p>¡Hola ${usuario.name}!</p>
-              <p>Situación marítima para <b>${alerta.titulo}</b>:</p>
+              <p>La situación marítima para <b>${alerta.titulo}</b>:</p>
               <table style="border-collapse: collapse; width:100%; max-width:600px;">
                 <thead><tr style="background:#F26E22;color:white;">
                   <th style="padding:8px;border:1px solid #ddd;">Subzona</th>
@@ -52,7 +52,7 @@ cron.schedule('*/5 * * * *', async () => {
                 </tr></thead>
                 <tbody>${filas}</tbody>
               </table>
-              <p style="margin-top:20px;">Gracias por usar nuestro servicio de alertas. <br>¡Un saludo!<br>El Equipo de Weather Alert.<br><i>La información mostrada en esta alerta ha sido obtenida mediante consultas a la AEMET en el momemnto del envío de este correo.</i></p>`;
+              <p style="margin-top:20px;">Gracias por usar nuestro servicio de alertas. <br>¡Un saludo!<br>El Equipo de Weather Alert.<br><i>La información mostrada en esta alerta ha sido obtenida mediante consultas a la AEMET en el momento del envío de este correo.</i></p>`;
           
           } else if (alerta.descripcion?.toLowerCase().includes('playa')) {
             // 🏖️ PLAYAS
@@ -72,7 +72,7 @@ cron.schedule('*/5 * * * *', async () => {
             asunto = '🏖️ Condiciones en playa';
             contenidoHTML = `
               <p>Hola ${usuario.name},</p>
-              <p>Predicción para la playa <b>${alerta.titulo}</b> el día <b>${formateada}</b>:</p>
+              <p>La predicción para la playa <b>${alerta.titulo}</b> el día <b>${formateada}</b>:</p>
               <table style="border-collapse: collapse; width:100%; max-width:500px;">
                 <thead>
                   <tr style="background:#F26E22; color:white;">
@@ -95,7 +95,7 @@ cron.schedule('*/5 * * * *', async () => {
                   </tr>
                 </tbody>
               </table>
-              <p style="margin-top:20px;">Gracias por usar nuestro servicio de alertas. <br>¡Un saludo!<br>El Equipo de Weather Alert.<br><i>La información mostrada en esta alerta ha sido obtenida mediante consultas a la AEMET en el momemnto del envío de este correo.</i></p>`;
+              <p style="margin-top:20px;">Gracias por usar nuestro servicio de alertas. <br>¡Un saludo!<br>El Equipo de Weather Alert.<br><i>La información mostrada en esta alerta ha sido obtenida mediante consultas a la AEMET en el momento del envío de este correo.</i></p>`;
           
           } else {
             // 🌡️ TEMPERATURAS
@@ -107,7 +107,7 @@ cron.schedule('*/5 * * * *', async () => {
             asunto = '🌤️ Temperaturas máximas y mínimas';
             contenidoHTML = `
               <p>Hola ${usuario.name},</p>
-              <p>Predicción para <b>${alerta.titulo}</b>:</p>
+              <p>Las temperaturas máximas y mínimas para <b>${alerta.titulo}</b>:</p>
               <table style="border-collapse: collapse; width:100%; max-width:400px;">
                 <thead>
                   <tr style="background:#F26E22; color:white;">
@@ -124,7 +124,7 @@ cron.schedule('*/5 * * * *', async () => {
                   </tr>
                 </tbody>
               </table>
-              <p style="margin-top:20px;">Gracias por usar nuestro servicio de alertas. <br>¡Un saludo!<br>El Equipo de Weather Alert.<br><i>La información mostrada en esta alerta ha sido obtenida mediante consultas a la AEMET en el momemnto del envío de este correo.</i></p>`;
+              <p style="margin-top:20px;">Gracias por usar nuestro servicio de alertas. <br>¡Un saludo!<br>El Equipo de Weather Alert.<br><i>La información mostrada en esta alerta ha sido obtenida mediante consultas a la AEMET en el momento del envío de este correo.</i></p>`;
           }
 
           await enviarCorreo(usuario.email, asunto, contenidoHTML);
