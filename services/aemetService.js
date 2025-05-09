@@ -109,6 +109,8 @@ router.get('/costas/:zonaId', async (req, res) => {
 });
 
 //Consulta Playas
+const iconv = require('iconv-lite');
+
 router.get('/playa/:codigo', async (req, res) => {
   const codigo = req.params.codigo;
   const apiKey = process.env.AEMET_API_KEY;
@@ -123,12 +125,16 @@ router.get('/playa/:codigo', async (req, res) => {
       return res.status(500).json({ error: 'No se recibió URL de datos de playa' });
     }
 
-    const datosPlaya = await axios.get(urlDatos);
-    res.json(datosPlaya.data);
+    const respuestaDatos = await axios.get(urlDatos, { responseType: 'arraybuffer' });
+    const decoded = iconv.decode(Buffer.from(respuestaDatos.data), 'ISO-8859-1');
+    const datosPlaya = JSON.parse(decoded);
+
+    res.json(datosPlaya);
   } catch (error) {
     console.error('❌ Error al obtener predicción de playa:', error.message);
     res.status(500).json({ error: 'No se pudo obtener la predicción de playa' });
   }
 });
+
 
 module.exports = router;
