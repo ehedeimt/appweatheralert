@@ -129,12 +129,12 @@ router.get('/playa/:codigo', async (req, res) => {
     const decoded = iconv.decode(Buffer.from(respuestaDatos.data), 'ISO-8859-1');
     const datosPlaya = JSON.parse(decoded);
 
-    res.json(datosPlaya);
+    res.setHeader('Content-Type', 'application/json; charset=utf-8');
+    res.send(JSON.stringify(datosPlaya));
   } catch (error) {
     console.error('❌ Error al obtener predicción de playa:', error.message);
     res.status(500).json({ error: 'No se pudo obtener la predicción de playa' });
   }
 });
-
 
 module.exports = router;
