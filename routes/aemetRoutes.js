@@ -187,7 +187,7 @@ router.get('/playa/:codigo', async (req, res) => {
 });
 
 //Predicción de montaña
-const iconv = require('iconv-lite');
+
 
 router.get('/montana/:area/:dia', async (req, res) => {
   const { area, dia } = req.params;
