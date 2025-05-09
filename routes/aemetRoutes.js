@@ -186,5 +186,30 @@ router.get('/playa/:codigo', async (req, res) => {
   }
 });
 
+//Predicción de montaña
+router.get('/montana/:areaId/:dia', async (req, res) => {
+  const areaId = req.params.areaId;
+  const dia = req.params.dia; // 0 para hoy, 1 para mañana, etc.
+  const apiKey = process.env.AEMET_API_KEY;
+
+  try {
+    const url = `https://opendata.aemet.es/opendata/api/prediccion/especifica/montaña/pasada/area/${areaId}/dia/${dia}`;
+    const respuesta = await axios.get(url, { params: { api_key: apiKey } });
+
+    const datosURL = respuesta.data?.datos;
+    if (!datosURL) {
+      return res.status(500).json({ error: 'No se recibió URL de datos de montaña' });
+    }
+
+    const respuestaDatos = await axios.get(datosURL);
+    res.json(respuestaDatos.data);
+  } catch (error) {
+    console.error('❌ Error al obtener predicción de montaña:', error.message);
+    res.status(500).json({ error: 'No se pudo obtener la predicción de montaña' });
+  }
+});
+
+
+
 
 module.exports = router;
