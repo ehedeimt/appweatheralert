@@ -52,7 +52,7 @@ cron.schedule('*/5 * * * *', async () => {
                 </tr></thead>
                 <tbody>${filas}</tbody>
               </table>
-              <p style="margin-top:20px;">— Equipo de Weather Alert</p>`;
+              <p style="margin-top:20px;">Gracias por usar nuestro servicio de alertas. <br>¡Un saludo!<br>El Equipo de Weather Alert.<br><i>La información mostrada en esta alerta ha sido obtenida mediante consultas a la AEMET en el momemnto del envío de este correo.</i></p>`;
           
           } else if (alerta.descripcion?.toLowerCase().includes('playa')) {
             // 🏖️ PLAYAS
@@ -95,7 +95,7 @@ cron.schedule('*/5 * * * *', async () => {
                   </tr>
                 </tbody>
               </table>
-              <p style="margin-top:20px;">Disfruta del día ☀️<br>— Equipo de Weather Alert</p>`;
+              <p style="margin-top:20px;">Gracias por usar nuestro servicio de alertas. <br>¡Un saludo!<br>El Equipo de Weather Alert.<br><i>La información mostrada en esta alerta ha sido obtenida mediante consultas a la AEMET en el momemnto del envío de este correo.</i></p>`;
           
           } else {
             // 🌡️ TEMPERATURAS
@@ -124,7 +124,7 @@ cron.schedule('*/5 * * * *', async () => {
                   </tr>
                 </tbody>
               </table>
-              <p style="margin-top:20px;">Saludos,<br>Equipo Weather Alert</p>`;
+              <p style="margin-top:20px;">Gracias por usar nuestro servicio de alertas. <br>¡Un saludo!<br>El Equipo de Weather Alert.<br><i>La información mostrada en esta alerta ha sido obtenida mediante consultas a la AEMET en el momemnto del envío de este correo.</i></p>`;
           }
 
           await enviarCorreo(usuario.email, asunto, contenidoHTML);
