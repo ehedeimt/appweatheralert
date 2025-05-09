@@ -125,8 +125,13 @@ router.get('/playa/:codigo', async (req, res) => {
       return res.status(500).json({ error: 'No se recibió URL de datos de playa' });
     }
 
-    const respuestaDatos = await axios.get(urlDatos, { responseType: 'arraybuffer' });
-    const decoded = iconv.decode(Buffer.from(respuestaDatos.data), 'ISO-8859-1');
+    const respuestaDatos = await axios.get(urlDatos, {
+      responseType: 'arraybuffer',
+      reponseEncoding: 'binary' // <- puede ayudar con algunos proxies
+    });
+
+    const buffer = Buffer.from(respuestaDatos.data, 'binary');
+    const decoded = iconv.decode(buffer, 'ISO-8859-1'); // También puedes probar 'ISO-8859-15'
     const datosPlaya = JSON.parse(decoded);
 
     res.setHeader('Content-Type', 'application/json; charset=utf-8');
