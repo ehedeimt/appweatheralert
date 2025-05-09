@@ -187,8 +187,6 @@ router.get('/playa/:codigo', async (req, res) => {
 });
 
 //Predicción de montaña
-
-
 router.get('/montana/:area/:dia', async (req, res) => {
   const { area, dia } = req.params;
   const apiKey = process.env.AEMET_API_KEY;
