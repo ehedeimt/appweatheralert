@@ -273,11 +273,14 @@ tr:hover {
   }
   
   
-  
 
-
-/*PENDIENTE DE PROBAR PARA EL FORM DE ALERTAS*/  
-  /* Formulario */
+/*
+CONFIGURACIÓN PARA FORMULARIO DE ALERTAS
+- Color de fondo.
+- Espacio interno.
+- Bordes redondeados
+- Sombra
+*/  
   form {
     background-color: white;
     padding: 2rem;
@@ -286,12 +289,19 @@ tr:hover {
     max-width: 600px;
     margin: auto;
   }
-  
+/*
+Formato para las etiquetas
+- Negritas, margen mostradas en bloque.
+*/  
   form label {
     font-weight: bold;
     display: block;
     margin-top: 1rem;
   }
+
+/*
+Formato para los input y areas de texto.
+*/  
   
   form input[type="text"],
   form textarea {
@@ -302,7 +312,11 @@ tr:hover {
     border-radius: 5px;
     font-size: 1rem;
   }
-  
+ 
+/*
+Formato para botón
+- Tamaño, borde, color letra y color naranja del botón.
+*/  
   form button {
     margin-top: 1.5rem;
     padding: 0.8rem 1.5rem;
@@ -313,13 +327,19 @@ tr:hover {
     font-weight: bold;
     cursor: pointer;
   }
-  
+
+/*
+Efecto hover aplicado al botón (Cuando se pase por encima el ratón)
+*/  
   form button:hover {
     background-color: #d55e1e;
   }
   
 
-  /*ESTILOS TABLA PARA ALERTAS EN MIS ALERTAS, NUEVA ALERTA*/
+
+  /*
+  CONFIGURACIÓN DE ESTILOS TABLA PARA ALERTAS EN MIS ALERTAS, NUEVA ALERTA
+  */
   .bloque-alerta {
     border: 1px solid #f26e22;
     background-color: #fff8f2;
@@ -352,7 +372,12 @@ tr:hover {
   }
 
 
-/*ESTILOS PARA EL MAPA PAGINA INICIO*/
+
+/*
+ESTILOS PARA EL MAPA DE ANALISIS DE SUPERFICIE DE LA PAGINA INICIO
+- Aplico rotación porque la respuesta de la llamada a la AEMET lo muestra en vertical.
+- Margenes, situación y tamaño.
+*/
 #mapaAemet {
   display: block;
   transform: rotate(90deg);
@@ -364,7 +389,11 @@ tr:hover {
   margin: 2rem auto;
 }
 
-
+/*
+Aplico configuración común a título y la imagen dentro de .mapa-container
+- Situación de los elementos
+- Alineación y espacios.
+*/
 .mapa-container h2,
 .mapa-container img
  {
@@ -376,7 +405,10 @@ tr:hover {
 }
 
 
-/*PARA EL MAPA DE LOS INCENDIOS*/
+/*
+CONFIGURACIÓN DE ESTILOS PARA EL MAPA DE LOS INCENDIOS
+- Centrar alineación.
+*/
 .contenedor-mapa {
   overflow: hidden;
   display: flex;
@@ -384,6 +416,9 @@ tr:hover {
   align-items: center;
 }
 
+/*
+- Tamaño y posición.
+*/
 #mapaIncendios {
   transform-origin: center;
   width: auto;
@@ -393,11 +428,10 @@ tr:hover {
   display: block;
 }
 
-
 /*
 CONFIGURACIÓN DE ESTILOS PARA EL PIE DE PAGINA
-Fondo y colores de textos.
-Posición y alineación.
+- Fondo y colores de textos.
+- Posición y alineación.
 */
 footer {
     background: rgb(217, 217, 217);
