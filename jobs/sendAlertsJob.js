@@ -4,14 +4,12 @@ const { enviarCorreo } = require('../utils/emailSender');
 const Alerta = require('../models/alerta');
 const User = require('../models/user');
 
-// Pausa entre envíos
 function delay(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 const MAX_INTENTOS = 5;
 
-// Plantilla de cierre HTML común para todos los correos
 const cierreHTML = `
   <hr style="margin-top: 30px; border: none; border-top: 1px solid #ccc;" />
   <p style="font-size: 14px; line-height: 1.6; color: #444;">
@@ -19,8 +17,6 @@ const cierreHTML = `
     <em>Esta información ha sido obtenida automáticamente desde los datos oficiales de la AEMET en el momento del envío.</em>
   </p>`;
 
-// Programa cada 5 minutos 
-// Programa cada día a las 8 -- cron.schedule('0 */8 * * *', async () => {  
 cron.schedule('*/5 * * * *', async () => {
   console.log('⏰ Ejecutando envío de alertas para todos los usuarios...');
 
@@ -45,7 +41,6 @@ cron.schedule('*/5 * * * *', async () => {
           let contenidoHTML = '';
 
           if (alerta.descripcion?.toLowerCase().includes('marítimo')) {
-            // 🌊 COSTAS
             const res = await axios.get(`https://appweatheralert-production.up.railway.app/api/aemet/costas/${alerta.municipio_id}`);
             const zonas = res.data;
 
@@ -71,7 +66,6 @@ cron.schedule('*/5 * * * *', async () => {
               ${cierreHTML}`;
 
           } else if (alerta.descripcion?.toLowerCase().includes('playa')) {
-            // 🏖️ PLAYA
             const res = await axios.get(`https://appweatheralert-production.up.railway.app/api/aemet/playa/${alerta.municipio_id}`);
             const hoy = res.data?.[0]?.prediccion?.dia?.[0];
 
@@ -79,27 +73,32 @@ cron.schedule('*/5 * * * *', async () => {
             contenidoHTML = `
               <p>¡Hola ${usuario.name}!</p>
               <p>Predicción para <b>${alerta.titulo}</b>:</p>
-              <ul style="font-family: Arial, sans-serif; font-size: 14px;">
-                <li><b>Estado del cielo:</b> ${hoy?.estadoCielo?.descripcion1 || '-'}</li>
-                <li><b>UV Máximo:</b> ${hoy?.uvMax?.valor1 || '-'}</li>
-                <li><b>Temp. Agua:</b> ${hoy?.tAgua?.valor1 || '-'} ºC</li>
-                <li><b>Oleaje:</b> ${hoy?.oleaje?.descripcion1 || '-'}</li>
-                <li><b>Viento:</b> ${hoy?.viento?.descripcion1 || '-'}</li>
-                <li><b>Sensación térmica:</b> ${hoy?.sTermica?.descripcion1 || hoy?.stermica?.descripcion1 || '-'}</li>
-              </ul>
+              <table style="border-collapse: collapse; width: 100%; max-width: 600px; font-family: Arial, sans-serif; font-size: 14px;">
+                <thead>
+                  <tr style="background-color: #F26E22; color: white;">
+                    <th style="padding: 10px; border: 1px solid #ddd;">Parámetro</th>
+                    <th style="padding: 10px; border: 1px solid #ddd;">Valor</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td style="padding: 10px; border: 1px solid #ddd;">Estado del cielo</td><td style="padding: 10px; border: 1px solid #ddd;">${hoy?.estadoCielo?.descripcion1 || '-'}</td></tr>
+                  <tr><td style="padding: 10px; border: 1px solid #ddd;">UV Máximo</td><td style="padding: 10px; border: 1px solid #ddd;">${hoy?.uvMax?.valor1 || '-'}</td></tr>
+                  <tr><td style="padding: 10px; border: 1px solid #ddd;">Temperatura del agua</td><td style="padding: 10px; border: 1px solid #ddd;">${hoy?.tAgua?.valor1 || '-'} ºC</td></tr>
+                  <tr><td style="padding: 10px; border: 1px solid #ddd;">Oleaje</td><td style="padding: 10px; border: 1px solid #ddd;">${hoy?.oleaje?.descripcion1 || '-'}</td></tr>
+                  <tr><td style="padding: 10px; border: 1px solid #ddd;">Viento</td><td style="padding: 10px; border: 1px solid #ddd;">${hoy?.viento?.descripcion1 || '-'}</td></tr>
+                  <tr><td style="padding: 10px; border: 1px solid #ddd;">Sensación térmica</td><td style="padding: 10px; border: 1px solid #ddd;">${hoy?.sTermica?.descripcion1 || hoy?.stermica?.descripcion1 || '-'}</td></tr>
+                </tbody>
+              </table>
               ${cierreHTML}`;
 
           } else if (alerta.descripcion?.toLowerCase().includes('montaña')) {
-            // 🏔️ MONTAÑA
             const area = alerta.municipio_id;
             const dia = alerta.dia_alerta_montana || 0;
             const res = await axios.get(`https://appweatheralert-production.up.railway.app/api/aemet/montana/${area}/${dia}`);
             const datos = res.data?.[0]?.seccion || [];
 
             const partes = datos.flatMap(seccion =>
-              seccion.apartado?.map(a =>
-                `<li><strong>${a.cabecera}:</strong> ${a.texto}</li>`
-              ) || []
+              seccion.apartado?.map(a => `<li><strong>${a.cabecera}:</strong> ${a.texto}</li>`) || []
             ).join('');
 
             const lugares = datos.find(s => s.nombre === 'sensacion_termica')?.lugar || [];
@@ -131,7 +130,6 @@ cron.schedule('*/5 * * * *', async () => {
               ${cierreHTML}`;
 
           } else {
-            // 🌡️ TEMPERATURA
             const res = await axios.get(`https://appweatheralert-production.up.railway.app/api/aemet/prediccion/${alerta.municipio_id}`);
             const pred = res.data?.[0]?.prediccion?.dia?.[0];
 
@@ -182,7 +180,7 @@ cron.schedule('*/5 * * * *', async () => {
         }
       }
 
-      await delay(1000); // pausa entre alertas
+      await delay(1000);
     }
 
   } catch (error) {
