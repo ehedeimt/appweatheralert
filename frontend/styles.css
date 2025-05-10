@@ -54,7 +54,6 @@ CONFIGURACIÓN PARA EL LOGO
     color: #F26E22;
 }
 
-
 /*
 FORMATO PARA EL LISTADO QUE SERÁ EL MENÚ DE NAVEGACIÓN
 - Menú de forma horizontal aplicando espacio entre elementos.
@@ -74,7 +73,6 @@ nav ul li a {
     font-family: 'Bebas Neue', sans-serif;
     font-size: 1.5rem;
 }
-
 
 /*
 CONFIGURACIÓN DEL BANNER DEBAJO DEL MENÚ
@@ -107,18 +105,9 @@ CONFIGURACIÓN DEL BANNER DEBAJO DEL MENÚ
     color: #F26E22;/*Color para la segunda palabra */
 }
 
-
-
-
-
-
-
-
 /*
-************FALTA COMENTAR BIEN.
-
 CONFIGURACIÓN DE ESTILOS PARA FORMULARIO DE LOGIN
- 
+- Configuración genérica del formulario, centrado disposición alineados y espacios. 
 */
 .formulario-login {
     display: flex;
@@ -127,6 +116,9 @@ CONFIGURACIÓN DE ESTILOS PARA FORMULARIO DE LOGIN
     padding: 40px;
 }
 
+/*
+Estilos para fondo, rondeo de esquinas espacios y colores.
+*/
 .formulario-login form {
     background: #f2f2f2;
     padding: 30px;
@@ -136,6 +128,9 @@ CONFIGURACIÓN DE ESTILOS PARA FORMULARIO DE LOGIN
     max-width: 400px;
 }
 
+/*
+Etilos de letra, centrado y tamaño para los encabezados dentro del formulario.
+*/
 .formulario-login h2 {
     text-align: center;
     font-family: 'Bebas Neue', sans-serif;
@@ -143,12 +138,18 @@ CONFIGURACIÓN DE ESTILOS PARA FORMULARIO DE LOGIN
     margin-bottom: 20px;
 }
 
+/*
+Estilos para las etiquetas.
+*/
 .formulario-login label {
     display: block;
     margin-bottom: 5px;
     font-weight: bold;
 }
 
+/*
+Estilos para los input: bordes redondeados espacios, tamaño, etc.
+*/
 .formulario-login input[type="email"],
 .formulario-login input[type="password"],
 .formulario-login input[type="text"] {
@@ -160,6 +161,10 @@ CONFIGURACIÓN DE ESTILOS PARA FORMULARIO DE LOGIN
     font-size: 1rem;
 }
 
+/*
+CONFIGURACIÓN DE ESTILOS PARA EL BOTÓN DEL FORMULARIO DE REGISTRO
+- Color, tamaño de la letra y fondo del botón entre otros ajustes.
+*/
 .formulario-login button {
     width: 100%;
     padding: 12px;
@@ -172,10 +177,14 @@ CONFIGURACIÓN DE ESTILOS PARA FORMULARIO DE LOGIN
     font-family: 'Bebas Neue', sans-serif;
 }
 
+/*
+Efecto hover para el botón. (Cambia el color de fondo al pasar el ratón por encima)
+*/
 .formulario-login button:hover {
     background-color: #d55e1e;
 }
 
+/*Fotmato específico para el link de registro*/
 .registro-link {
     text-align: center;
     margin-top: 20px;
@@ -187,12 +196,10 @@ CONFIGURACIÓN DE ESTILOS PARA FORMULARIO DE LOGIN
     text-decoration: none;
 }
 
-
-
-
-
-/*INTENTO DE CSS PARA LA GESTIÓN DE LAS ALERTAS*/
-/*Formato botones nueva alerta*/
+/*
+CONFIGURACIÓN DE ESTILOS PARA LA GESTIÓN DE LAS ALERTAS
+- Configuración para el botón de nueva alerta: colores de fondo y a la lestra, espacios, bordes redondeo y negríta.
+*/
 .nueva-alerta {
     background-color: #F26E22;
     color: white;
@@ -204,12 +211,19 @@ CONFIGURACIÓN DE ESTILOS PARA FORMULARIO DE LOGIN
     font-weight: bold;
     float: right;
   }
-  
+
+/*
+- Aplico efecto hover
+*/  
   .nueva-alerta:hover {
     background-color: #d55e1e;
   }
 
-/*Configuración botones editar y eliminar*/
+/*
+CONFIGURACIÓN APRA LOS BOTONES, EDITAR, ELIMINAR Y CERRAR SESIÓN
+- Aplico fondos, tamaños y colores de letra y fondo
+- Efecto de redondeo a los bordes del botón.
+*/
 button.editar,
 button.eliminar,
 button.btn-cerrar-sesion {
@@ -220,7 +234,10 @@ button.btn-cerrar-sesion {
     border-radius: 4px;
     cursor: pointer;
   }
-  
+
+/*
+- Aplico efecto hover a los tres botones cambiando el color al pasar el ratón encima de este.
+*/  
 button.editar:hover,
 button.eliminar:hover,
 button.btn-cerrar-sesion:hover {
@@ -242,14 +259,20 @@ main h2 {
     text-align: center;
   }
 
-/* Tabla de alertas */
+/*
+CONFIGURACIÓN ESTILOS PARA LA TABLA ALERTAS
+- Con la configuración principal para el elemento table.
+*/
 table {
     width: 100%;
     border-collapse: collapse;
     background-color: white;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   }
-  
+
+/*
+- Efecto para las filas de la tabla como alineados y espacios.
+*/  
 th, td {
     text-align: left;
     padding: 1rem;
@@ -270,9 +293,7 @@ tr:hover {
     align-items: center;
     gap: 10px;
     font-weight: bold;
-  }
-  
-  
+  }  
 
 /*
 CONFIGURACIÓN PARA FORMULARIO DE ALERTAS
@@ -335,8 +356,6 @@ Efecto hover aplicado al botón (Cuando se pase por encima el ratón)
     background-color: #d55e1e;
   }
   
-
-
   /*
   CONFIGURACIÓN DE ESTILOS TABLA PARA ALERTAS EN MIS ALERTAS, NUEVA ALERTA
   */
@@ -370,8 +389,6 @@ Efecto hover aplicado al botón (Cuando se pase por encima el ratón)
   .resultados p {
     margin: 0.3rem 0;
   }
-
-
 
 /*
 ESTILOS PARA EL MAPA DE ANALISIS DE SUPERFICIE DE LA PAGINA INICIO
