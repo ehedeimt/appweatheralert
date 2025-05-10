@@ -1,8 +1,23 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const tabla = document.getElementById("tablaAlertas");
-  const btnNueva = document.getElementById("nuevaAlertaBtn");
+/*
+misalertas.js
+Script para manejar las alertas de los usuarios.
+Funciones:
+- Verificar que el usuario está autenticado mediante token JWT.
+- Carga del listado de alertas obtenidas de la BBDD y las muestra en una tabla.
+- Creación de nuevas alertas.
+- Botón editar alerta: actualmente sin funcionalidad.
+- Eliminar alertas que tenga activas el usuario.
+Llamadas al backend:
+- GET /api/alertas
+- DELETE /api/alertas/:id
+*/ 
 
-  // Redirigir si no hay token (no está logueado)
+//CONTROLA LA EJECUCIÓN DE TODO EL CÓDIGO UNA VEZ SE HA CARGADO LA PÁGINA
+document.addEventListener("DOMContentLoaded", () => {
+  const tabla = document.getElementById("tablaAlertas");//Tabla que mostrará las alertas.
+  const btnNueva = document.getElementById("nuevaAlertaBtn");//Botón creación nueva alerta.
+
+  //Redirige al usuario si no hay token (no está logueado)
   const token = localStorage.getItem("token");
   if (!token) {
     alert("Debes iniciar sesión para acceder a tus alertas.");
@@ -14,6 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
     window.location.href = "nuevaalerta.html";
   });
 
+  //Carga las alertas que tenga el usuario registrdas en la BBDD. Llamada hecha a Backend.
   function cargarAlertas() {
     fetch("/api/alertas", {
       headers: {
@@ -34,6 +50,7 @@ document.addEventListener("DOMContentLoaded", () => {
         throw new Error("La respuesta del servidor no es válida.");
       }
 
+      //Estructura de la tabla que se mostrará con las alertas configuradas por el usuario.
       alertas.forEach(alerta => {
         const fila = document.createElement("tr");
         fila.innerHTML = `
@@ -46,10 +63,10 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     })
     .catch(err => {
-      console.error("❌ Error al obtener alertas:", err.message);
+      console.error("Error al obtener alertas:", err.message);
       alert(err.message);
 
-      // Si el token fue inválido o expiró, redirige al login
+      //Si el token no es válido o ha expirado, se redirige al usuario a la página de login.
       if (err.message.includes("Token")) {
         localStorage.removeItem("token");
         localStorage.removeItem("usuarioNombre");
@@ -58,22 +75,24 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  //Funcion para editar Alerta. Actualmente no tiene funcionalidad.
   window.editarAlerta = function(id) {
     window.location.href = `formulario.html?id=${id}`;
   }
 
+  //FUNCION PARA ELIMINAR ALERTA 
   window.eliminarAlerta = function(id) {
-    if (confirm("¿Seguro que deseas eliminar esta alerta?")) {
+    if (confirm("¿Seguro que deseas eliminar esta alerta?")) {//Se confirma si se desea eliminar la alerta
       fetch(`/api/alertas/${id}`, {
         method: "DELETE",
         headers: {
           "Authorization": "Bearer " + token
         }
       })
-      .then(() => cargarAlertas())
+      .then(() => cargarAlertas()) //Se cargan las alertas restantes.
       .catch(err => {
-        console.error("❌ Error al eliminar alerta:", err.message);
-        alert("No se pudo eliminar la alerta.");
+        console.error("Error al eliminar alerta:", err.message);
+        alert("No se pudo eliminar la alerta.");//Muestra error si no fue posible eliminar la alerta.
       });
     }
   }
