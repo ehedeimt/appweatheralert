@@ -4,7 +4,7 @@ Script para mostrar el estado de la sesión del usuario en la cabecera.
 Funciones:
 - Si el usuario está autenticado, es decir, hay token almacenado, muestra su nombre y el botón de cerrar sesión.
 - El botón cerrar sesión elimina los datos de la sesión del navegador y redirige al usuario a la página de login.
-- Control cuando el usuario ya está autenticado. Mostrando un aviso y redirigiendo al usuario.
+- Control cuando el usuario ya está autenticado. Mostrando un aviso y redirigiendo al usuario la página de misalertas.html.
 */ 
 
 
