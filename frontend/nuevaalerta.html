@@ -1,3 +1,19 @@
+<!--
+HTML de la página Nueva Alerta.
+Contiene el menú nav con las diferentes opciones de la página.
+Mostrará las 4 alertas disponibles que el usuario podrá guardar con sus parámetros de búsqueda que quiera y que se almacenarán en la BBDD con el botón de guardar alerta.
+Contiene los formularios personalizados para cada alerta.
+Una vez se le de a guardar se redigirá al usuario a la página de mis alertas, para que vea las alertas que tiene guardadas.
+Enlaza a fichero necesario para alimentar los combos de provincias y playas. Esto es necesario ya que eran muchos elementos que hacen qeu la carga de la web fuera más lenta
+Contiene errores en las tildes de algunas playas, pero el código de la playa de la AEMET si se controla para mostrarla correctamente:
+    js/playas_por_provincia.js
+Enlaza a ficheros necesarios para la gestión de las alertas:
+    js/nuevaalerta.js"
+    js/usuarioNombre.js
+Enlaza al fichero de stilos común a todas las páginas y sus diferentes elementos:
+    styles.css
+-->
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -68,12 +84,10 @@
             <option value="22125">Huesca</option>
           </select>
         </div>
- 
         <div class="columna resultados" id="resultadoAemet">
           <p><strong>Temp. Máxima:</strong> <span id="tdTempMax">-</span> ºC</p>
           <p><strong>Temp. Mínima:</strong> <span id="tdTempMin">-</span> ºC</p>
         </div>
-    
         <div class="columna">
           <button id="guardarMiAlertaBtn" class="nueva-alerta">Guardar alerta</button>
         </div>
@@ -81,7 +95,6 @@
     </div> 
     <div id="bloqueAlertaCostas" class="bloque-alerta">
       <h3>🌊 Alerta por estado marítimo</h3>
-    
       <div class="fila-alerta">
         <div class="columna">
           <label for="zonaCosteraSelect">Zona costera:</label>
@@ -97,7 +110,6 @@
             <option value="46">Costa de Valencia y Murcia</option>
           </select>
         </div>
-    
         <div class="columna resultados">
           <table id="tablaCostas" class="tabla-costas">
             <thead>
@@ -107,7 +119,6 @@
               </tr>
             </thead>
             <tbody id="tbodyCostas">
-      
             </tbody>
           </table>
         </div>
@@ -188,7 +199,6 @@
         </div>
       </div>
     </div>
-    
   </main>
   <footer>
     <p>&copy; 2025 Weather Alert | Ehedei.</p>

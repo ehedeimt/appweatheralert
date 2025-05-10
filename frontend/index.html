@@ -1,3 +1,15 @@
+<!--
+HTML de la página de inicio.
+Contiene el menú nav con las diferentes opciones de la página.
+Muestra por defecto un mensaje de bienvenida y conecta con la AEMET para mostrar el mapa de análisis de superficie del momento en el que se hace la llamada.
+En una segunda opción y mediante selección de dos opciones (área y día) se mostrará el mapa seleccionado con el riesgo de incendios para el día consultado.
+Enlaza a ficheros necesarios para la gestión de los usuarios:
+    js/mapaAemet.js
+    js/usuarioNombre.js
+Enlaza al fichero de stilos común a todas las páginas y sus diferentes elementos:
+    styles.css
+-->
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -5,7 +17,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weather Alert</title>
     <link rel="stylesheet" href="styles.css">
-    
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -28,14 +39,12 @@
             <button id="cerrarSesionBtn" class="btn-cerrar-sesion">Cerrar sesión</button>
         </div>
     </header>
-    
     <section class="banner">
         <h1>
             <span>WEATHER</span> 
             <span>ALERT</span>
         </h1>
     </section>
-    
     <main>
         <section class="mapa-container">
             <h2>Bienvenido/a a Weather Alert</h2>
@@ -55,7 +64,6 @@
               </p>
             <img id="mapaAemet" alt="Mapa de análisis AEMET"/>
           </section> 
-          
           <section class="incendios">
             <h2>Consulta el mapa de riesgo de incendios</h2>
             <form id="formIncendios">
@@ -65,7 +73,6 @@
                 <option value="p">Península y Baleares</option>
                 <option value="c">Canarias</option>
               </select>
-          
               <label for="dia">Día:</label>
               <select id="dia">
                 <option value="elige" selected>Elige el día</option>
@@ -76,16 +83,13 @@
                 <option value="5">Dentro de 5 días</option>
                 <option value="6">Dentro de 6 días</option>
               </select>
-
               <div><button type="submit">Mostrar mapa</button></div>
             </form>
             <div class="contenedor-mapa">
                 <img id="mapaIncendios" alt="Mapa de riesgo de incendios AEMET" />
             </div>
-          </section>
-          
+          </section> 
     </main>
-    
     <footer>
         <p>&copy; 2025 Weather Alert | Ehedei.</p>
         <p>PR - Proyecto 3 - Aplicación Interactiva: Aula 1</p>
