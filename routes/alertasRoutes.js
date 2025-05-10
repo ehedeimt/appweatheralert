@@ -29,7 +29,8 @@ router.post('/', verifyToken, async (req, res) => {
       titulo,
       municipio_id,
       descripcion,
-      usuario_id: req.userId
+      usuario_id: req.userId,
+      dia_alerta_montana: dia_alerta_montana !== undefined ? parseInt(dia_alerta_montana, 10) : null
     });
 
     res.status(201).json({ msg: 'Alerta creada', alerta: nuevaAlerta });

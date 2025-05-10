@@ -23,7 +23,11 @@ const Alerta = sequelize.define('Alerta', {
   municipio_id: {
     type: DataTypes.STRING,
     allowNull: false
-  }
+  },
+  dia_alerta_montana: {
+  type: DataTypes.INTEGER,
+  allowNull: true
+}
 }, {
   tableName: 'alertas',
   timestamps: false
