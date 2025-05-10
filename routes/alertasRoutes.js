@@ -18,7 +18,7 @@ router.get('/', verifyToken, async (req, res) => {
 
 // Crear una nueva alerta
 router.post('/', verifyToken, async (req, res) => {
-  const { titulo, municipio_id, descripcion } = req.body;
+  const { titulo, municipio_id, descripcion, dia_alerta_montana } = req.body;
 
   if (!titulo || !municipio_id || !descripcion) {
     return res.status(400).json({ msg: 'Faltan datos obligatorios' });
