@@ -1,4 +1,18 @@
 /*
+AJUSTE RESPONSIVE PARA CUANDO LA PANTALLA ES MENOR DE 768px
+*/
+
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        text-align: center;
+    }
+    nav ul {
+        flex-direction: column;
+    }
+}
+
+/*
 CONFIGURACIÓN PARA EL FORMATO DEL BODY
 - Elección de fuente
 - Márgenes y tamaños
@@ -175,21 +189,7 @@ CONFIGURACIÓN DE ESTILOS PARA FORMULARIO DE LOGIN
 
 
 
-/*
-*********FALTA COMENTAR BIEN
 
-OTRAS
-*/
-
-@media (max-width: 768px) {
-    header {
-        flex-direction: column;
-        text-align: center;
-    }
-    nav ul {
-        flex-direction: column;
-    }
-}
 
 /*INTENTO DE CSS PARA LA GESTIÓN DE LAS ALERTAS*/
 /*Formato botones nueva alerta*/
