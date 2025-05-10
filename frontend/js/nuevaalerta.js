@@ -22,11 +22,17 @@ document.addEventListener('DOMContentLoaded', () => {
       });
   }
 
+  //Solo cargar si el usuario ha seleccionado una opción válida
   municipioSelect.addEventListener('change', () => {
-    cargarPrediccion(municipioSelect.value);
+    const municipioId = municipioSelect.value;
+         if (!municipioId) return;
+    cargarPrediccion(municipioId);
   });
 
-  cargarPrediccion(municipioSelect.value);
+ if (municipioSelect.value) {
+     cargarPrediccion(municipioSelect.value);
+  }
+
 
   document.getElementById('guardarMiAlertaBtn').addEventListener('click', () => {
     const municipioId = municipioSelect.value;
@@ -96,11 +102,16 @@ document.addEventListener('DOMContentLoaded', () => {
       });
   }
 
+  //Solo cargar si el usuario ha seleccionado una opción válida
   zonaCosteraSelect.addEventListener('change', () => {
-    cargarPrediccionCostas(zonaCosteraSelect.value);
+    const zonaId = zonaCosteraSelect.value;
+    if (!zonaId) return;
+    cargarPrediccionCostas(zonaId);
   });
 
-  cargarPrediccionCostas(zonaCosteraSelect.value);
+  if (zonaCosteraSelect.value) {
+    cargarPrediccionCostas(zonaCosteraSelect.value);
+  }
 
   document.getElementById('guardarAlertaCostasBtn').addEventListener('click', () => {
     const zonaId = zonaCosteraSelect.value;
