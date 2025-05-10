@@ -1,3 +1,7 @@
+/**
+ * PENDIENTE DE REVISAR SI SE PUEDE ELIMINAR ESTE ARCHIVO LIMPIANDO INDEX.JS
+ */
+
 const express = require('express');
 const User = require('../models/user');
 const router = express.Router();
