@@ -291,7 +291,7 @@ document.addEventListener('DOMContentLoaded', () => {
       body: JSON.stringify({
         titulo,
         municipio_id: `${area}`,
-        dia_alerta_montana: parseInt(dia, 10),
+        dia_alerta_montana: `${dia}`,
         descripcion: 'Predicción de montaña'
       })
     })
