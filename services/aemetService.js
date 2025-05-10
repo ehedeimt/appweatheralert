@@ -3,9 +3,8 @@ aemetServices.js --> Modulo de rutas de Express que sirve como puente o proxy en
 
 Endpoints disponibles:
 - GET /api/aemet/prediccion/:municipioId --> Predicción Temperaturas máximas y minimas.
-- GET /api/aemet/avisos/:provinciaId --> %%%%%%ACLARAR ESTA PARTE%%%%%%
 - GET /api/aemet/costas/:zonaId --> Predicción marítima por zona costera.
-- GET /api/aemet/playa/:codigo --> Predicción de playas (requiere decodificación ISO-8859-1).
+- GET /api/aemet/playa/:codigo --> Predicción de playas (requiere decodificación ISO-8859-1) por las tildes y caracteres.
 
 Detalles:
 - Usa axios para acceder a la API pública de AEMET.
@@ -21,7 +20,7 @@ const express = require('express');
 const router = express.Router();//Creo router de express.
 const axios = require('axios');//Axios para hacer llamadas a la API de AEMET.
 
-//PREDICCIÓN METEOROLÓGICA POR MUNICIPIO
+//PREDICCIÓN TEMPERATURA MAX Y MIN POR MUNICIPIO
 /*
 Recibe por parámetro el municipioId
 Hace petición a la AEMET con el API KEY configuraco en .env
@@ -55,7 +54,7 @@ router.get('/prediccion/:municipioId', async (req, res) => {
 });
 
 
-// Alertas de tormenta por provincia
+//ESTAS SE PUEDEN ELIMINAR. PROBADO QUE AL COMENTARLO SIGUE FUNCIONANDO TODO.
 /*
 router.get('/avisos/:provinciaId', async (req, res) => {
   const apiKey = process.env.AEMET_API_KEY;
@@ -98,16 +97,26 @@ router.get('/avisos/:provinciaId', async (req, res) => {
   }
 });*/
 
-// Predicción marítima por zona costera
+
+
+//PREDICCIÓN MARÍTIMA Y ZONAS COSTERAS.
+/*
+Recibe por parámetro el zonaId
+Hace petición a la AEMET con el API KEY configuraco en .env
+AEMET responde con url de datos reales. Se hace segunda petición a esa URL
+Devuelve json con la predicción.
+*/
 router.get('/costas/:zonaId', async (req, res) => {
   const zonaId = req.params.zonaId;
   const apiKey = process.env.AEMET_API_KEY;
 
+  //Petición a AEMET
   try {
     const respuesta = await axios.get(`https://opendata.aemet.es/opendata/api/prediccion/maritima/costera/costa/${zonaId}`, {
       params: { api_key: apiKey }
     });
 
+    //Avisos si no se obtiene respuesta en la segunda llamada de la url de datos.
     const urlDatos = respuesta.data?.datos;
     if (!urlDatos) {
       return res.status(500).json({ error: 'No se recibió URL válida de datos marítimos' });
@@ -132,13 +141,20 @@ router.get('/costas/:zonaId', async (req, res) => {
     });
 
     res.json(resultado);
+  //Registro de errores en la predicción.  
   } catch (error) {
-    console.error('❌ Error al obtener predicción de costas:', error.message);
+    console.error('Error al obtener predicción de costas:', error.message);
     res.status(500).json({ error: 'No se pudo obtener la predicción de costas' });
   }
 });
 
-//Consulta Playas
+//PREDICCIÓN PLAYAS.
+/*
+Recibe por parámetro el el código de la playa
+Hace petición a la AEMET con el API KEY configurado en .env
+AEMET responde con url de datos reales. Se hace segunda petición a esa URL
+Devuelve json con la predicción.
+*/
 const iconv = require('iconv-lite');
 
 router.get('/playa/:codigo', async (req, res) => {
@@ -155,18 +171,18 @@ router.get('/playa/:codigo', async (req, res) => {
       return res.status(500).json({ error: 'No se recibió URL de datos de playa' });
     }
 
-    // 🧩 Paso importante: usar arraybuffer y decodificar ISO-8859-1
+    //DECODIFICA LOS RESULTADOS PARA QUE SE MUESTREN BIEN LAS TILDES Y CARACTERES.
     const respuestaDatos = await axios.get(urlDatos, { responseType: 'arraybuffer' });
     const decoded = iconv.decode(Buffer.from(respuestaDatos.data), 'ISO-8859-1');
 
     const datosPlaya = JSON.parse(decoded);
 
     res.json(datosPlaya);
+  //REGISTRO DE ERRORES  
   } catch (error) {
-    console.error('❌ Error al obtener predicción de playa:', error.message);
+    console.error('Error al obtener predicción de playa:', error.message);
     res.status(500).json({ error: 'No se pudo obtener la predicción de playa' });
   }
 });
-
 
 module.exports = router;
