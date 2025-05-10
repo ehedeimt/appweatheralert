@@ -224,7 +224,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
   });
 
-  // === ALERTA DE MONTAÑA ===
+
 // === ALERTA DE MONTAÑA ===
 const areaMontanaSelect = document.getElementById('areaMontanaSelect');
 const diaMontanaSelect = document.getElementById('diaMontanaSelect');
