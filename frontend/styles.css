@@ -97,20 +97,15 @@ CONFIGURACIÓN DEL BANNER DEBAJO DEL MENÚ
 
 
 
-/*CONFIGURACIÓN DE ESTILOS PARA EL PIE DE PAGINA*/
-footer {
-    background: rgb(217, 217, 217);
-    color: rgb(0, 0, 0);
-    text-align: center;
-    padding: 10px;
-    position: relative;
-    bottom: 0;
-    width: 100%;
-}
 
 
-/*CONFIGURACIÓN DE ESTILOS PARA FORMULARIO DE LOGIN */
 
+/*
+************FALTA COMENTAR BIEN.
+
+CONFIGURACIÓN DE ESTILOS PARA FORMULARIO DE LOGIN
+ 
+*/
 .formulario-login {
     display: flex;
     justify-content: center;
@@ -180,7 +175,11 @@ footer {
 
 
 
-/*OTRAS*/
+/*
+*********FALTA COMENTAR BIEN
+
+OTRAS
+*/
 
 @media (max-width: 768px) {
     header {
@@ -392,4 +391,20 @@ tr:hover {
   max-width: 90vh;
   max-height: 100vw;
   display: block;
+}
+
+
+/*
+CONFIGURACIÓN DE ESTILOS PARA EL PIE DE PAGINA
+Fondo y colores de textos.
+Posición y alineación.
+*/
+footer {
+    background: rgb(217, 217, 217);
+    color: rgb(0, 0, 0);
+    text-align: center;
+    padding: 10px;
+    position: relative;
+    bottom: 0;
+    width: 100%;
 }
