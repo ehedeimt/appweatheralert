@@ -53,7 +53,7 @@ cron.schedule('*/5 * * * *', async () => {
             asunto = '🌊 Estado marítimo y fenómenos costeros';
             contenidoHTML = `
               <p>¡Hola ${usuario.name}!</p>
-              <p>Esta es la situación marítima para: <b>${alerta.titulo}</b></p>
+              <p>Esta es la situación marítima y de fenómenos costeros para: <b>${alerta.titulo}</b></p>
               <table style="border-collapse: collapse; width: 100%; max-width: 600px; font-family: Arial, sans-serif; font-size: 14px;">
                 <thead>
                   <tr style="background-color: #F26E22; color: white;">
@@ -72,7 +72,7 @@ cron.schedule('*/5 * * * *', async () => {
             asunto = '🏖️ Condiciones actuales en tu playa';
             contenidoHTML = `
               <p>¡Hola ${usuario.name}!</p>
-              <p>Predicción para <b>${alerta.titulo}</b>:</p>
+              <p>Esta es la predicción de condiciones actuales para <b>${alerta.titulo}</b>:</p>
               <table style="border-collapse: collapse; width: 100%; max-width: 600px; font-family: Arial, sans-serif; font-size: 14px;">
                 <thead>
                   <tr style="background-color: #F26E22; color: white;">
@@ -113,7 +113,7 @@ cron.schedule('*/5 * * * *', async () => {
             asunto = '🏔️ Predicción de montaña';
             contenidoHTML = `
               <p>¡Hola ${usuario.name}!</p>
-              <p>Resumen para <b>${alerta.titulo}</b>:</p>
+              <p>Resumen de predicción de montaña en <b>${alerta.titulo}</b>:</p>
               <ul style="font-family: Arial, sans-serif; font-size: 14px;">${partes}</ul>
               <h4>Puntos representativos:</h4>
               <table style="border-collapse: collapse; width: 100%; font-family: Arial, sans-serif; font-size: 14px;">
@@ -136,7 +136,7 @@ cron.schedule('*/5 * * * *', async () => {
             asunto = '🌤️ Temperaturas máximas y mínimas';
             contenidoHTML = `
               <p>¡Hola ${usuario.name}!</p>
-              <p>Predicción para <b>${alerta.titulo}</b>:</p>
+              <p>Esta es la predicción de temperaturas para <b>${alerta.titulo}</b>:</p>
               <table style="border-collapse: collapse; width: 100%; max-width: 400px; font-family: Arial, sans-serif; font-size: 14px;">
                 <thead>
                   <tr style="background-color: #F26E22; color: white;">
