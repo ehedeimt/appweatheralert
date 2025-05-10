@@ -1,4 +1,8 @@
-/*CONFIGURACIÓN PARA EL FORMATO DEL BODY*/
+/*
+CONFIGURACIÓN PARA EL FORMATO DEL BODY
+- Elección de fuente
+- Márgenes y tamaños
+*/
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -6,6 +10,10 @@ body {
     box-sizing: border-box;
 }
 
+/*
+CONFIGURACIÓN PARA EL FORMATO DEL HEADER
+- Con flex-wrap para adaptarlo a versiones móviles.
+*/
 header {
   display: flex;
   justify-content: space-between;
@@ -14,7 +22,10 @@ header {
   flex-wrap: wrap;
 }
 
-/*CONFIGURACIÓN PARA EL LOGO*/
+/*
+CONFIGURACIÓN PARA EL LOGO
+- Configuración del formato de la fuente para el logo y colores deferenciados
+*/
 .logoweather {
     font-size: 3rem;
     font-weight: bold;
@@ -30,7 +41,11 @@ header {
 }
 
 
-/*FORMATO PARA EL LISTADO QUE SERÁ EL MENÚ DE NAVEGACIÓN*/
+/*
+FORMATO PARA EL LISTADO QUE SERÁ EL MENÚ DE NAVEGACIÓN
+- Menú de forma horizontal aplicando espacio entre elementos.
+- Elección de tipo de letra, color y negríta para todo el contenido del listado.
+*/
 nav ul {
     list-style: none;
     display: flex;
@@ -46,9 +61,14 @@ nav ul li a {
     font-size: 1.5rem;
 }
 
-/*CONFIGURACIÓN DEL BANNER DEBAJO DEL MENÚ*/
+
+/*
+CONFIGURACIÓN DEL BANNER DEBAJO DEL MENÚ
+- Ruta  a donde se encuentra la imagen para el banner
+- Configuración de alineación. espacios, colores y tamaños.
+*/
 .banner {
-    background: url('imagenes/banner.jpg') no-repeat center/cover; /*Cuando lo subas al servidor cambia la ruta a: url('imagenes/banner.jpg')*/
+    background: url('imagenes/banner.jpg') no-repeat center/cover;
     height: 300px;
     display: flex;
     align-items: center;
@@ -58,7 +78,7 @@ nav ul li a {
     font-size: 2rem;
 }
 
-
+/*Configuración del texto dentro del Banner*/
 .banner h1 {
     font-size: 4rem;
     font-weight: bold;
@@ -66,19 +86,16 @@ nav ul li a {
 }
 
 .banner h1 span:first-child {
-    color: rgb(0, 0, 0); /* Color para la primera palabra */
+    color: rgb(0, 0, 0); /*Color para la primera palabra */
 }
 
 .banner h1 span:last-child {
-    color: #F26E22;/* Color para la segunda palabra */
+    color: #F26E22;/*Color para la segunda palabra */
 }
 
 
 
-/*CONFIGURACIÓN PARA EL CONTENIDO DE LA PÁGINA PRINCIPAL*/
-.contenido {
-    padding: 20px;
-}
+
 
 /*CONFIGURACIÓN DE ESTILOS PARA EL PIE DE PAGINA*/
 footer {
