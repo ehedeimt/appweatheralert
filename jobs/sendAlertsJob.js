@@ -11,8 +11,9 @@ function delay(ms) {
 
 const MAX_INTENTOS = 5;
 
-// Programa cada 5 minutos
-cron.schedule('0 */8 * * *', async () => {
+// Programa cada 5 minutos --cron.schedule('*/5 * * * *', async () => {
+// Programa cada día a las 8 -- cron.schedule('0 */8 * * *', async () => {  
+cron.schedule('*/5 * * * *', async () => {
   console.log('⏰ Ejecutando envío de alertas para todos los usuarios...');
 
   try {
