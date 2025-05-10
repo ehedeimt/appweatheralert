@@ -1,4 +1,15 @@
-// Cargar el mapa de análisis meteorológico al cargar la página
+/*
+mapaAemet.js
+Script para manejar la carga de los mapas que están en la página de inicio index.html.
+Funciones:
+- Carga automática del mampa de análisis meteorólógico.
+- Carga del mapa de incendios mediante demanda del usuario una vez registra las opciones de los dos combos.
+- Manejo de errores y respuestas para depuración.
+*/ 
+
+
+//CARGA EL MAPA DE ANÁLISIS DE LA AEMET AL CARGAR LA PÁGINA. 
+//OJO: La carga de este mapa en las primeras llamadas a la AEMET tras hacer deploy suele fallar.
 async function cargarMapaAemet() {
   try {
     const res = await fetch('/api/aemet/mapa-analisis');
@@ -16,7 +27,7 @@ async function cargarMapaAemet() {
   }
 }
 
-// Cargar el mapa de incendios según área y día seleccionados
+//CARGA EL MAPA DE INCENDIOS DESPUÉS DE QUE EL USUARIO SELECCIONE EL AREA Y EL DÍA.
 async function cargarMapaIncendios(area, dia) {
   try {
     const res = await fetch(`/api/aemet/mapa-incendios?area=${area}&dia=${dia}`);
@@ -34,7 +45,7 @@ async function cargarMapaIncendios(area, dia) {
   }
 }
 
-// Inicializar el formulario de incendios
+//INICIO FORMULARIO DE INCENDIOS
 function inicializarFormularioIncendios() {
   const form = document.getElementById('formIncendios');
   if (!form) return;
@@ -42,14 +53,14 @@ function inicializarFormularioIncendios() {
   form.addEventListener('submit', function (e) {
     e.preventDefault();
 
-    const area = document.getElementById('area').value;
-    const dia = document.getElementById('dia').value;
+    const area = document.getElementById('area').value;//Obtengo area seleccionada por el usuario.
+    const dia = document.getElementById('dia').value;//Obtengo día seleccionada por el usuario.
 
     cargarMapaIncendios(area, dia);
   });
 }
 
-// Ejecutar al cargar la página
+//EJECUTA LA CARGA DE LA PÁGINA CUANDO EL DOM ESTÉ COMPLETAMENTE CARGADO.
 window.addEventListener('DOMContentLoaded', () => {
   cargarMapaAemet();
   inicializarFormularioIncendios();
