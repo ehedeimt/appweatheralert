@@ -29,7 +29,7 @@ const cierreHTML = `
 
 //PROGRAMACIÓN DE LOS ENVÍOS DE CORREOS.
 //PARA TESTING EL ENVÍO LO HAGO CADA 5 MINUTOS: cron.schedule('*/5 * * * *', async () => { 
-//PARA PRODUCCIÓN EL ENVÍO LO PROGRAMO TODOS LOS DÍAS A LAS 8:00:      
+//PARA PRODUCCIÓN EL ENVÍO LO PROGRAMO TODOS LOS DÍAS A LAS 8:00:  cron.schedule('0 8 * * *', async () => {    
 cron.schedule('*/5 * * * *', async () => {
   console.log('======> EMPIEZA EL ENVÍO: Ejecutando envío de alertas para todos los usuarios...');
 
