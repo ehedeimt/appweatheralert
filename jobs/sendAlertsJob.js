@@ -4,19 +4,23 @@ const { enviarCorreo } = require('../utils/emailSender');
 const Alerta = require('../models/alerta');
 const User = require('../models/user');
 
+// Pausa entre envíos
 function delay(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 const MAX_INTENTOS = 5;
 
+// Plantilla de cierre HTML común para todos los correos
 const cierreHTML = `
   <hr style="margin-top: 30px; border: none; border-top: 1px solid #ccc;" />
-  <p style="font-size: 14px; line-height: 1.6; color: #444; font-family: Arial, sans-serif;">
+  <p style="font-size: 14px; line-height: 1.6; color: #444;">
     Gracias por usar <strong>Weather Alert</strong>.<br>
     <em>Esta información ha sido obtenida automáticamente desde los datos oficiales de la AEMET en el momento del envío.</em>
   </p>`;
 
+// Programa cada 5 minutos 
+// Programa cada día a las 8 -- cron.schedule('0 */8 * * *', async () => {  
 cron.schedule('*/5 * * * *', async () => {
   console.log('⏰ Ejecutando envío de alertas para todos los usuarios...');
 
@@ -41,6 +45,7 @@ cron.schedule('*/5 * * * *', async () => {
           let contenidoHTML = '';
 
           if (alerta.descripcion?.toLowerCase().includes('marítimo')) {
+            // 🌊 COSTAS
             const res = await axios.get(`https://appweatheralert-production.up.railway.app/api/aemet/costas/${alerta.municipio_id}`);
             const zonas = res.data;
 
@@ -52,8 +57,8 @@ cron.schedule('*/5 * * * *', async () => {
 
             asunto = '🌊 Estado marítimo y fenómenos costeros';
             contenidoHTML = `
-              <p style="font-size: 14px; font-family: Arial, sans-serif;">¡Hola ${usuario.name}!</p>
-              <p style="font-size: 14px; font-family: Arial, sans-serif;">Esta es la situación marítima y de fenómenos costeros para: <b>${alerta.titulo}</b></p>
+              <p>¡Hola ${usuario.name}!</p>
+              <p>Esta es la situación marítima para: <b>${alerta.titulo}</b></p>
               <table style="border-collapse: collapse; width: 100%; max-width: 600px; font-family: Arial, sans-serif; font-size: 14px;">
                 <thead>
                   <tr style="background-color: #F26E22; color: white;">
@@ -66,31 +71,96 @@ cron.schedule('*/5 * * * *', async () => {
               ${cierreHTML}`;
 
           } else if (alerta.descripcion?.toLowerCase().includes('playa')) {
+            // 🏖️ PLAYA
             const res = await axios.get(`https://appweatheralert-production.up.railway.app/api/aemet/playa/${alerta.municipio_id}`);
             const hoy = res.data?.[0]?.prediccion?.dia?.[0];
 
             asunto = '🏖️ Condiciones actuales en tu playa';
             contenidoHTML = `
-              <p style="font-size: 14px; font-family: Arial, sans-serif;">¡Hola ${usuario.name}!</p>
-              <p style="font-size: 14px; font-family: Arial, sans-serif;">Esta es la predicción de condiciones actuales para <b>${alerta.titulo}</b>:</p>
-              <table style="border-collapse: collapse; width: 100%; max-width: 600px; font-family: Arial, sans-serif; font-size: 14px;">
+              <p>¡Hola ${usuario.name}!</p>
+              <p>Predicción para <b>${alerta.titulo}</b>:</p>
+              <ul style="font-family: Arial, sans-serif; font-size: 14px;">
+                <li><b>Estado del cielo:</b> ${hoy?.estadoCielo?.descripcion1 || '-'}</li>
+                <li><b>UV Máximo:</b> ${hoy?.uvMax?.valor1 || '-'}</li>
+                <li><b>Temp. Agua:</b> ${hoy?.tAgua?.valor1 || '-'} ºC</li>
+                <li><b>Oleaje:</b> ${hoy?.oleaje?.descripcion1 || '-'}</li>
+                <li><b>Viento:</b> ${hoy?.viento?.descripcion1 || '-'}</li>
+                <li><b>Sensación térmica:</b> ${hoy?.sTermica?.descripcion1 || hoy?.stermica?.descripcion1 || '-'}</li>
+              </ul>
+              ${cierreHTML}`;
+
+          } else if (alerta.descripcion?.toLowerCase().includes('montaña')) {
+            // 🏔️ MONTAÑA
+            const area = alerta.municipio_id;
+            const dia = alerta.dia_alerta_montana || 0;
+            const res = await axios.get(`https://appweatheralert-production.up.railway.app/api/aemet/montana/${area}/${dia}`);
+            const datos = res.data?.[0]?.seccion || [];
+
+            const partes = datos.flatMap(seccion =>
+              seccion.apartado?.map(a =>
+                `<li><strong>${a.cabecera}:</strong> ${a.texto}</li>`
+              ) || []
+            ).join('');
+
+            const lugares = datos.find(s => s.nombre === 'sensacion_termica')?.lugar || [];
+            const tablaLugares = lugares.map(l => `
+              <tr>
+                <td style="padding: 8px; border: 1px solid #ddd;">${l.nombre}</td>
+                <td style="padding: 8px; border: 1px solid #ddd;">${l.altitud}</td>
+                <td style="padding: 8px; border: 1px solid #ddd;">${l.minima} / ${l.maxima}</td>
+                <td style="padding: 8px; border: 1px solid #ddd;">${l.stminima} / ${l.stmaxima}</td>
+              </tr>`).join('');
+
+            asunto = '🏔️ Predicción de montaña';
+            contenidoHTML = `
+              <p>¡Hola ${usuario.name}!</p>
+              <p>Resumen para <b>${alerta.titulo}</b>:</p>
+              <ul style="font-family: Arial, sans-serif; font-size: 14px;">${partes}</ul>
+              <h4>Puntos representativos:</h4>
+              <table style="border-collapse: collapse; width: 100%; font-family: Arial, sans-serif; font-size: 14px;">
                 <thead>
                   <tr style="background-color: #F26E22; color: white;">
-                    <th style="padding: 10px; border: 1px solid #ddd;">Parámetro</th>
-                    <th style="padding: 10px; border: 1px solid #ddd;">Valor</th>
+                    <th style="padding: 10px; border: 1px solid #ddd;">Lugar</th>
+                    <th style="padding: 10px; border: 1px solid #ddd;">Altitud</th>
+                    <th style="padding: 10px; border: 1px solid #ddd;">T. mín/máx</th>
+                    <th style="padding: 10px; border: 1px solid #ddd;">Sens. térmica</th>
+                  </tr>
+                </thead>
+                <tbody>${tablaLugares}</tbody>
+              </table>
+              ${cierreHTML}`;
+
+          } else {
+            // 🌡️ TEMPERATURA
+            const res = await axios.get(`https://appweatheralert-production.up.railway.app/api/aemet/prediccion/${alerta.municipio_id}`);
+            const pred = res.data?.[0]?.prediccion?.dia?.[0];
+
+            asunto = '🌤️ Temperaturas máximas y mínimas';
+            contenidoHTML = `
+              <p>¡Hola ${usuario.name}!</p>
+              <p>Predicción para <b>${alerta.titulo}</b>:</p>
+              <table style="border-collapse: collapse; width: 100%; max-width: 400px; font-family: Arial, sans-serif; font-size: 14px;">
+                <thead>
+                  <tr style="background-color: #F26E22; color: white;">
+                    <th style="padding: 10px; border: 1px solid #ddd;">Ciudad</th>
+                    <th style="padding: 10px; border: 1px solid #ddd;">Temp. Máxima</th>
+                    <th style="padding: 10px; border: 1px solid #ddd;">Temp. Mínima</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr><td style="padding: 10px; border: 1px solid #ddd;">Estado del cielo</td><td style="padding: 10px; border: 1px solid #ddd;">${hoy?.estadoCielo?.descripcion1 || '-'}</td></tr>
-                  <tr><td style="padding: 10px; border: 1px solid #ddd;">UV Máximo</td><td style="padding: 10px; border: 1px solid #ddd;">${hoy?.uvMax?.valor1 || '-'}</td></tr>
-                  <tr><td style="padding: 10px; border: 1px solid #ddd;">Temperatura del agua</td><td style="padding: 10px; border: 1px solid #ddd;">${hoy?.tAgua?.valor1 || '-'} ºC</td></tr>
-                  <tr><td style="padding: 10px; border: 1px solid #ddd;">Oleaje</td><td style="padding: 10px; border: 1px solid #ddd;">${hoy?.oleaje?.descripcion1 || '-'}</td></tr>
-                  <tr><td style="padding: 10px; border: 1px solid #ddd;">Viento</td><td style="padding: 10px; border: 1px solid #ddd;">${hoy?.viento?.descripcion1 || '-'}</td></tr>
-                  <tr><td style="padding: 10px; border: 1px solid #ddd;">Sensación térmica</td><td style="padding: 10px; border: 1px solid #ddd;">${hoy?.sTermica?.descripcion1 || hoy?.stermica?.descripcion1 || '-'}</td></tr>
+                  <tr>
+                    <td style="padding: 10px; border: 1px solid #ddd;">${alerta.titulo}</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">${pred?.temperatura?.maxima || '-'}</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">${pred?.temperatura?.minima || '-'}</td>
+                  </tr>
                 </tbody>
               </table>
               ${cierreHTML}`;
           }
+
+          await enviarCorreo(usuario.email, asunto, contenidoHTML);
+          console.log(`✅ Correo enviado a ${usuario.email} para "${alerta.titulo}"`);
+          exito = true;
 
         } catch (err) {
           console.warn(`⚠️ Intento ${intento} fallido para ${alerta.titulo}:`, err.message);
@@ -101,9 +171,9 @@ cron.schedule('*/5 * * * *', async () => {
       if (!exito) {
         try {
           await enviarCorreo(usuario.email, `⚠️ No se pudo procesar tu alerta "${alerta.titulo}"`, `
-            <p style="font-size: 14px; font-family: Arial, sans-serif;">Hola ${usuario.name},</p>
-            <p style="font-size: 14px; font-family: Arial, sans-serif;">No hemos podido obtener la información meteorológica para tu alerta en <b>${alerta.titulo}</b> tras ${MAX_INTENTOS} intentos.</p>
-            <p style="font-size: 14px; font-family: Arial, sans-serif;">Se volverá a intentar en el próximo envío automático.</p>
+            <p>Hola ${usuario.name},</p>
+            <p>No hemos podido obtener la información meteorológica para tu alerta en <b>${alerta.titulo}</b> tras ${MAX_INTENTOS} intentos.</p>
+            <p>Se volverá a intentar en el próximo envío automático.</p>
             ${cierreHTML}
           `);
           console.log(`📬 Correo de error enviado a ${usuario.email}`);
@@ -112,7 +182,7 @@ cron.schedule('*/5 * * * *', async () => {
         }
       }
 
-      await delay(1000);
+      await delay(1000); // pausa entre alertas
     }
 
   } catch (error) {
