@@ -1,23 +1,51 @@
-const express = require('express');
-const router = express.Router();
-const axios = require('axios');
+/*
+aemetServices.js --> Modulo de rutas de Express que sirve como puente o proxy entre la aplicación y la API oficial de la AEMET.
 
-//Predicción meteorológica por municipio
+Endpoints disponibles:
+- GET /api/aemet/prediccion/:municipioId --> Predicción Temperaturas máximas y minimas.
+- GET /api/aemet/avisos/:provinciaId --> %%%%%%ACLARAR ESTA PARTE%%%%%%
+- GET /api/aemet/costas/:zonaId --> Predicción marítima por zona costera.
+- GET /api/aemet/playa/:codigo --> Predicción de playas (requiere decodificación ISO-8859-1).
+
+Detalles:
+- Usa axios para acceder a la API pública de AEMET.
+- La mayoría de endpoints requieren dos peticiones: una para obtener la URL de datos y otra para descargar los datos reales.
+- Devuelve datos estructurados y filtrados al frontend.
+
+Necesita:
+- Variable de entorno AEMET_API_KEY.
+*/
+
+//CONFIGURACIÓN INICIAL
+const express = require('express');
+const router = express.Router();//Creo router de express.
+const axios = require('axios');//Axios para hacer llamadas a la API de AEMET.
+
+//PREDICCIÓN METEOROLÓGICA POR MUNICIPIO
+/*
+Recibe por parámetro el municipioId
+Hace petición a la AEMET con el API KEY configuraco en .env
+AEMET responde con url de datos reales. Se hace segunda petición a esa URL
+Devuelve json con la predicción.
+*/
 router.get('/prediccion/:municipioId', async (req, res) => {
   const apiKey = process.env.AEMET_API_KEY;
   const municipioId = req.params.municipioId;
 
+  //Petición a AEMET
   try {
     const respuesta = await axios.get(`https://opendata.aemet.es/opendata/api/prediccion/especifica/municipio/diaria/${municipioId}`, {
       params: { api_key: apiKey }
     });
 
+    //Avisos si no se obtiene respuesta en la segunda llamada de la url de datos.
     const urlDatos = respuesta.data?.datos;
     if (!urlDatos) {
       console.warn("URL de predicción no disponible");
       return res.status(500).json({ msg: 'No se pudo obtener predicción meteorológica' });
     }
 
+    //Json de la respueta.
     const datos = await axios.get(urlDatos);
     res.json(datos.data);
   } catch (error) {
@@ -26,7 +54,9 @@ router.get('/prediccion/:municipioId', async (req, res) => {
   }
 });
 
+
 // Alertas de tormenta por provincia
+/*
 router.get('/avisos/:provinciaId', async (req, res) => {
   const apiKey = process.env.AEMET_API_KEY;
   const provinciaId = req.params.provinciaId;
@@ -66,7 +96,7 @@ router.get('/avisos/:provinciaId', async (req, res) => {
 
     res.status(500).json({ msg: 'Error al consultar alertas', error: error.message });
   }
-});
+});*/
 
 // Predicción marítima por zona costera
 router.get('/costas/:zonaId', async (req, res) => {
