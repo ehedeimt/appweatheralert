@@ -1,7 +1,7 @@
 /*
 aemetRoutes.js --> Rutas para consultar datos meteorológicos oficiales de la AEMET.
 Endpoints disponibles: 
-- GET /api/aemet/alertas-actuales
+- ****ESTA SE PUEDE QUITAR****GET /api/aemet/alertas-actuales
 - GET /api/aemet/prediccion/:municipioId
 - GET /api/aemet/costas/:zonaId
 - GET /api/aemet/mapa-analisis
@@ -24,7 +24,7 @@ Necesita:
 const express = require('express');
 const router = express.Router();//Configuro router express.
 const axios = require('axios');//Necesario para realizar las llamadas a la AEMET.
-const { obtenerAlertas } = require('../services/aemetService');//Necesario para la para obtener las alertas.
+//const { obtenerAlertas } = require('../services/aemetService');//Necesario para la para obtener las alertas.
 const iconv = require('iconv-lite');//Necesario para decodificar las respuestas en ISO-8859-1 y que no se vean las tildes más codificadas.
 
 /*
