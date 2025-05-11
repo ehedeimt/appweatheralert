@@ -1,10 +1,36 @@
-const express = require('express');
-const router = express.Router();
-const axios = require('axios');
-const { obtenerAlertas } = require('../services/aemetService');
-const iconv = require('iconv-lite');
+/*
+aemetRoutes.js --> Rutas para consultar datos meteorológicos oficiales de la AEMET.
+Endpoints disponibles: 
+- GET /api/aemet/alertas-actuales
+- GET /api/aemet/prediccion/:municipioId
+- GET /api/aemet/costas/:zonaId
+- GET /api/aemet/mapa-analisis
+- GET /api/aemet/mapa-incendios?area=p|c&dia=1..6
+- GET /api/aemet/playa/:codigo
+- GET /api/aemet/montana/:area/:dia
 
-// Rutas de alertas AEMET
+Características:
+- Cada ruta consulta la API oficial de AEMET.
+- Algunas respuestas (como playas, costas y montaña) deben decodificarse con iconv-lite.
+- Devuelve JSON o imágenes listas para mostrar en el frontend.
+
+Necesita:
+- Variable de entorno AEMET_API_KEY válida y configurada en fichero .env
+*/
+
+
+
+//IMPORTACIONES Y CONFIGURACIONES
+const express = require('express');
+const router = express.Router();//Configuro router express.
+const axios = require('axios');//Necesario para realizar las llamadas a la AEMET.
+const { obtenerAlertas } = require('../services/aemetService');//Necesario para la para obtener las alertas.
+const iconv = require('iconv-lite');//Necesario para decodificar las respuestas en ISO-8859-1 y que no se vean las tildes más codificadas.
+
+/*
+OBTENER ALERTAS DEL USUARIO
+- Llama a la función obtenerAlertas() en el fichero aemetService.js
+
 router.get('/alertas-actuales', async (req, res) => {
   try {
     const alertas = await obtenerAlertas();
@@ -16,6 +42,8 @@ router.get('/alertas-actuales', async (req, res) => {
     res.status(500).json({ msg: 'Error al obtener alertas', error: error.message });
   }
 });
+
+*/
 
 // Predicción por municipio
 router.get('/prediccion/:municipioId', async (req, res) => {
