@@ -19,6 +19,7 @@
       "axios": "^1.4.0", //Cliente para llamadas a la AEMET.
       "nodemailer": "^6.9.8", //Necesario para el envío de correos.
       "node-cron": "^3.0.3", //Necesario para automatizar job de envío de correos.
+      "iconv-lite": "^0.6.3", //Necesario para decodificación.
       "dotenv": "^10.0.0" //Para cargar las variables de entorno.
     }
   }
