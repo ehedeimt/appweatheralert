@@ -1,10 +1,29 @@
+/*
+index.js --> Archivo principal del backend.
+Funciones:
+- Configura y lanza el servidor Express.
+- Conecta con la base de datos PostgreSQL mediante Sequelize.
+- Monta rutas para API REST (/auth, /alertas, /aemet).
+- Sirve archivos del frontend desde la carpeta /frontend.
+- Inicia una tarea automática de envío de alertas por email.
+
+Requiere variables en .env:
+- PORT - Conexión a la BBDD.
+- DB_URI - Conexión a la BBDD.
+- JWT_SECRET - Clave configurada para manejo de los Tokens JWT.
+- AEMET_API_KEY - Varibable entorno configurada con la API KEY facilitada por la AEMET.
+- EMAIL_USER / EMAIL_PASS - Credenciales de la cuenta de correo con la que se manejarán los envíos.
+ */
+
+//CONFIGURACIONES E IMPORTACIONES PRINCIPALES.
+//Carga los modulos de Express, Node y Sequelize.
 const express = require('express');
 const path = require('path');
 const dotenv = require('dotenv');
 const { Sequelize } = require('sequelize');
 
 // Rutas
-const userRoutes = require('./routes/userRoutes');
+//const userRoutes = require('./routes/userRoutes');
 const authRoutes = require('./routes/authRoutes');
 const alertasRoutes = require('./routes/alertasRoutes');
 const aemetRoutes = require('./routes/aemetRoutes');
@@ -24,7 +43,7 @@ app.use((req, res, next) => {
 });
 
 // Rutas API
-app.use('/api/users', userRoutes);
+//app.use('/api/users', userRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/alertas', alertasRoutes);
 app.use('/api/aemet', aemetRoutes); 
