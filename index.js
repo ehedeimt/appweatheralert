@@ -23,7 +23,6 @@ const dotenv = require('dotenv');
 const { Sequelize } = require('sequelize');
 
 //CONFIGURACIÓN DE RUTAS
-//const userRoutes = require('./routes/userRoutes');
 const authRoutes = require('./routes/authRoutes');//
 const alertasRoutes = require('./routes/alertasRoutes');
 const aemetRoutes = require('./routes/aemetRoutes');
@@ -44,7 +43,6 @@ app.use((req, res, next) => {
 });
 
 //MONTAJE DE RUTAS API.
-//app.use('/api/users', userRoutes);
 app.use('/api/auth', authRoutes);//Conecta con rutas para control de login y registro.
 app.use('/api/alertas', alertasRoutes);//Contecta con ruta para el manejo de alertas.
 app.use('/api/aemet', aemetRoutes); //Conecta con ruta para las distintas predicciones y por tanto llamadas a la AEMET.

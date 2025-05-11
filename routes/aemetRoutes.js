@@ -1,7 +1,6 @@
 /*
 aemetRoutes.js --> Rutas para consultar datos meteorológicos oficiales de la AEMET.
 Endpoints disponibles: 
-- ****ESTA SE PUEDE QUITAR****GET /api/aemet/alertas-actuales
 - GET /api/aemet/prediccion/:municipioId
 - GET /api/aemet/costas/:zonaId
 - GET /api/aemet/mapa-analisis
@@ -18,32 +17,11 @@ Necesita:
 - Variable de entorno AEMET_API_KEY válida y configurada en fichero .env
 */
 
-
-
 //IMPORTACIONES Y CONFIGURACIONES
 const express = require('express');
 const router = express.Router();//Configuro router express.
 const axios = require('axios');//Necesario para realizar las llamadas a la AEMET.
-//const { obtenerAlertas } = require('../services/aemetService');//Necesario para la para obtener las alertas.
 const iconv = require('iconv-lite');//Necesario para decodificar las respuestas en ISO-8859-1 y que no se vean las tildes más codificadas.
-
-/*
-OBTENER ALERTAS DEL USUARIO
-- Llama a la función obtenerAlertas() en el fichero aemetService.js
-
-router.get('/alertas-actuales', async (req, res) => {
-  try {
-    const alertas = await obtenerAlertas();
-    const filtradas = Array.isArray(alertas)
-      ? alertas.filter(a => a.titulo && a.descripcion)
-      : [];
-    res.json(filtradas);
-  } catch (error) {
-    res.status(500).json({ msg: 'Error al obtener alertas', error: error.message });
-  }
-});
-
-*/
 
 /*
 PREDICCIÓN PARA TEMPERATURAS MAXIMAS Y MÍNINMAS POR MUNICIPIO

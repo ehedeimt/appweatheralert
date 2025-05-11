@@ -53,52 +53,6 @@ router.get('/prediccion/:municipioId', async (req, res) => {
   }
 });
 
-
-//ESTAS SE PUEDEN ELIMINAR. PROBADO QUE AL COMENTARLO SIGUE FUNCIONANDO TODO.
-/*
-router.get('/avisos/:provinciaId', async (req, res) => {
-  const apiKey = process.env.AEMET_API_KEY;
-  const provinciaId = req.params.provinciaId;
-
-  try {
-    const respuesta = await axios.get('https://opendata.aemet.es/opendata/api/avisos_cap/provincias/', {
-      params: { api_key: apiKey }
-    });
-
-    const urlDatos = respuesta.data?.datos;
-    if (!urlDatos) {
-      console.warn("URL de avisos no disponible");
-      return res.status(500).json({ msg: 'No se pudo obtener alertas' });
-    }
-
-    const datos = await axios.get(urlDatos);
-    const alertas = datos.data;
-
-    if (!Array.isArray(alertas)) {
-      return res.status(500).json({ msg: 'Formato inesperado en alertas' });
-    }
-
-    const alertasFiltradas = alertas.filter(a =>
-      a.idProvincia === provinciaId &&
-      a.fenomeno?.toLowerCase().includes('tormenta')
-    );
-
-    res.json(alertasFiltradas);
-  } catch (error) {
-    console.error("Avisos ERROR:", {
-      mensaje: error.message,
-      codigo: error.code,
-      url: error.config?.url,
-      responseStatus: error.response?.status,
-      responseData: error.response?.data
-    });
-
-    res.status(500).json({ msg: 'Error al consultar alertas', error: error.message });
-  }
-});*/
-
-
-
 //PREDICCIÓN MARÍTIMA Y ZONAS COSTERAS.
 /*
 Recibe por parámetro el zonaId
