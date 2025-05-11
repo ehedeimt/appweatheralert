@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
   
         //Petición POST al backend enviando los datos de registro en formato JSON.
         try {
-          const response = await fetch('/api/users/register', {
+          const response = await fetch('/api/auth/register', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
