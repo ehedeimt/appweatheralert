@@ -8,7 +8,7 @@ Con este fichero se podrá gestionar:
 - Guarda el token generado para el usuario para el tratamiento posterior de las alertas.
 - Redirige al usuario a la página principal mostrando el mensaje de bienvenida.
 - Manejar respuestas y errores.
-- Mensajes para la depuración.
+- Mensajes para la depuración.a
 */ 
 
 /*
